@@ -26,8 +26,8 @@ export default function Home() {
         <Typography variant='h6' fontWeight={600} color={'white'} style={{ alignItems: 'center', margin: 'auto', marginTop: 80 }}>
           FAQ
         </Typography>
-        <Divider style={{ backgroundColor: 'white', marginTop: 20, marginBottom: 50, width: 150, height: 3, alignItems: 'center', margin: 'auto' }} />
-        <Grid container spacing={4}>
+        <Divider style={{ backgroundColor: 'white', marginTop: 20, width: 150, height: 3, alignItems: 'center', margin: 'auto' }} />
+        <Grid container spacing={4} style={{marginTop: 50}}>
           <Grid item xs={12} sm={6}>
             <Card>
               <CardContent>
