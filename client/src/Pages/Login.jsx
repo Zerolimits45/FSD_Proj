@@ -1,8 +1,9 @@
-import { Grid, Paper, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Link } from '@mui/material'
+import { Grid, Paper, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button} from '@mui/material'
 import React from 'react'
 import LockIcon from '@mui/icons-material/Lock';
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
+import { Link } from 'react-router-dom'
 function Login() {
     //styling variables
     const paperStyle = { padding: 20, width: 400, margin: '20px auto' }
@@ -60,7 +61,7 @@ function Login() {
                     </Link>
                 </Typography>
                 <Typography> Do you have an account?
-                    <Link href="#">
+                    <Link to={'/Signup'}>
                         Sign Up
                     </Link>
                 </Typography>

@@ -5,7 +5,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import NoCrashIcon from '@mui/icons-material/NoCrash';
 import CarRentalIcon from '@mui/icons-material/CarRental';
 import ForumIcon from '@mui/icons-material/Forum';
-
+import { Link } from 'react-router-dom'
 import { useState } from 'react';
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -29,12 +29,12 @@ export default function Navbar() {
                         </Typography>
                         
                         <Box marginLeft={"1rem"} display={["none", "none", "flex"]} sx={{ flexGrow: 1 }}>
-                            <Button color="inherit">Home</Button>
+                            <Button color="inherit" LinkComponent={Link}to='/'>Home</Button>
                             <Button color="inherit">Rent a Car</Button>
                             <Button color="inherit">Register a Car</Button>
                             <Button color="inherit">Discussions</Button>
                         </Box>
-                        <Button color="inherit">Login/Register</Button>
+                        <Button color="inherit" LinkComponent={Link}to='/login'>Login/Register</Button>
                     </Toolbar>
                 </AppBar>
             </Box>
