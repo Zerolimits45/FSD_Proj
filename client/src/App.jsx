@@ -6,14 +6,18 @@ import MenuIndicator from './Components/Navbar'
 import Navbar from './Components/Navbar'
 import Login from './Pages/Login'
 import Signup from './Pages/Signup'
-
+import { Route, Routes } from 'react-router-dom'
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
       <Navbar />
-      <Login />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
     </>
   )
 }
