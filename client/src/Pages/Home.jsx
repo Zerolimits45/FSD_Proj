@@ -27,7 +27,7 @@ export default function Home() {
           FAQ
         </Typography>
         <Divider style={{ backgroundColor: 'white', marginTop: 20, width: 150, height: 3, alignItems: 'center', margin: 'auto' }} />
-        <Grid container spacing={4} style={{marginTop: 50}}>
+        <Grid container spacing={4} style={{ marginTop: 50 }}>
           <Grid item xs={12} sm={6}>
             <Card>
               <CardContent>

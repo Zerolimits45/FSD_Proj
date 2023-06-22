@@ -1,33 +1,33 @@
 import { Avatar, Grid, Paper, Typography, TextField, Button } from '@mui/material'
-import React from 'react'
+import React, {useState} from 'react'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Formik, Field, Form,ErrorMessage } from 'formik'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { Link } from 'react-router-dom'
 function Signup() {
     const paperStyle = { padding: 20, width: 400, margin: '20px auto' }
     const fieldspacing = { margin: '10px 0' }
-    const initialValues = {
-        name: '',
-        email: '',
-        phone: '',
-        password: '',
-        confirmpassword: ''
-    }
-    const validationSchema = Yup.object().shape({
-        name: Yup.string().min(3, "It's too short").required("Required"),
-        email: Yup.string().email('Enter valid email').required("Required"),
-        phone: Yup.number().typeError("Enter valid phone number").required("Required"),
-        password: Yup.string().min(8, "Password minimum length should be 8").required("Required"),
-        confirmpassword: Yup.string().oneOf([Yup.ref('password')], "Password not matched").required("Required")
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            phone: '',
+            password: '',
+            confirmpassword: ''
+        },
+        validationSchema: Yup.object({
+            name: Yup.string().min(3, 'Minimum 3 characters').required('Required'),
+            email: Yup.string().email('Invalid email format').required('Required'),
+            phone: Yup.number().typeError('Enter a valid phone number').required('Required'),
+            password: Yup.string().min(8, 'Minimum 8 characters').required('Required'),
+            confirmpassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Required')
+        }),
+        onSubmit: values => {
+            setIsSubmitting(true)
+            console.log(values)
+        }
     })
-    const onSubmit = (values, props) => {
-        console.log(values)
-        console.log(props)
-        setTimeout(() => {
-            props.resetForm()
-            props.setSubmitting(false)
-        }, 2000)
-    }
     return (
         <Grid>
             <Paper elevation={10} style={paperStyle}>
@@ -38,18 +38,72 @@ function Signup() {
                     </Typography>
                     <Typography variant='caption' gutterBottom>Please fill up the form to create an account</Typography>
                 </Grid>
-                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-                    {(props) => (
-                        <Form>
-                            <Field as={TextField} name="name" label='Name' fullWidth style={fieldspacing} helperText={<ErrorMessage name='name'/>} placeholder='Enter your name' />
-                            <Field as={TextField} name="email" label='Email' fullWidth type='email' helperText={<ErrorMessage name='email'/>} style={fieldspacing} placeholder='Enter your email' />
-                            <Field as={TextField} name="phone" label='Phone' fullWidth type='number' helperText={<ErrorMessage name='phone'/>} style={fieldspacing} placeholder='Enter your phone number' />
-                            <Field as={TextField} name="password" label='Password' fullWidth type='password' helperText={<ErrorMessage name='password'/>} style={fieldspacing} placeholder='Enter your password' />
-                            <Field as={TextField}name="confirmpassword" label='Confirm Password' fullWidth type='password' helperText={<ErrorMessage name='confirmpassword'/>} style={fieldspacing} placeholder='Confirm your password' />
-                            <Button type="submit" color='primary' variant='contained' disabled={props.isSubmitting} fullWidth style={fieldspacing}>{props.isSubmitting?"Loading":"Sign Up"}</Button>
-                        </Form>
-                    )}
-                </Formik>
+                <form onSubmit={formik.handleSubmit}>
+                    <TextField
+                        name="name"
+                        label='Name'
+                        fullWidth
+                        style={fieldspacing}
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
+                        error={formik.touched.name && Boolean(formik.errors.name)}
+                        helperText={formik.touched.name && formik.errors.name}
+                        placeholder='Enter your name'
+                    />
+                    <TextField
+                        name="email"
+                        label='Email'
+                        fullWidth
+                        type='email'
+                        onChange={formik.handleChange}
+                        value={formik.values.email}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
+                        style={fieldspacing}
+                        placeholder='Enter your email'
+                    />
+                    <TextField
+                        name="phone"
+                        label='Phone'
+                        fullWidth
+                        type='number'
+                        onChange={formik.handleChange}
+                        value={formik.values.phone}
+                        error={formik.touched.phone && Boolean(formik.errors.phone)}
+                        helperText={formik.touched.phone && formik.errors.phone}
+                        style={fieldspacing}
+                        placeholder='Enter your phone number'
+                    />
+                    <TextField
+                        name="password"
+                        label='Password'
+                        fullWidth
+                        type='password'
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
+                        style={fieldspacing}
+                        placeholder='Enter your password'
+                    />
+                    <TextField
+                        name="confirmpassword"
+                        label='Confirm Password'
+                        fullWidth type='password'
+                        onChange={formik.handleChange}
+                        value={formik.values.confirmpassword}
+                        error={formik.touched.confirmpassword && Boolean(formik.errors.confirmpassword)}
+                        helperText={formik.touched.confirmpassword && formik.errors.confirmpassword}
+                        style={fieldspacing}
+                        placeholder='Confirm your password'
+                    />
+                    <Button type="submit" color='primary' variant='contained' disabled={isSubmitting} fullWidth style={fieldspacing}>{isSubmitting ? "Loading" : "Sign Up"}</Button>
+                </form>
+                <Typography> Already have an account?
+                    <Link to={'/Login'}>
+                        Log in
+                    </Link>
+                </Typography>
             </Paper>
         </Grid>
     )
