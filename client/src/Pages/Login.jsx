@@ -1,7 +1,7 @@
-import { Grid, Paper, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button} from '@mui/material'
-import React from 'react'
+import { Grid, Paper, Avatar, Typography, TextField, Button } from '@mui/material'
+import React, { useState } from 'react'
 import LockIcon from '@mui/icons-material/Lock';
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Link } from 'react-router-dom'
 function Login() {
@@ -10,23 +10,23 @@ function Login() {
     const avatarStyle = { backgroundColor: '#150039' }
     const fieldspacing = { margin: '10px 0' }
     const btnstyle = { margin: '8px 0' }
+    const [isSubmitting, setIsSubmitting] = useState(false)
     //validation schema
-    const initialValues = {
-        email: '',
-        password: '',
-        remember: false
-    }
-    const validationSchema = Yup.object().shape({
-        email: Yup.string().email('Please enter valid email').required('Required'),
-        password: Yup.string().min(8, 'Password minimum length should be 8').required('Required')
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        validationSchema: Yup.object({
+            email: Yup.string().email('Invalid email format').required('Required'),
+            password: Yup.string().min(8, 'Minimum 8 characters').required('Required')
+        }),
+        onSubmit: values => {
+            setIsSubmitting(true)
+            console.log(values)
+        }
     })
-    const onSubmit = (values, props) => {
-        console.log(values)
-        setTimeout(() => {
-            props.resetForm()
-            props.setSubmitting(false)
-        }, 2000)
-    }
+
     return (
         <Grid>
             <Paper elevation={10} style={paperStyle}>
@@ -36,25 +36,31 @@ function Login() {
                         Sign In
                     </Typography>
                 </Grid>
-                <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                    {(props) => (
-                        <Form>
-                            <Field as= {TextField} label='Email' name='email' helperText={<ErrorMessage name='email'/>} placeholder='Enter Email' fullWidth style={fieldspacing} />
-                            <Field as= {TextField} label='Password'name='password' helperText={<ErrorMessage name='password'/>} placeholder='Enter Password' type='password' fullWidth />
-                            <Field as={FormControlLabel}
-                            name='remember'
-                                control={
-                                    <Checkbox
-                                        color="primary"
-                                    />
-                                }
-                                label="Remember me"
-                            />
-                            <Button type="submit" color='primary' variant='contained' fullWidth style={btnstyle} disabled={props.isSubmitting}>{props.isSubmitting?"Loading":"Sign In"}</Button>
-                        </Form>
-                    )}
-                </Formik>
-                
+                <form onSubmit={formik.handleSubmit}>
+                    <TextField
+                        label='Email'
+                        name='email'
+                        onChange={formik.handleChange}
+                        value={formik.values.email}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
+                        placeholder='Enter Email'
+                        fullWidth
+                        style={fieldspacing}
+                    />
+                    <TextField
+                        label='Password'
+                        name='password'
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
+                        placeholder='Enter Password'
+                        type='password'
+                        fullWidth
+                    />
+                    <Button type="submit" color='primary' variant='contained' fullWidth style={btnstyle} disabled={isSubmitting}>{isSubmitting ? "Loading" : "Sign In"}</Button>
+                </form>
                 <Typography>
                     <Link href="#">
                         Forgot password ?

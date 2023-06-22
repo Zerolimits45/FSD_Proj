@@ -11,8 +11,11 @@ const theme = createTheme({
       main: '#150039',
     },
     secondary: {
-      main: '#150039',
+      main: '#FFFFFF',
     },
+    btn: {
+      main: '#FF4E00',
+    }
   },
 })
 
