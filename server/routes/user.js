@@ -10,14 +10,13 @@ require('dotenv').config();
 // Register route
 router.post('/register', async (req, res) => {
     let data = req.body;
-
     const regEx = /^[89]{1}\d{7}$/
     // Validate request body
     let validationSchema = yup.object().shape({
-        email: yup.string().trim().email().max(50).required(),
-        password: yup.string().trim().min(8).max(50).required(),
         name: yup.string().trim().min(5).max(50).required(),
+        email: yup.string().trim().email().required(),
         phone: yup.string().trim().min(8).max(8).matches(regEx, "Phone is Invalid").required(),
+        password: yup.string().trim().min(8).required(),
     })
     try {
         await validationSchema.validate(data,
@@ -29,10 +28,10 @@ router.post('/register', async (req, res) => {
     }
 
     // Trim string values
-    data.email = data.email.trim();
-    data.password = data.password.trim();
     data.name = data.name.trim();
+    data.email = data.email.trim();
     data.phone = data.phone.trim();
+    data.password = data.password.trim();
 
     // Check email
     let emailExists = await User.findOne({
