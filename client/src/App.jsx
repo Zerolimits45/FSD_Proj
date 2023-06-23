@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import './App.css'
 import Home from './Pages/Home'
@@ -8,11 +8,21 @@ import Login from './Pages/Login'
 import Signup from './Pages/Signup'
 import Booking from './Pages/Booking'
 import { Route, Routes } from 'react-router-dom'
+import UserContext from './contexts/UserContext.js';
+import http from './http';
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (localStorage.getItem("accessToken")) {
+      http.get('/user/auth').then((res) => {
+        setUser(res.data.user);
+      });
+    }
+  }, []);
 
   return (
-    <>
+    <UserContext.Provider value={{user, setUser}}>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -21,7 +31,7 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
-    </>
+    </UserContext.Provider>
   )
 }
 

@@ -1,31 +1,57 @@
-import { Grid, Paper, Avatar, Typography, TextField, Button } from '@mui/material'
-import React, { useState } from 'react'
+import { Grid, Paper, Avatar, Typography, TextField, Button, Box } from '@mui/material'
+import React, { useState, useContext } from 'react'
 import LockIcon from '@mui/icons-material/Lock';
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import http from '../http.js';
+import UserContext from '../contexts/UserContext.js';
 function Login() {
     //styling variables
     const paperStyle = { padding: 20, width: 400, margin: '20px auto' }
     const avatarStyle = { backgroundColor: '#150039' }
     const fieldspacing = { margin: '10px 0' }
     const btnstyle = { margin: '8px 0' }
-    const [isSubmitting, setIsSubmitting] = useState(false)
     //validation schema
+    const navigate = useNavigate();
+
+    const { setUser } = useContext(UserContext);
+
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
         },
-        validationSchema: Yup.object({
-            email: Yup.string().email('Invalid email format').required('Required'),
-            password: Yup.string().min(8, 'Minimum 8 characters').required('Required')
+        validationSchema: yup.object().shape({
+            email: yup.string().trim().email('Email must be valid')
+                .max(50, 'Email must be at most 50 characters')
+                .required('Email is required'),
+            password: yup.string().trim()
+                .min(8, 'Password must be at least 8 characters')
+                .max(50, 'Password must be at most 50 characters')
+                .required('Password is required'),
         }),
-        onSubmit: values => {
-            setIsSubmitting(true)
-            console.log(values)
-        }
-    })
+        onSubmit: (data) => {
+            data.email = data.email.trim();
+            data.password = data.password.trim();
+            http.post('/user/login', data)
+                .then((res) => {
+                    localStorage.setItem("accessToken", res.data.accessToken);
+                    setUser(res.data.user);
+                    navigate("/")
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status === 400) {
+                        const errorMessage = error.response.data.message;
+                        formik.setErrors({
+                            ...formik.errors,
+                            email: errorMessage,
+                            password: errorMessage,
+                        });
+                    }
+                })
+        },
+    });
 
     return (
         <Grid>
@@ -36,7 +62,7 @@ function Login() {
                         Sign In
                     </Typography>
                 </Grid>
-                <form onSubmit={formik.handleSubmit}>
+                <Box component="form" onSubmit={formik.handleSubmit}>
                     <TextField
                         label='Email'
                         name='email'
@@ -59,8 +85,8 @@ function Login() {
                         type='password'
                         fullWidth
                     />
-                    <Button type="submit" color='primary' variant='contained' fullWidth style={btnstyle} disabled={isSubmitting}>{isSubmitting ? "Loading" : "Sign In"}</Button>
-                </form>
+                    <Button type="submit" color='primary' variant='contained' fullWidth style={btnstyle}>Sign In</Button>
+                </Box>
                 <Typography>
                     <Link href="#">
                         Forgot password ?
