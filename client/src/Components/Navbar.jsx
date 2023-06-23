@@ -1,14 +1,22 @@
 
-import { Box, AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material'
+import { Box, AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import NoCrashIcon from '@mui/icons-material/NoCrash';
 import CarRentalIcon from '@mui/icons-material/CarRental';
 import ForumIcon from '@mui/icons-material/Forum';
+import { AccountCircle } from '@mui/icons-material';
 import { Link } from 'react-router-dom'
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import UserContext from '../contexts/UserContext';
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const logout = () => {
+        localStorage.clear();
+        window.location = "/";
+    };
+
+    const { user, setUser } = useContext(UserContext);
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
@@ -24,17 +32,28 @@ export default function Navbar() {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" component="div" flexGrow={[1,1,0]}>
+                        <Typography variant="h6" component="div" flexGrow={[1, 1, 0]}>
                             WeGo
                         </Typography>
-                        
+
                         <Box marginLeft={"1rem"} display={["none", "none", "flex"]} sx={{ flexGrow: 1 }}>
-                            <Button color="inherit" LinkComponent={Link}to='/'>Home</Button>
-                            <Button color="inherit" LinkComponent={Link}to='/booking'>Rent a Car</Button>
+                            <Button color="inherit" LinkComponent={Link} to='/'>Home</Button>
+                            <Button color="inherit" LinkComponent={Link} to='/booking'>Rent a Car</Button>
                             <Button color="inherit">Register a Car</Button>
                             <Button color="inherit">Discussions</Button>
                         </Box>
-                        <Button color="inherit" LinkComponent={Link}to='/login'>Login/Register</Button>
+                        {user && (
+                            <>
+                                <AccountCircle style={{ color: 'white' }} />
+                                <Link to="/profile"><Typography variant="h6">{user.name}</Typography></Link>
+                                <Button onClick={logout} style={{ color: 'white' }}>Logout</Button>
+                            </>
+                        )
+                        }{!user && (
+                            <>
+                                <Button color="inherit" LinkComponent={Link} to='/login'>Login/Register</Button>
+                            </>
+                        )}
                     </Toolbar>
                 </AppBar>
             </Box>
@@ -44,15 +63,16 @@ export default function Navbar() {
                 open={isOpen}
                 onClose={() => setIsOpen(false)}
                 PaperProps={{
-                    sx: {backgroundColor: '#150039',
+                    sx: {
+                        backgroundColor: '#150039',
                         color: '#fff'
-                        }
+                    }
                 }}
             >
                 <List>
                     <ListItem>
                         <ListItemIcon>
-                            <HomeIcon sx={{color:"white"}} />
+                            <HomeIcon sx={{ color: "white" }} />
                         </ListItemIcon>
                         <ListItemButton>
                             <ListItemText primary="Home" />
@@ -61,7 +81,7 @@ export default function Navbar() {
                     <Divider />
                     <ListItem>
                         <ListItemIcon>
-                            <CarRentalIcon sx={{color:"white"}} />
+                            <CarRentalIcon sx={{ color: "white" }} />
                         </ListItemIcon>
                         <ListItemButton>
                             <ListItemText primary="Rent a Car" />
@@ -70,7 +90,7 @@ export default function Navbar() {
                     <Divider />
                     <ListItem>
                         <ListItemIcon>
-                            <NoCrashIcon sx={{color:"white"}} />
+                            <NoCrashIcon sx={{ color: "white" }} />
                         </ListItemIcon>
                         <ListItemButton>
                             <ListItemText primary="Register your car" />
@@ -79,7 +99,7 @@ export default function Navbar() {
                     <Divider />
                     <ListItem>
                         <ListItemIcon>
-                            <ForumIcon sx={{color:"white"}} />
+                            <ForumIcon sx={{ color: "white" }} />
                         </ListItemIcon>
                         <ListItemButton>
                             <ListItemText primary="Discussions" />
