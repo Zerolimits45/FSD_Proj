@@ -121,7 +121,7 @@ router.get("/", async (req, res) => {
     let list = await User.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        attributes:  ['id', 'email', 'name', 'phone']
+        attributes: ['id', 'email', 'name', 'phone']
     });
     res.json(list);
 });
@@ -134,6 +134,23 @@ router.get('/profile/:id', validateToken, async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).send('Error retrieving user profile');
+    }
+});
+
+router.delete("/:id", async (req, res) => {
+    let id = req.params.id;
+    let num = await User.destroy({
+        where: { id: id }
+    })
+    if (num == 1) {
+        res.json({
+            message: "User was deleted successfully."
+        });
+    }
+    else {
+        res.status(400).json({
+            message: `Cannot delete user with id ${id}.`
+        });
     }
 });
 
