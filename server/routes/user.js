@@ -108,4 +108,33 @@ router.get("/auth", validateToken, (req, res) => {
     });
 });
 
+router.get("/", async (req, res) => {
+    let condition = {};
+    let search = req.query.search;
+    if (search) {
+        condition[Sequelize.Op.or] = [
+            { email: { [Sequelize.Op.like]: `%${search}%` } },
+            { name: { [Sequelize.Op.like]: `%${search}%` } }
+        ];
+    }
+
+    let list = await User.findAll({
+        where: condition,
+        order: [['createdAt', 'DESC']],
+        attributes:  ['id', 'email', 'name', 'phone']
+    });
+    res.json(list);
+});
+
+router.get('/profile/:id', validateToken, async (req, res) => {
+    try {
+        let id = req.params.id;
+        const user = await User.findByPk(id, { attributes: ['id', 'email', 'name', 'phone'] });
+        res.send(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Error retrieving user profile');
+    }
+});
+
 module.exports = router;
