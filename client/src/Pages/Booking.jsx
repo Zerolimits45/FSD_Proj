@@ -124,8 +124,8 @@ function Booking() {
                 <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
                     Cars that are near you
                 </Typography>
-                <Grid container spacing={5}>
-                    <Grid item xs={12} md={6}>
+                <Grid container spacing={6}>
+                    <Grid item xs={12} md={4}>
                         <Paper elevation={5} style={paperStyle}>
                             <Box>
                                 <Typography>
@@ -142,12 +142,12 @@ function Booking() {
                                     <Typography style={{flexGrow: 1}}>
                                         $Price/day
                                     </Typography>
-                                    <Button variant='contained' color='btn' style={{color:'white'}}>Rent</Button>
+                                    <Button variant='contained' color='btn' style={{color:'white'}} LinkComponent={Link} to='/booking_confirm'>Rent</Button>
                                 </Box>
                             </Box>
                         </Paper>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={4}>
                         <Paper elevation={5} style={paperStyle}>
                             <Box>
                             <Typography>
@@ -160,6 +160,28 @@ function Booking() {
                                     Automatic | 5 seater
                                 </Typography>
                                 <img src="../images/Toyota.png" alt="" width={'100%'} />
+                                <Box display={'flex'}>
+                                    <Typography style={{flexGrow: 1}}>
+                                        $Price/day
+                                    </Typography>
+                                    <Button variant='contained' color='btn' style={{color:'white'}}>Rent</Button>
+                                </Box>
+                            </Box>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <Paper elevation={5} style={paperStyle}>
+                            <Box>
+                            <Typography>
+                                    Luxury
+                                </Typography>
+                                <Typography>
+                                    Audi A3 | Sedan
+                                </Typography>
+                                <Typography>
+                                    Manual | 5 seater
+                                </Typography>
+                                <img src="../images/audi.png" alt="" width={'100%'} />
                                 <Box display={'flex'}>
                                     <Typography style={{flexGrow: 1}}>
                                         $Price/day
