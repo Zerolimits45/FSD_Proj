@@ -11,6 +11,7 @@ import { Route, Routes } from 'react-router-dom'
 import UserContext from './contexts/UserContext.js';
 import http from './http';
 import Booking_confirm from './Pages/Booking_confirm'
+import RegisterCar from './Pages/RegisterCar'
 function App() {
   const [user, setUser] = useState(null);
 
@@ -31,6 +32,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/booking_confirm" element={<Booking_confirm />} />
+        <Route path="/register" element={<RegisterCar />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </UserContext.Provider>

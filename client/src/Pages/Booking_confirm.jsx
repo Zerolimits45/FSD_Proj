@@ -58,7 +58,6 @@ function Booking_confirm() {
       <Box component="form" onSubmit={formik.handleSubmit}>
         <TextField
           style={textfieldstyle}
-          label='Name'
           name='name'
           onChange={formik.handleChange}
           value={formik.values.name}
@@ -70,7 +69,6 @@ function Booking_confirm() {
         />
         <TextField
           style={textfieldstyle}
-          label='Email'
           name='email'
           onChange={formik.handleChange}
           value={formik.values.email}
@@ -81,7 +79,6 @@ function Booking_confirm() {
         />
         <TextField
           style={textfieldstyle}
-          label='License Number'
           name='license'
           onChange={formik.handleChange}
           value={formik.values.license}
