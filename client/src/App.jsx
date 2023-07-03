@@ -12,6 +12,8 @@ import UserContext from './contexts/UserContext.js';
 import http from './http';
 import Booking_confirm from './Pages/Booking_confirm'
 import RegisterCar from './Pages/RegisterCar'
+import Registered_Cars from './Pages/Profile/Registered_Cars'
+import Registered_Cars_Edit from './Pages/Profile/Registered_Cars_Edit'
 function App() {
   const [user, setUser] = useState(null);
 
@@ -33,6 +35,8 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/booking_confirm" element={<Booking_confirm />} />
         <Route path="/register" element={<RegisterCar />} />
+        <Route path="/profile/registered_cars" element={<Registered_Cars />} />
+        <Route path="/profile/registered_cars/edit" element={<Registered_Cars_Edit />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </UserContext.Provider>
