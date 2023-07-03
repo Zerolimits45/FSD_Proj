@@ -10,6 +10,7 @@ router.post('/', async (req, res) => {
     const regEx = /^[0-9a-zA-Z]+$/;
     // Validate request body
     let validationSchema = yup.object().shape({
+        name: yup.string().trim().min().max().required(),
         reason: yup.string().trim().min().max(),
         email: yup.string().trim().email().required(),
         model: yup.string().trim(),

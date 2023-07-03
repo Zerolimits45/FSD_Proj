@@ -1,9 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
     const Help = sequelize.define("Help", {
+        name:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         reason: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: false,
         },
         email: {
             type: DataTypes.STRING,
