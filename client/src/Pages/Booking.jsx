@@ -20,6 +20,7 @@ function Booking() {
     })
     const paperStyle = {width: '100%', marginTop: 10 }
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px' }
+    const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
     return (
         <Container maxWidth='xl'>
             <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
@@ -141,7 +142,7 @@ function Booking() {
                                 <Typography style={{ flexGrow: 1 }}>
                                     $Price/day
                                 </Typography>
-                                <Button variant='contained' color='btn' style={{ color: 'white' }} LinkComponent={Link} to='/booking_confirm'>Rent</Button>
+                                <Button variant='contained' color='btn' style={btnstyle} LinkComponent={Link} to='/booking_confirm'>Rent</Button>
                             </Box>
                         </CardContent>
                     </Card>
@@ -163,7 +164,7 @@ function Booking() {
                                 <Typography style={{ flexGrow: 1 }}>
                                     $Price/day
                                 </Typography>
-                                <Button variant='contained' color='btn' style={{ color: 'white' }}>Rent</Button>
+                                <Button variant='contained' color='btn' style={btnstyle}>Rent</Button>
                             </Box>
                         </CardContent>
                     </Card>
@@ -185,7 +186,7 @@ function Booking() {
                                 <Typography style={{ flexGrow: 1 }}>
                                     $Price/day
                                 </Typography>
-                                <Button variant='contained' color='btn' style={{ color: 'white' }}>Rent</Button>
+                                <Button variant='contained' color='btn' style={btnstyle}>Rent</Button>
                             </Box>
                         </CardContent>
                     </Card>

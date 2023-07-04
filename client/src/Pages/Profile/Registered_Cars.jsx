@@ -3,6 +3,8 @@ import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent 
 import { Link } from 'react-router-dom'
 
 function Registered_Cars() {
+    const paperStyle = {width: '100%', marginTop: 10 }
+    const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
   return (
     
     <Container maxWidth='xl'>
@@ -27,7 +29,7 @@ function Registered_Cars() {
                                 <Typography style={{ flexGrow: 1 }}>
                                     $Price/day
                                 </Typography>
-                                <Button variant='contained' color='btn' style={{ color: 'white' }} LinkComponent={Link} to='/booking_confirm'>Rent</Button>
+                                <Button variant='contained' color='btn' style={btnstyle} LinkComponent={Link} to='/profile/registered_cars/edit'>Edit Details</Button>
                             </Box>
                         </CardContent>
                     </Card>
