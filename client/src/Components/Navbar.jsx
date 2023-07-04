@@ -40,7 +40,7 @@ export default function Navbar() {
                             <Button color="inherit" LinkComponent={Link} to='/'>Home</Button>
                             <Button color="inherit" LinkComponent={Link} to='/booking'>Rent a Car</Button>
                             <Button color="inherit" LinkComponent={Link} to='/register'>Register a Car</Button>
-                            <Button color="inherit">Discussions</Button>
+                            <Button color="inherit" LinkComponent={Link} to='/profile/registered_cars'>Discussions</Button>
                         </Box>
                         {user && (
                             <>

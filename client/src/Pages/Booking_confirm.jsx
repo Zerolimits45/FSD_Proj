@@ -4,7 +4,7 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 function Booking_confirm() {
-  const paperStyle = { padding: 20, width: 400, marginTop: 10 }
+  const paperStyle = {width: '100%', marginTop: 1}
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0'  }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
 
