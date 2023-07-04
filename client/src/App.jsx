@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-
 import './App.css'
 import Home from './Pages/Home'
 import MenuIndicator from './Components/Navbar'
@@ -19,6 +18,7 @@ import Rating_Booking from './Pages/Profile/Rating_Booking'
 import Account from './Pages/Profile/Account'
 import Account_Edit from './Pages/Profile/Account_Edit'
 import Password_Edit from './Pages/Profile/Password_Edit'
+import ProfileRoutes from './Pages/Profile/ProfileRoutes'
 function App() {
   const [user, setUser] = useState(null);
 
@@ -40,14 +40,7 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/booking_confirm" element={<Booking_confirm />} />
         <Route path="/register" element={<RegisterCar />} />
-        {/* Profile Section */}
-        <Route path="/profile/account" element={<Account />} />
-        <Route path="/profile/account/edit_details" element={<Account_Edit />} />
-        <Route path="/profile/account/edit_password" element={<Password_Edit />} />
-        <Route path="/profile/bookings" element={<Bookings />} />
-        <Route path="/profile/bookings/rating" element={<Rating_Booking />} />
-        <Route path="/profile/registered_cars" element={<Registered_Cars />} />
-        <Route path="/profile/registered_cars/edit" element={<Registered_Cars_Edit />} />
+        <Route path="/profile/*" element={<ProfileRoutes />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </UserContext.Provider>

@@ -1,10 +1,9 @@
 import React from 'react'
-import { Typography, Grid, Container, TextField, Box, Button, Paper } from '@mui/material'
+import { Typography, Grid, Container, TextField, Box, Button, Paper, Card, CardContent } from '@mui/material'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 function Booking_confirm() {
-  const paperStyle = { width: '100%', marginTop: 1 }
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
 
@@ -35,19 +34,29 @@ function Booking_confirm() {
       </Typography>
       <Grid container>
         <Grid item xs={12} md={12}>
-          <Paper elevation={5} style={paperStyle}>
-            <Box>
-              <img src="../images/VW.png" alt="" width={'100%'} />
-            </Box>
-            <Box style={{ display: 'flex', marginTop: 10 }}>
-              <Typography variant='h6' fontWeight={600}>
-                Volkswagen Golf
-              </Typography>
-              <Typography variant='h6' fontWeight={600}>
-                $100
-              </Typography>
-            </Box>
-          </Paper>
+          <Card elevation={5}>
+            <CardContent>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={8}>
+                  <Box>
+                    <img src="../images/VW.png" alt="" width={'100%'} height={'300px'} style={{objectFit:'contain'}} />
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={4} display={'flex'} alignItems={'center'}>
+                  <Box style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography variant='h6' fontWeight={600}>
+                      Volkswagen Golf
+                    </Typography>
+                    <Typography variant='h6' fontWeight={600}>
+                      $100
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+
+
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
       <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>

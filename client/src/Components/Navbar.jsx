@@ -45,8 +45,12 @@ export default function Navbar() {
                         {user && (
                             <>
                                 <AccountCircle style={{ color: 'white' }} />
-                                <Typography variant="h6">{user.name}</Typography>
-                                <Button onClick={logout} style={{ color: 'white' }}>Logout</Button>
+                                <Button color="inherit" LinkComponent={Link} to='/profile/account'>
+                                <Typography variant="body">
+                                    {user.name}
+                                </Typography>
+                                </Button>
+                                <Button onClick={logout} style={{ color: 'red' }}>Logout</Button>
                             </>
                         )
                         }{!user && (

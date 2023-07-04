@@ -7,7 +7,7 @@ function Account() {
     const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
   return (
     <Container maxWidth='xl'>
-        <Typography variant='h4' color="white" marginTop={10} marginBottom={2}>
+        <Typography variant='h4' color="white"  marginBottom={2}>
             Your account details
         </Typography>
         <Avatar style={avatarStyle}><AndroidIcon /></Avatar>
