@@ -4,8 +4,8 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 function Booking_confirm() {
-  const paperStyle = {width: '100%', marginTop: 1}
-  const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0'  }
+  const paperStyle = { width: '100%', marginTop: 1 }
+  const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
 
   const formik = useFormik({
@@ -30,28 +30,26 @@ function Booking_confirm() {
 
   return (
     <Container maxWidth='xl'>
-      <Box>
-        <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
-          Review and confirm booking
-        </Typography>
-        <Grid container>
-          <Grid item xs={12} md={12}>
-            <Paper elevation={5} style={paperStyle}>
-              <Box>
-                <img src="../images/VW.png" alt="" width={'100%'} />
-              </Box>
-              <Box style={{ display: 'flex', marginTop: 10 }}>
-                <Typography variant='h6' fontWeight={600}>
-                  Volkswagen Golf
-                </Typography>
-                <Typography variant='h6' fontWeight={600}>
-                  $100
-                </Typography>
-              </Box>
-            </Paper>
-          </Grid>
+      <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
+        Review and confirm booking
+      </Typography>
+      <Grid container>
+        <Grid item xs={12} md={12}>
+          <Paper elevation={5} style={paperStyle}>
+            <Box>
+              <img src="../images/VW.png" alt="" width={'100%'} />
+            </Box>
+            <Box style={{ display: 'flex', marginTop: 10 }}>
+              <Typography variant='h6' fontWeight={600}>
+                Volkswagen Golf
+              </Typography>
+              <Typography variant='h6' fontWeight={600}>
+                $100
+              </Typography>
+            </Box>
+          </Paper>
         </Grid>
-      </Box>
+      </Grid>
       <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
         Driver details
       </Typography>

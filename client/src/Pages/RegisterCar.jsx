@@ -5,7 +5,7 @@ import * as yup from 'yup'
 
 function RegisterCar() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
-  const btnstyle = { margin: '20px 0', fontWeight: 'bold', color: 'white',backgroundColor: '#FF4E00' }
+  const btnstyle = { margin: '20px 0', fontWeight: 'bold', color: 'white', backgroundColor: '#FF4E00' }
 
   const formik = useFormik({
     initialValues: {
@@ -57,7 +57,7 @@ function RegisterCar() {
         <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
           Select the time period you want to register your car in:
         </Typography>
-        <form onSubmit={formik.handleSubmit}>
+        <Box component="form" onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
@@ -257,10 +257,10 @@ function RegisterCar() {
               />
             </Grid>
           </Grid>
-          <Button type='submit' variant="contained" style={btnstyle} fullWidth>
+          <Button type='submit' color='btn' variant="contained" style={btnstyle} fullWidth>
             Register your car with us
           </Button>
-        </form>
+        </Box>
       </Box>
     </Container >
 
