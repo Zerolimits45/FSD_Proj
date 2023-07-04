@@ -8,7 +8,7 @@ function Registered_Cars() {
   return (
     
     <Container maxWidth='xl'>
-            <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
+            <Typography variant='h6' color="white" marginBottom={2}>
                 Your registered cars
             </Typography>
             <Grid container spacing={3}>

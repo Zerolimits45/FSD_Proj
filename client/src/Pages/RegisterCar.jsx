@@ -2,10 +2,12 @@ import React from 'react'
 import { Typography, Grid, Container, TextField, Box, Button, Paper } from '@mui/material'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-
+import http from '../http'
+import { useSnackbar } from 'notistack';
 function RegisterCar() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const btnstyle = { margin: '20px 0', fontWeight: 'bold', color: 'white', backgroundColor: '#FF4E00' }
+  const { enqueueSnackbar } = useSnackbar();
 
   const formik = useFormik({
     initialValues: {
@@ -29,8 +31,8 @@ function RegisterCar() {
       make: yup.string().trim().required('Make is required'),
       type: yup.string().trim().required('Type is required'),
       gear: yup.string().trim().required('Gear is required'),
-      seats: yup.string().trim().required('Seats is required'),
-      price: yup.string().trim().required('Price is required'),
+      seats: yup.number().required('Seats is required'),
+      price: yup.number().required('Price is required'),
       name: yup.string().trim().required('Name is required'),
       email: yup.string().trim().email('Email must be valid').required('Email is required'),
       license: yup.string().trim().required('License is required'),
@@ -43,12 +45,16 @@ function RegisterCar() {
       data.make = data.make.trim();
       data.type = data.type.trim();
       data.gear = data.gear.trim();
-      data.seats = data.seats.trim();
-      data.price = data.price.trim();
       data.name = data.name.trim();
       data.email = data.email.trim();
       data.license = data.license.trim();
       console.log(data);
+      http.post('/car/create', data)
+        .then((res) => {
+          enqueueSnackbar('Car registered successfully', { variant: 'success' });
+          formik.resetForm();
+        }
+        )
     },
   });
   return (
@@ -150,6 +156,7 @@ function RegisterCar() {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
+                type='number'
                 varient='filled'
                 style={textfieldstyle}
                 name='seats'
@@ -179,6 +186,7 @@ function RegisterCar() {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
+                type='number'
                 varient='filled'
                 style={textfieldstyle}
                 name='price'
