@@ -10,6 +10,15 @@ import Booking from './Pages/Booking'
 import { Route, Routes } from 'react-router-dom'
 import UserContext from './contexts/UserContext.js';
 import http from './http';
+import Booking_confirm from './Pages/Booking_confirm'
+import RegisterCar from './Pages/RegisterCar'
+import Registered_Cars from './Pages/Profile/Registered_Cars'
+import Registered_Cars_Edit from './Pages/Profile/Registered_Cars_Edit'
+import Bookings from './Pages/Profile/Bookings'
+import Rating_Booking from './Pages/Profile/Rating_Booking'
+import Account from './Pages/Profile/Account'
+import Account_Edit from './Pages/Profile/Account_Edit'
+import Password_Edit from './Pages/Profile/Password_Edit'
 function App() {
   const [user, setUser] = useState(null);
 
@@ -29,6 +38,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/booking_confirm" element={<Booking_confirm />} />
+        <Route path="/register" element={<RegisterCar />} />
+        {/* Profile Section */}
+        <Route path="/profile/account" element={<Account />} />
+        <Route path="/profile/account/edit_details" element={<Account_Edit />} />
+        <Route path="/profile/account/edit_password" element={<Password_Edit />} />
+        <Route path="/profile/bookings" element={<Bookings />} />
+        <Route path="/profile/bookings/rating" element={<Rating_Booking />} />
+        <Route path="/profile/registered_cars" element={<Registered_Cars />} />
+        <Route path="/profile/registered_cars/edit" element={<Registered_Cars_Edit />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </UserContext.Provider>
