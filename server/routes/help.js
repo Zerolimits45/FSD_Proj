@@ -10,11 +10,11 @@ router.post('/', async (req, res) => {
     const regEx = /^[0-9a-zA-Z]+$/;
     // Validate request body
     let validationSchema = yup.object().shape({
-        name: yup.string().trim().min().max().required(),
-        reason: yup.string().trim().min().max(),
+        name: yup.string().trim().required(),
+        reason: yup.string().trim().required(),
         email: yup.string().trim().email().required(),
-        model: yup.string().trim(),
-        make: yup.string().trim(),
+        model: yup.string().trim().required(),
+        make: yup.string().trim().required(),
         license_no: yup.string().trim().min(9).max(9).matches(regEx, "License Number is Invalid").required(),
 
     })
@@ -28,10 +28,16 @@ router.post('/', async (req, res) => {
     }
 
     // Trim string values
-    data.help = data.help.trim();
+    data.name = data.name.trim();
+    data.reason = data.reason.trim();
+    data.email = data.email.trim();
+    data.model = data.model.trim();
+    data.make = data.make.trim();
+    data.license_no = data.license_no.trim();
+
     // Create user
     const help = await Help.create(data);
-    res.json(rating);
+    res.json(help);
 });
 
 router.get("/:id", async (req, res) => {
@@ -57,12 +63,12 @@ router.get("/", async (req, res) => {
     let list = await Help.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        include: { model: User, as: "user", attributes: ['name'] }
+        attributes: ['name', 'license_no', 'reason']   // lists out the elements in the table according to params such as 'name' and 'license_no'
     });
     res.json(list);
 });
 
-router.delete("/:id", validateToken, async (req, res) => {
+router.delete("/:id", async (req, res) => {
     let id = req.params.id;
     // Check id not found
     let help = await Help.findByPk(id);
@@ -72,11 +78,11 @@ router.delete("/:id", validateToken, async (req, res) => {
     }
 
     // Check request user id
-    let userId = req.user.id;
+    /* let userId = req.user.id;
     if (help.userId != userId) {
         res.sendStatus(403);
         return;
-    }
+    } */
 
     let num = await Help.destroy({
         where: { id: id }

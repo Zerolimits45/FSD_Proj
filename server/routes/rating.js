@@ -32,11 +32,11 @@ router.post('/', async (req, res) => {
 router.get("/:id", async (req, res) => {
     let id = req.params.id;
     let help = await Help.findByPk(id);
-    res.json(tutorial);
     if (!help) {
         res.sendStatus(404);
         return;
     }
+    res.json(help);
 });
 
 router.get("/", async (req, res) => {
