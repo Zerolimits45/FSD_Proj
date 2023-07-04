@@ -4,7 +4,6 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 function RegisterCar() {
-  const paperStyle = { padding: 20, width: 400, marginTop: 10 }
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const btnstyle = { margin: '20px 0', fontWeight: 'bold', color: 'white',backgroundColor: '#FF4E00' }
 
