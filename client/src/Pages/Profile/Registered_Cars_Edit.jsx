@@ -47,9 +47,9 @@ function Registered_Cars_Edit() {
       data.gear = data.gear.trim();
       console.log(data);
 
-      http.put('/car/${id}', data)
+      http.put('/car/' + id, data)
       .then((res) => {
-        enqueueSnackbar('Car registered successfully', { variant: 'success' });
+        enqueueSnackbar('Car details saved', { variant: 'success' });
         console.log(res.data);
       }
       )
@@ -178,6 +178,7 @@ function Registered_Cars_Edit() {
               varient='filled'
               style={textfieldstyle}
               name='price'
+              type='number'
               onChange={formik.handleChange}
               value={formik.values.price}
               error={formik.touched.price && Boolean(formik.errors.price)}
