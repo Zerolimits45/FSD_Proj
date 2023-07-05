@@ -21,6 +21,9 @@ app.use("/rate", ratingRoute)
 const helpRoute = require("./routes/help")
 app.use("/help", helpRoute)
 
+const carRoute = require("./routes/car")
+app.use("/car", carRoute)
+
 const db = require('./models');
 db.sequelize.sync({ alter: true }).then(() => {
     let port = process.env.APP_PORT;

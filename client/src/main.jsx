@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { BrowserRouter } from 'react-router-dom'
+import { SnackbarProvider } from 'notistack'
 
 const theme = createTheme({
   palette: {
@@ -23,7 +24,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
+      <SnackbarProvider maxSnack={3}>
         <App />
+      </SnackbarProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode >,
