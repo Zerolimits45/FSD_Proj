@@ -17,13 +17,6 @@ function Registered_Cars_Edit() {
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
 
-  useEffect(() => {
-    http.get('/car/' + id).then((res) => {
-      setCarList(res.data);
-      console.log(res.data);
-    })
-  }, [])
-
   const formik = useFormik({
     initialValues: {
       startDate: carList ? new Date(carList.startDate).toISOString().split('T')[0]: "",
@@ -54,7 +47,7 @@ function Registered_Cars_Edit() {
       data.gear = data.gear.trim();
       console.log(data);
 
-      http.put('/car/${id}', data)
+      http.put('/car/' + id, data)
       .then((res) => {
         enqueueSnackbar('Car details saved', { variant: 'success' });
         console.log(res.data);
@@ -64,7 +57,12 @@ function Registered_Cars_Edit() {
     enableReinitialize: true
   });
 
-
+  useEffect(() => {
+    http.get('/car/' + id).then((res) => {
+      setCarList(res.data);
+      console.log(res.data);
+    })
+  }, [])
 
 
   return (
@@ -180,6 +178,7 @@ function Registered_Cars_Edit() {
               varient='filled'
               style={textfieldstyle}
               name='price'
+              type='number'
               onChange={formik.handleChange}
               value={formik.values.price}
               error={formik.touched.price && Boolean(formik.errors.price)}
