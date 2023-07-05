@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
         name:{
             type: DataTypes.STRING,
             allowNull: false,
+            unique:false
         },
         reason: {
             type: DataTypes.STRING,
@@ -11,14 +12,15 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: false,
         },
         model: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         make: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         license_no: {
             type: DataTypes.STRING,
