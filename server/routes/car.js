@@ -27,9 +27,10 @@ router.post('/create', validateToken, async (req, res) => {
     try {
         console.log(data);
         await validationSchema.validate(data,
-            { abortEarly: false, strict: true });
+            { abortEarly: false, strict: false});
     }
     catch (err) {
+        console.log(err);
         res.status(400).json({ errors: err.errors });
         return;
     }
