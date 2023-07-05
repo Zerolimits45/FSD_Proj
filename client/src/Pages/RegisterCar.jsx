@@ -170,22 +170,6 @@ function RegisterCar() {
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
-                varient='filled'
-                style={textfieldstyle}
-                name='registration'
-                type='date'
-                onChange={formik.handleChange}
-                value={formik.values.registration}
-                error={formik.touched.registration && Boolean(formik.errors.registration)}
-                helperText={formik.touched.registration && formik.errors.registration}
-                placeholder='Date of Registration'
-                fullWidth
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <TextField
                 type='number'
                 varient='filled'
                 style={textfieldstyle}

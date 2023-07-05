@@ -44,6 +44,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        userid: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
     })
+
+    Car.associate = models => {
+        Car.belongsTo(models.User, { foreignKey: 'userid', as: 'user' })
+    }
+
     return Car;
 }

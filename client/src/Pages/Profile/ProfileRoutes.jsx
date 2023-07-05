@@ -51,7 +51,7 @@ function ProfileRoutes() {
                         <Route path="/bookings" element={<Bookings />} />
                         <Route path="/bookings/rating" element={<Rating_Booking />} />
                         <Route path="/registered_cars" element={<Registered_Cars />} />
-                        <Route path="/registered_cars/edit" element={<Registered_Cars_Edit />} />
+                        <Route path="/registered_cars/edit/:id" element={<Registered_Cars_Edit />} />
                         <Route path="/help" element={<Help />} />
                     </Routes>
                 </Grid>
