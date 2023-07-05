@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
     let data = req.body;
     // Validate request body
     let validationSchema = yup.object().shape({
-        feedback: yup.string().trim().min().max(),
+        feedback: yup.string().trim(),
         rate: yup.number().min(1).max(5).integer('Value must be an integer'),
 
     })
@@ -42,6 +42,7 @@ router.get("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
     let condition = {};
     let search = req.query.search;
+    
     if (search) {
         condition[Sequelize.Op.or] = [
             { rate: { [Sequelize.Op.like]: `%${search}%` } },
@@ -51,12 +52,12 @@ router.get("/", async (req, res) => {
     let list = await Feedback.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        include: { model: User, as: "user", attributes: ['name'] }
+        model: Feedback, as: "rating", attributes: ['id', 'rate', 'feedback'] 
     });
     res.json(list);
 });
 
-router.delete("/:id", validateToken, async (req, res) => {
+router.delete("/:id", async (req, res) => {
     let id = req.params.id;
     // Check id not found
     let rating = await Feedback.findByPk(id);
