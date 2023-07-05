@@ -1,24 +1,32 @@
-import React from 'react'
 import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
+import { useEffect, useState } from 'react'
+import http from '../../http'
+import { useSnackbar } from 'notistack';
 
 function Registered_Cars_Edit() {
+  //fetching car list
+  const [carList, setCarList] = useState(null);
+  const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
+  
+
   const paperStyle = { width: '100%', marginTop: 10 }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
 
   const formik = useFormik({
     initialValues: {
-      startDate: '',
-      endDate: '',
-      model: '',
-      make: '',
-      type: '',
-      gear: '',
-      seats: '',
-      price: '',
+      startDate: carList ? new Date(carList.startDate).toISOString().split('T')[0]: "",
+      endDate: carList ? new Date(carList.endDate).toISOString().split('T')[0] : "",
+      model: carList ? carList.model : "",
+      make: carList ? carList.make : "",
+      type: carList ? carList.type : "",
+      gear: carList ? carList.gear : "",
+      seats: carList ? carList.seats: "",
+      price: carList ? carList.price: "",
     },
     validationSchema: yup.object().shape({
       startDate: yup.string().trim().required('Start date is required'),
@@ -27,8 +35,8 @@ function Registered_Cars_Edit() {
       make: yup.string().trim().required('Make is required'),
       type: yup.string().trim().required('Type is required'),
       gear: yup.string().trim().required('Gear is required'),
-      seats: yup.string().trim().required('Seats is required'),
-      price: yup.string().trim().required('Price is required'),
+      seats: yup.number().required('Seats is required'),
+      price: yup.number().required('Price is required'),
     }),
     onSubmit: (data) => {
       data.startDate = data.startDate.trim();
@@ -37,11 +45,24 @@ function Registered_Cars_Edit() {
       data.make = data.make.trim();
       data.type = data.type.trim();
       data.gear = data.gear.trim();
-      data.seats = data.seats.trim();
-      data.price = data.price.trim();
       console.log(data);
+
+      http.put('/car/${id}', data)
+      .then((res) => {
+        enqueueSnackbar('Car registered successfully', { variant: 'success' });
+        console.log(res.data);
+      }
+      )
     },
+    enableReinitialize: true
   });
+
+  useEffect(() => {
+    http.get('/car/' + id).then((res) => {
+      setCarList(res.data);
+      console.log(res.data);
+    })
+  }, [])
 
 
   return (
@@ -55,7 +76,7 @@ function Registered_Cars_Edit() {
               name='startDate'
               type='date'
               onChange={formik.handleChange}
-              value={formik.values.startDate}
+              value= {formik.values.startDate}
               error={formik.touched.startDate && Boolean(formik.errors.startDate)}
               helperText={formik.touched.startDate && formik.errors.startDate}
               placeholder='Registration start date'
@@ -69,7 +90,7 @@ function Registered_Cars_Edit() {
               name='endDate'
               type='date'
               onChange={formik.handleChange}
-              value={formik.values.endDate}
+              value= {formik.values.endDate}
               error={formik.touched.endDate && Boolean(formik.errors.endDate)}
               helperText={formik.touched.endDate && formik.errors.endDate}
               placeholder='Registration end date'
@@ -150,20 +171,6 @@ function Registered_Cars_Edit() {
               fullWidth
             />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              varient='filled'
-              style={textfieldstyle}
-              name='registration'
-              type='date'
-              onChange={formik.handleChange}
-              value={formik.values.registration}
-              error={formik.touched.registration && Boolean(formik.errors.registration)}
-              helperText={formik.touched.registration && formik.errors.registration}
-              placeholder='Date of Registration'
-              fullWidth
-            />
-          </Grid>
         </Grid>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
@@ -200,9 +207,9 @@ function Registered_Cars_Edit() {
             </label>
           </Grid>
         </Grid>
-        <br/>
-        <Button type='submit' variant="contained" color='btn' style={btnstyle}>
-            Save Details
+        <br />
+        <Button type='submit' variant="contained" color='btn' style={btnstyle} >
+          Save Details
         </Button>
       </Box>
     </Container>

@@ -3,7 +3,20 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useEffect, useState } from 'react'
+import http from '../http'
+
 function Booking() {
+    //fetching car list
+    const [carList, setCarList] = useState([]);
+
+    useEffect(() => {
+        http.get('/car/all').then((res) => {
+            setCarList(res.data);
+        })
+    }, [])
+
+
     //validation schema
     const formik = useFormik({
         initialValues: {
@@ -18,7 +31,7 @@ function Booking() {
             console.log(values)
         }
     })
-    const paperStyle = {width: '100%', marginTop: 10 }
+    const paperStyle = { width: '100%', marginTop: 10 }
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px' }
     const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
     return (
@@ -51,7 +64,6 @@ function Booking() {
                             onChange={formik.handleChange}
                             value={formik.values.endDate}
                             error={formik.touched.endDate && Boolean(formik.errors.endDate)}
-
                             fullWidth
                         />
                     </Grid>
@@ -125,72 +137,30 @@ function Booking() {
                 Cars that are near you
             </Typography>
             <Grid container spacing={3}>
-                <Grid item xs={12} md={6} xl={4}>
-                    <Card elevation={5} style={paperStyle}>
-                        <CardContent>
-                            <Typography>
-                                Standard
-                            </Typography>
-                            <Typography>
-                                VW T Cross | SUV
-                            </Typography>
-                            <Typography>
-                                Automatic | 5 seater
-                            </Typography>
-                            <img src="../images/VW.png" alt="" width={'100%'} />
-                            <Box display={'flex'}>
-                                <Typography style={{ flexGrow: 1 }}>
-                                    $Price/day
-                                </Typography>
-                                <Button variant='contained' color='btn' style={btnstyle} LinkComponent={Link} to='/booking_confirm'>Rent</Button>
-                            </Box>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                    <Card elevation={5} style={paperStyle}>
-                        <CardContent>
-                            <Typography>
-                                Standard
-                            </Typography>
-                            <Typography>
-                                Toyota | Sedan
-                            </Typography>
-                            <Typography>
-                                Automatic | 5 seater
-                            </Typography>
-                            <img src="../images/Toyota.png" alt="" width={'100%'} />
-                            <Box display={'flex'}>
-                                <Typography style={{ flexGrow: 1 }}>
-                                    $Price/day
-                                </Typography>
-                                <Button variant='contained' color='btn' style={btnstyle}>Rent</Button>
-                            </Box>
-                        </CardContent>
-                    </Card>
-                </Grid>
-                <Grid item xs={12} md={6} xl={4}>
-                    <Card elevation={5} style={paperStyle}>
-                        <CardContent>
-                            <Typography>
-                                Luxury
-                            </Typography>
-                            <Typography>
-                                Audi A3 | Sedan
-                            </Typography>
-                            <Typography>
-                                Manual | 5 seater
-                            </Typography>
-                            <img src="../images/audi.png" alt="" width={'100%'} />
-                            <Box display={'flex'}>
-                                <Typography style={{ flexGrow: 1 }}>
-                                    $Price/day
-                                </Typography>
-                                <Button variant='contained' color='btn' style={btnstyle}>Rent</Button>
-                            </Box>
-                        </CardContent>
-                    </Card>
-                </Grid>
+                {
+                    carList.map((car) => (
+                        <Grid item xs={12} md={6} xl={4}>
+                            <Card elevation={5} style={paperStyle}>
+                                <CardContent>
+                                    <Typography>
+                                        {car.model} {car.make} | {car.type}
+                                    </Typography>
+                                    <Typography>
+                                        {car.gear} | {car.seats} seater
+                                    </Typography>
+                                    <img src="../images/VW.png" alt="" width={'100%'} />
+                                    <Box display={'flex'}>
+                                        <Typography style={{ flexGrow: 1 }}>
+                                            ${car.price}/day
+                                        </Typography>
+                                        <Button variant='contained' color='btn' style={btnstyle} LinkComponent={Link} to='/booking_confirm'>Rent</Button>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))
+                }
+
             </Grid>
         </Container>
 

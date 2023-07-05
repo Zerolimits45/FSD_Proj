@@ -27,7 +27,7 @@ router.post('/create', validateToken, async (req, res) => {
     try {
         console.log(data);
         await validationSchema.validate(data,
-            { abortEarly: false, strict: false});
+            { abortEarly: false, strict: true});
     }
     catch (err) {
         console.log(err);
@@ -43,6 +43,7 @@ router.post('/create', validateToken, async (req, res) => {
     data.name = data.name.trim();
     data.email = data.email.trim();
     data.license = data.license.trim();
+    data.userid = req.user.id;
 
     // Create car
     const car = await Car.create(data);
@@ -57,12 +58,21 @@ router.get('/all', async (req, res) => {
 }
 );
 
+// Get cars by token
+router.get('/user', validateToken, async (req, res) => {
+    const cars = await Car.findAll({ where: { userid: req.user.id } });
+    res.json(cars);
+}
+);
+
 // Get car by id
 router.get('/:id', async (req, res) => {
     const car = await Car.findByPk(req.params.id);
     res.json(car);
 }
 );
+
+
 
 // Update car by id
 router.put('/:id', validateToken, async (req, res) => {
