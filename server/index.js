@@ -19,7 +19,7 @@ const ratingRoute = require("./routes/rating")
 app.use("/rate", ratingRoute)
 
 const helpRoute = require("./routes/help")
-app.use("/help", helpRoute)
+app.use("/user/help", helpRoute)
 
 const carRoute = require("./routes/car")
 app.use("/car", carRoute)

@@ -19,6 +19,8 @@ import Account from './Pages/Profile/Account'
 import Account_Edit from './Pages/Profile/Account_Edit'
 import Password_Edit from './Pages/Profile/Password_Edit'
 import ProfileRoutes from './Pages/Profile/ProfileRoutes'
+import Help from './Pages/Help'
+
 function App() {
   const [user, setUser] = useState(null);
 
@@ -41,6 +43,7 @@ function App() {
         <Route path="/booking_confirm" element={<Booking_confirm />} />
         <Route path="/register" element={<RegisterCar />} />
         <Route path="/profile/*" element={<ProfileRoutes />} />
+        <Route path = "profile/help/*" element = {<Help/>} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </UserContext.Provider>

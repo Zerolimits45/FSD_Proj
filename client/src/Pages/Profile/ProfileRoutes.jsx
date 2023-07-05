@@ -34,9 +34,9 @@ function ProfileRoutes() {
                             </ListItem>
                             <Divider />
                             <ListItem>
-                                <ListItemButton>
-                                    <ListItemText primary="Help" />
-                                </ListItemButton>
+                                    <ListItemButton LinkComponent={Link} to='/profile/help' >
+                                        <ListItemText primary="Help" />
+                                    </ListItemButton>
                             </ListItem>
 
                         </List>
