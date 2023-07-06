@@ -9,7 +9,7 @@ import http from '../http.js';
 function Signup() {
     const paperStyle = { padding: 20, width: 400, margin: '20px auto' }
     const fieldspacing = { margin: '10px 0' }
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    
     const navigate = useNavigate();
     const regEx = /^[89]{1}\d{7}$/
     const formik = useFormik({
@@ -35,7 +35,7 @@ function Signup() {
             http.post('/user/register', data)
                 .then((res) => {
                     console.log(res.data)
-                    navigate("/login")
+                    navigate("/signup_otp")
                 })
                 .catch((error) => {
                     if (error.response && error.response.status === 400) {

@@ -40,17 +40,13 @@ export default function Navbar() {
                             <Button color="inherit" LinkComponent={Link} to='/'>Home</Button>
                             <Button color="inherit" LinkComponent={Link} to='/booking'>Rent a Car</Button>
                             <Button color="inherit" LinkComponent={Link} to='/register'>Register a Car</Button>
-                            <Button color="inherit" LinkComponent={Link} to=''>Discussions</Button>
+                            <Button color="inherit" LinkComponent={Link} >Discussions</Button>
                         </Box>
                         {user && (
                             <>
                                 <AccountCircle style={{ color: 'white' }} />
-                                <Button color="inherit" LinkComponent={Link} to='/profile/account'>
-                                <Typography variant="body">
-                                    {user.name}
-                                </Typography>
-                                </Button>
-                                <Button onClick={logout} style={{ color: 'red' }}>Logout</Button>
+                                <Button color="inherit" LinkComponent={Link} to={`/profile/account/${user.id}`}>{user.name}</Button>
+                                <Button onClick={logout} style={{ color: 'white' }}>Logout</Button>
                             </>
                         )
                         }{!user && (

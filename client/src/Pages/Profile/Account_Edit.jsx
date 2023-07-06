@@ -1,17 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent, Avatar } from '@mui/material'
 import { useFormik } from 'formik'
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import http from '../../http';
 import * as Yup from 'yup'
 
 function Account_Edit() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const [user, setU] = useState({
+        name: "",
+        email: "",
+        phone: "",
+    });
+
+    useEffect(() => {
+        http.get(`/user/profile/${id}`).then((res) => {
+            setU(res.data);
+        });
+    }, []);
+
     const regEx = /^[89]{1}\d{7}$/
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
     const formik = useFormik({
-        initialValues: {
-            name: '',
-            email: '',
-            phone: '',
-        },
+        initialValues: user,
+        enableReinitialize: true,
         validationSchema: Yup.object({
             name: Yup.string().trim().min(5, 'Minimum 5 characters').required('Required'),
             email: Yup.string().trim().email('Invalid email format').required('Required'),
@@ -21,12 +35,16 @@ function Account_Edit() {
             data.name = data.name.trim();
             data.email = data.email.trim();
             data.phone = data.phone.trim();
-            console.log(data);
+            http.put(`/user/profile/edit/${id}`, data)
+                .then((res) => {
+                    console.log(res.data);
+                    navigate(`/profile/account/${id}`);
+                });
         },
     });
     return (
         <Container maxWidth='xl'>
-            <Typography variant='h4' color="white" marginTop={10} marginBottom={2}>
+            <Typography variant='h4' color="white" marginBottom={2}>
                 Edit your details
             </Typography>
             <Box component="form" onSubmit={formik.handleSubmit}>
@@ -56,7 +74,6 @@ function Account_Edit() {
                         />
                     </Grid>
                     <Grid item xs={12} md={4}>
-
                         <TextField
                             style={textfieldstyle}
                             name="phone"
