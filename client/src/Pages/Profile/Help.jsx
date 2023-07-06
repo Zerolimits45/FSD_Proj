@@ -45,7 +45,7 @@ function Help() {
             data.make = data.make.trim();
             data.reason = data.reason.trim();
 
-            http.post('/user/help', data)
+            http.post('/profile/help', data)
                 .then((res) => {
                     localStorage.setItem("accessToken", res.data.accessToken);
                     setHelp(res.data.user);

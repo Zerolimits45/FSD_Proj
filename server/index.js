@@ -11,6 +11,13 @@ app.get("/", (req, res) => {
     res.send("Welcome to the learning space.");
 });
 
+// authentication for help page
+app.get('/help', (req, res) => {
+    const isAuthenticated = req.user ? true : false; // Check if the user is authenticated
+    res.render('help', { isAuthenticated }); // Render the React component with the authentication status
+  });
+  
+
 // Routes
 const userRoute = require("./routes/user")
 app.use("/user", userRoute)
