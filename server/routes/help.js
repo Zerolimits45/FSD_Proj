@@ -13,9 +13,6 @@ router.post('/', async (req, res) => {
         name: yup.string().trim().required(),
         reason: yup.string().trim().required(),
         email: yup.string().trim().email().required(),
-        model: yup.string().trim().required(),
-        make: yup.string().trim().required(),
-        license_no: yup.string().trim().min(9).max(9).matches(regEx, "License Number is Invalid").required(),
 
     })
     try {
@@ -31,9 +28,6 @@ router.post('/', async (req, res) => {
     data.name = data.name.trim();
     data.reason = data.reason.trim();
     data.email = data.email.trim();
-    data.model = data.model.trim();
-    data.make = data.make.trim();
-    data.license_no = data.license_no.trim();
 
     // Create user
     const help = await Help.create(data);
@@ -63,7 +57,7 @@ router.get("/", async (req, res) => {
     let list = await Help.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        attributes: ['email', 'license_no', 'reason']   // lists out the elements in the table according to params such as 'name' and 'license_no'
+        attributes: ['email', 'reason']   // lists out the elements in the table according to params such as 'name' and 'license_no'
     });
     res.json(list);
 });

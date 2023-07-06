@@ -21,22 +21,8 @@ function Help() {
             data.email = data.email.trim();
             data.reason = data.reason.trim();
 
-            http.post('/profile/help', data)
-                .then((res) => {
-                    localStorage.setItem("accessToken", res.data.accessToken);
-                    setHelp(res.data.user);
-                    navigate("/")
-                })
-                .catch((error) => {
-                    if (error.response && error.response.status === 400) {
-                        const errorMessage = error.response.data.message;
-                        formik.setErrors({
-                            ...formik.errors,
-                            email: errorMessage,
-                            license_no: errorMessage,
-                        });
-                    }
-                })
+            http.post('/help', data)
+                
             console.log(data)
         },
     });

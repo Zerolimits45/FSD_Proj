@@ -14,18 +14,6 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: false,
         },
-        model: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        make: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        license_no: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        }
     })
     return Help
 }
