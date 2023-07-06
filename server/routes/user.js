@@ -5,7 +5,22 @@ const { User } = require('../models');
 const yup = require("yup");
 const { sign } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
+const crypto = require('crypto');
+var nodemailer = require('nodemailer-mock');
+const otpGenerator = require('otp-generator');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'forschoolkenneth@gmail.com',
+        pass: 'Pokemon123!'
+    }
+});
+
 require('dotenv').config();
+
+let stored_otp = null
+let u = null
 
 // Register route
 router.post('/register', async (req, res) => {
@@ -40,10 +55,52 @@ router.post('/register', async (req, res) => {
     if (emailExists) {
         return res.status(400).json({ message: "Email already exists." });
     }
+
+    const otp = otpGenerator.generate(6, { digits: true, upperCase: false, specialChars: false });
+    stored_otp = otp
+
+    const mailOptions = {
+        from: 'forschoolkenneth@gmail.com',
+        to: data.email,
+        subject: 'OTP Verification',
+        text: `Your OTP is ${otp}.`,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log(mailOptions)
+    } catch (error) {
+        console.error('Error sending email:', error);
+        return res.status(500).json({ message: 'Failed to send OTP email.' });
+    }
     // Hash passowrd
     data.password = await bcrypt.hash(data.password, 10);
     // Create user
-    const user = await User.create(data);
+    u = data;
+
+    res.json({ message: 'OTP sent successfully.' });
+})
+
+router.post('/register_otp', async (req, res) => {
+    let data = req.body;
+    let validationSchema = yup.object().shape({
+        otp: yup.string().trim().length(6).required(),
+    })
+    try {
+        await validationSchema.validate(data, { abortEarly: false, strict: true });
+    } catch (err) {
+        res.status(400).json({ errors: err.errors });
+        return;
+    }
+
+    data.otp = data.otp.trim()
+
+    if (stored_otp != data.otp) {
+        res.status(400).json({ message: "OTP is Incorrect" });
+        return;
+    }
+
+    const user = await User.create(u);
     res.json(user);
 })
 
@@ -108,7 +165,7 @@ router.get("/auth", validateToken, (req, res) => {
     });
 });
 
-router.get("/", async (req, res) => {
+router.get("/profiles", async (req, res) => {
     let condition = {};
     let search = req.query.search;
     if (search) {
@@ -127,18 +184,204 @@ router.get("/", async (req, res) => {
 });
 
 router.get('/profile/:id', validateToken, async (req, res) => {
+    let id = req.params.id;
+
+    const user = await User.findByPk(id);
+    if (!user) {
+        res.sendStatus(404);
+        return;
+    }
+
+    res.send(user)
+});
+
+router.put('/profile/edit/:id', validateToken, async (req, res) => {
+    let id = req.params.id;
+
+    let user = await User.findByPk(id);
+    if (!user) {
+        res.sendStatus(404);
+        return;
+    }
+
+    let data = req.body;
+    const regEx = /^[89]{1}\d{7}$/
+    let validationSchema = yup.object().shape({
+        name: yup.string().trim().min(5).max(50).required(),
+        email: yup.string().trim().email().required(),
+        phone: yup.string().trim().min(8).max(8).matches(regEx, "Phone is Invalid").required(),
+    })
     try {
-        let id = req.params.id;
-        const user = await User.findByPk(id, { attributes: ['id', 'email', 'name', 'phone'] });
-        res.send(user);
-    } catch (err) {
-        console.log(err);
-        res.status(500).send('Error retrieving user profile');
+        await validationSchema.validate(data,
+            { abortEarly: false, strict: true });
+    }
+    catch (err) {
+        res.status(400).json({ errors: err.errors });
+        return;
+    }
+
+    data.name = data.name.trim();
+    data.email = data.email.trim();
+    data.phone = data.phone.trim();
+    let num = await User.update(data, {
+        where: { id: id }
+    })
+    if (num == 1) {
+        res.json({
+            message: "User was updated successfully."
+        });
+    }
+    else {
+        res.status(400).json({
+            message: `Cannot update user with id ${id}.`
+        });
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.put('/profile/changepassword/:id', validateToken, async (req, res) => {
     let id = req.params.id;
+
+    let user = await User.findByPk(id);
+    if (!user) {
+        res.sendStatus(404);
+        return;
+    }
+
+    let data = req.body;
+    let validationSchema = yup.object().shape({
+        password: yup.string().trim().min(8).max(50).required(),
+        newPassword: yup.string().trim().min(8).max(50).required(),
+        confirmPassword: yup.string().trim().min(8).max(50).oneOf([yup.ref('newPassword')], 'Passwords Do Not Match').required()
+    })
+    try {
+        await validationSchema.validate(data, { abortEarly: false, strict: true });
+    } catch (err) {
+        res.status(400).json({ errors: err.errors });
+        return;
+    }
+
+    let match = await bcrypt.compare(data.password, user.password);
+    if (!match) {
+        res.status(400).json({ message: "Password is incorrect" });
+        return;
+    }
+
+    data.password = data.confirmPassword;
+    delete data.confirmPassword;
+    delete data.newPassword;
+
+    data.password = await bcrypt.hash(data.password, 10);
+
+    await User.update(data, {
+        where: { id: id }
+    });
+
+    res.json({
+        message: "User was updated successfully."
+    });
+});
+
+const tokens = {};
+
+router.post('/forgotpassword', async (req, res) => {
+    let data = req.body;
+    let validationSchema = yup.object().shape({
+        email: yup.string().trim().email().required(),
+    })
+    try {
+        await validationSchema.validate(data,
+            { abortEarly: false, strict: true });
+    }
+    catch (err) {
+        res.status(400).json({ errors: err.errors });
+        return;
+    }
+
+    data.email = data.email.trim();
+    let user = await User.findOne({ where: { email: data.email } });
+    if (!user) {
+        res.status(400).json({ message: "Email is incorrect" });
+        return;
+    }
+
+    // Generate a password reset token
+    const token = crypto.randomBytes(20).toString('hex');
+    tokens[user.id] = token;
+    const resetPasswordLink = `http://localhost:5173/user/forgotpassword/${user.id}?token=${token}`;
+
+    const mailOptions = {
+        from: 'forschoolkenneth@gmail.com',
+        to: user.email,
+        subject: 'Password Reset Request',
+        html: `Click the following link to reset your password: <a href="${resetPasswordLink}">${resetPasswordLink}</a>`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Failed to send password reset email' });
+        } else {
+            console.log(mailOptions)
+            res.status(200).json({
+                message: 'Password reset email sent',
+                userId: user.id, // Include user ID in the response
+                token: token // Include token in the response
+            });
+        }
+    });
+})
+
+router.put('/forgotpassword/:id', async (req, res) => {
+    let id = req.params.id;
+    let token = req.query.token;
+
+    let user = await User.findByPk(id);
+    if (!user) {
+        res.sendStatus(404);
+        return;
+    }
+
+    if (tokens[id] !== token) {
+        res.status(400).json({ message: 'Invalid token' });
+        return;
+    }
+
+    let data = req.body;
+    let validationSchema = yup.object().shape({
+        password: yup.string().trim().min(8).max(50).required(),
+        confirmPassword: yup.string().trim().min(8).max(50).oneOf([yup.ref('password')], 'Passwords Do Not Match').required()
+    })
+    try {
+        await validationSchema.validate(data, { abortEarly: false, strict: true });
+    } catch (err) {
+        res.status(400).json({ errors: err.errors });
+        return;
+    }
+
+    data.password = data.confirmPassword;
+    delete data.confirmPassword;
+
+    data.password = await bcrypt.hash(data.password, 10);
+
+    await User.update(data, {
+        where: { id: id }
+    });
+
+    res.json({
+        message: "User was updated successfully."
+    });
+})
+
+
+router.delete("/:id", validateToken, async (req, res) => {
+    let id = req.params.id;
+
+    let user = await User.findByPk(id);
+    if (!user) {
+        res.sendStatus(404);
+        return;
+    }
+
     let num = await User.destroy({
         where: { id: id }
     })

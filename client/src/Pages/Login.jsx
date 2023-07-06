@@ -6,6 +6,9 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import http from '../http.js';
 import UserContext from '../contexts/UserContext.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function Login() {
     //styling variables
     const paperStyle = { padding: 20, width: 400, margin: '20px auto' }
@@ -43,11 +46,7 @@ function Login() {
                 .catch((error) => {
                     if (error.response && error.response.status === 400) {
                         const errorMessage = error.response.data.message;
-                        formik.setErrors({
-                            ...formik.errors,
-                            email: errorMessage,
-                            password: errorMessage,
-                        });
+                        toast.error(`${errorMessage}`);
                     }
                 })
         },
@@ -88,7 +87,7 @@ function Login() {
                     <Button type="submit" color='primary' variant='contained' fullWidth style={btnstyle}>Sign In</Button>
                 </Box>
                 <Typography>
-                    <Link href="#">
+                    <Link to={'/user/forgotpassword'}>
                         Forgot password ?
                     </Link>
                 </Typography>

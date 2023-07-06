@@ -19,7 +19,7 @@ function ProfileRoutes() {
                     <Card>
                         <List>
                             <ListItem>
-                                <ListItemButton LinkComponent={Link} to='/profile/account' >
+                                <ListItemButton LinkComponent={Link} to='/profile/account/:id' >
                                     <ListItemText primary="Account" />
                                 </ListItemButton>
                             </ListItem>
@@ -56,9 +56,9 @@ function ProfileRoutes() {
                 </Grid>
                 <Grid item xs={12} sm={9}>
                     <Routes>
-                        <Route path="/account" element={<Account />} />
-                        <Route path="/account/edit_details" element={<Account_Edit />} />
-                        <Route path="/account/edit_password" element={<Password_Edit />} />
+                        <Route path="/account/:id" element={<Account />} />
+                        <Route path="/account/edit/:id" element={<Account_Edit />} />
+                        <Route path="/account/changepassword/:id" element={<Password_Edit />} />
                         <Route path="/bookings" element={<Bookings />} />
                         <Route path="/bookings/rating" element={<Rating_Booking />} />
                         <Route path="/registered_cars" element={<Registered_Cars />} />
