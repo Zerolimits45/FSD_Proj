@@ -65,7 +65,7 @@ function ProfileRoutes() {
                         <Route path="/registered_cars/edit/:id" element={<Registered_Cars_Edit />} />
                         <Route path="/help" element={<Help />} />
                         <Route path="/help/view" element={<Help_view_temporary />} />
-                        <Route path="/help/view/edit" element={<Help_Edit />} />
+                        <Route path="/help/view/edit/:id" element={<Help_Edit />} />
                     </Routes>
                 </Grid>
             </Grid>

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     const Help = sequelize.define("Help", {
-        name:{
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -12,18 +12,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        model: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        make: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        license_no: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        }
     })
+    Help.associate = models => {
+        Help.belongsTo(models.User, { foreignKey: 'userid', as: 'user' })
+    }
+
     return Help
 }

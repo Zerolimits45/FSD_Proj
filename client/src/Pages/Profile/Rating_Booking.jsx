@@ -24,7 +24,7 @@ function Rating_Booking() {
             data.name = data.name.trim();
 
 
-            http.post('/user/rate', data)
+            http.post('/profile/rate', data)
                 .then((res) => {
                     localStorage.setItem("accessToken", res.data.accessToken);
                     setHelp(res.data.user);

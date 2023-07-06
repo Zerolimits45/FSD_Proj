@@ -1,17 +1,30 @@
-import React from 'react'
+import React, { useState, useReact, useEffect } from 'react'
 import { Container, Grid, Card, CardContent, Typography, Button, Box, TextField } from '@mui/material'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useParams, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import http from '../../http.js'
 function Help_Edit() {
     const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
+    const navigate = useNavigate()
+
+    const { id } = useParams();
+
+    const [help, setHelp] = useState({
+        email: "",
+        name: "",
+        reason: ""
+    });
+    useEffect(() => {
+        http.get(`/profile/help/view/edit/${id}`).then((res) => {
+            setHelp(res.data);
+        });
+    }, []);
+
     const formik = useFormik({
-        initialValues: {
-            name: '',
-            email: '',
-            reason: '',
-        },
+        initialValues: help,
+        enableReinitialize: true,
         validationSchema: Yup.object({
             name: Yup.string().required('Name is required'),
             email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -21,7 +34,11 @@ function Help_Edit() {
             data.name = data.name.trim();
             data.email = data.email.trim();
             data.reason = data.reason.trim();
-            console.log(data)
+            http.put(`/profile/help/view/edit/${id}`, data)
+                .then((res) => {
+                    console.log(res.data);
+                    navigate(`/profile/help/view/`);
+                });
         },
     });
     return (
