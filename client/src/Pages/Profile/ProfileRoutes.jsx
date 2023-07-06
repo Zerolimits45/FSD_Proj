@@ -39,7 +39,11 @@ function ProfileRoutes() {
                                     <ListItemText primary="Help" />
                                 </ListItemButton>
                             </ListItem>
-
+                            <ListItem>
+                                <ListItemButton LinkComponent={Link} to='/profile/bookings/rating'>
+                                    <ListItemText primary="rating" />
+                                </ListItemButton>
+                            </ListItem>
                         </List>
                     </Card>
                 </Grid>
