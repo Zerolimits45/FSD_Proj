@@ -19,7 +19,7 @@ function Help_view_temporary() {
                             <Typography>
                                 Reason
                             </Typography>
-                            <Button variant='contained' color='btn' style={btnstyle}>
+                            <Button variant='contained' color='btn' style={btnstyle} LinkComponent={Link} to='/profile/help/view/edit'>
                                 Edit Details
                             </Button>
                         </CardContent>
