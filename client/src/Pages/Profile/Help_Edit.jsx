@@ -1,20 +1,21 @@
-import { Grid, Typography, TextField, Button, Box, Container } from '@mui/material'
-import React, { useState, useContext } from 'react'
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-function Help() {
+import React from 'react'
+import { Container, Grid, Card, CardContent, Typography, Button, Box, TextField } from '@mui/material'
+import { Routes, Route, Link } from 'react-router-dom'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+function Help_Edit() {
+    const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
-    const btnstyle = { margin: '20px 0', fontWeight: 'bold', color: 'white', backgroundColor: '#FF4E00' }
     const formik = useFormik({
         initialValues: {
             name: '',
             email: '',
             reason: '',
         },
-        validationSchema: yup.object({
-            name: yup.string().required('Name is required'),
-            email: yup.string().email('Invalid email address').required('Email is required'),
-            reason: yup.string().required('Reason is required'),
+        validationSchema: Yup.object({
+            name: Yup.string().required('Name is required'),
+            email: Yup.string().email('Invalid email address').required('Email is required'),
+            reason: Yup.string().required('Reason is required'),
         }),
         onSubmit: (data) => {
             data.name = data.name.trim();
@@ -26,7 +27,7 @@ function Help() {
     return (
         <Container maxWidth='xl'>
             <Typography variant='h6' color="white" marginBottom={2}>
-                Help
+                Edit help details
             </Typography>
             <Box component="form" onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
@@ -72,11 +73,11 @@ function Help() {
                     </Grid>
                 </Grid>
                 <Button type='submit' color='btn' variant="contained" style={btnstyle} fullWidth>
-                    Send your help request
+                    Save Details
                 </Button>
             </Box>
         </Container>
     )
 }
 
-export default Help
+export default Help_Edit
