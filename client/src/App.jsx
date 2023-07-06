@@ -24,7 +24,8 @@ import Forgot_Password from './Pages/Forgot_Password'
 import Change_Password from './Pages/Change_Password'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Signup_OTP from './Pages/Signup_OTP'
+import Signup_OTP from './Pages/Signup_OTP';
+import Help_Edit from './Pages/Profile/Help_Edit'
 
 function App() {
   const [user, setUser] = useState(null);
@@ -52,7 +53,6 @@ function App() {
         <Route path="/booking_confirm" element={<Booking_confirm />} />
         <Route path="/register" element={<RegisterCar />} />
         <Route path="/profile/*" element={<ProfileRoutes />} />
-        <Route path="/help/:id" element={<h1>Not Found</h1>} />
       </Routes>
     </UserContext.Provider>
   )

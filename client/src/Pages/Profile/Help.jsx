@@ -2,9 +2,17 @@ import { Grid, Typography, TextField, Button, Box, Container } from '@mui/materi
 import React, { useState, useContext } from 'react'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { Link, useNavigate } from 'react-router-dom'
+import http from '../../http.js';
+import { useSnackbar } from 'notistack';
+import UserContext from '../../contexts/UserContext.js';
+
 function Help() {
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
     const btnstyle = { margin: '20px 0', fontWeight: 'bold', color: 'white', backgroundColor: '#FF4E00' }
+    const navigate = useNavigate()
+    const { enqueueSnackbar } = useSnackbar()
+    const { user, setUser } = useContext(UserContext)
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -21,23 +29,14 @@ function Help() {
             data.email = data.email.trim();
             data.reason = data.reason.trim();
 
-            http.post('/profile/help', data)
+            http.post(`/profile/help/${user.id}`, data)
                 .then((res) => {
-                    localStorage.setItem("accessToken", res.data.accessToken);
-                    setHelp(res.data.user);
-                    navigate("/")
+                    enqueueSnackbar('Help request sent successfully', { variant: 'success' });
+                    formik.resetForm();
+                    navigate(`/profile/help/view`);
                 })
-                .catch((error) => {
-                    if (error.response && error.response.status === 400) {
-                        const errorMessage = error.response.data.message;
-                        formik.setErrors({
-                            ...formik.errors,
-                            email: errorMessage,
-                            license_no: errorMessage,
-                        });
-                    }
-                })
-            console.log(data)
+
+            
         },
     });
     return (

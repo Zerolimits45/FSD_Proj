@@ -1,9 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
     const Help = sequelize.define("Help", {
-        name:{
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique:false
         },
         reason: {
             type: DataTypes.STRING,
@@ -12,8 +11,11 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: false,
         },
     })
+    Help.associate = models => {
+        Help.belongsTo(models.User, { foreignKey: 'userid', as: 'user' })
+    }
+
     return Help
 }
