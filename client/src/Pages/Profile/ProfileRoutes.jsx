@@ -9,6 +9,7 @@ import Account from './Account'
 import Account_Edit from './Account_Edit'
 import Password_Edit from './Password_Edit'
 import Help from './Help'
+import Help_view_temporary from './Help_view_temporary'
 function ProfileRoutes() {
     return (
         <Container maxWidth='xl'>
@@ -44,6 +45,11 @@ function ProfileRoutes() {
                                     <ListItemText primary="rating" />
                                 </ListItemButton>
                             </ListItem>
+                            <ListItem>
+                                <ListItemButton LinkComponent={Link} to='/profile/help/view'>
+                                    <ListItemText primary="help view" />
+                                </ListItemButton>
+                            </ListItem>
                         </List>
                     </Card>
                 </Grid>
@@ -57,6 +63,7 @@ function ProfileRoutes() {
                         <Route path="/registered_cars" element={<Registered_Cars />} />
                         <Route path="/registered_cars/edit/:id" element={<Registered_Cars_Edit />} />
                         <Route path="/help" element={<Help />} />
+                        <Route path="/help/view" element={<Help_view_temporary />} />
                     </Routes>
                 </Grid>
             </Grid>
