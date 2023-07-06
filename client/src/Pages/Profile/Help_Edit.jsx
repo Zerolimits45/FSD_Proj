@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useReact} from 'react'
 import { Container, Grid, Card, CardContent, Typography, Button, Box, TextField } from '@mui/material'
 import { Routes, Route, Link } from 'react-router-dom'
 import { useFormik } from 'formik'
@@ -6,12 +6,22 @@ import * as Yup from 'yup'
 function Help_Edit() {
     const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
+
+    const { id } = useParams();
+    const [help, setHelp] = useState({
+        email: "",
+        name: "",   
+        reason: ""
+    });
+    useEffect(() => {
+        http.get(`/help/${id}`).then((res) => {
+            setHelp(res.data);
+        });
+    }, []);
+
     const formik = useFormik({
-        initialValues: {
-            name: '',
-            email: '',
-            reason: '',
-        },
+        initialValues: help,
+        enableReinitialize: true,
         validationSchema: Yup.object({
             name: Yup.string().required('Name is required'),
             email: Yup.string().email('Invalid email address').required('Email is required'),
