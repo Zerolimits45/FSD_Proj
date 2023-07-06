@@ -10,6 +10,7 @@ import Account_Edit from './Account_Edit'
 import Password_Edit from './Password_Edit'
 import Help from './Help'
 import Help_view_temporary from './Help_view_temporary'
+import Help_Edit from './Help_Edit'
 function ProfileRoutes() {
     return (
         <Container maxWidth='xl'>
@@ -64,6 +65,7 @@ function ProfileRoutes() {
                         <Route path="/registered_cars/edit/:id" element={<Registered_Cars_Edit />} />
                         <Route path="/help" element={<Help />} />
                         <Route path="/help/view" element={<Help_view_temporary />} />
+                        <Route path="/help/view/edit" element={<Help_Edit />} />
                     </Routes>
                 </Grid>
             </Grid>
