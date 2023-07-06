@@ -31,12 +31,12 @@ router.post('/', async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     let id = req.params.id;
-    let help = await Help.findByPk(id);
-    if (!help) {
+    let feedback = await Feedback.findByPk(id);
+    if (!feedback) {
         res.sendStatus(404);
         return;
     }
-    res.json(help);
+    res.json(feedback);
 });
 
 router.get("/", async (req, res) => {

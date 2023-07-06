@@ -63,7 +63,7 @@ router.get("/", async (req, res) => {
     let list = await Help.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        attributes: ['name', 'license_no', 'reason']   // lists out the elements in the table according to params such as 'name' and 'license_no'
+        attributes: ['email', 'license_no', 'reason']   // lists out the elements in the table according to params such as 'name' and 'license_no'
     });
     res.json(list);
 });
