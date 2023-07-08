@@ -21,7 +21,6 @@ function Change_Password() {
   const fieldspacing = { margin: '10px 0' }
   const btnstyle = { margin: '8px 0' }
 
-  const { id } = useParams();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get('token');
@@ -37,7 +36,7 @@ function Change_Password() {
       confirmPassword: yup.string().trim().min(8).max(50).oneOf([yup.ref('password')], 'Passwords Do Not Match').required()
     }),
     onSubmit: (data) => {
-      http.put(`/user/forgotpassword/${id}?token=${token}`, data)
+      http.put(`/user/forgotpassword?token=${token}`, data)
         .then((res) => {
           toast.success('Password Changed Successfully');
           navigate('/');
