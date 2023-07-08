@@ -25,7 +25,7 @@ import Change_Password from './Pages/Change_Password'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Signup_OTP from './Pages/Signup_OTP';
-import Help_Edit from './Pages/Profile/Help_Edit'
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -48,7 +48,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signup_otp" element={<Signup_OTP />} />
         <Route path="/user/forgotpassword" element={<Forgot_Password />}/>
-        <Route path="/user/forgotpassword/:id" element={<Change_Password />}/>
+        <Route path="/user/changepassword" element={<Change_Password />}/>
         <Route path="/booking" element={<Booking />} />
         <Route path="/booking_confirm" element={<Booking_confirm />} />
         <Route path="/register" element={<RegisterCar />} />

@@ -16,6 +16,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                isIn: [['customer', 'staff', 'admin']]
+            }
+        }
     })
 
     User.associate = models => {
