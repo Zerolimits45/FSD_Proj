@@ -6,7 +6,7 @@ import UserContext from '../../contexts/UserContext.js';
 import http from '../../http';
 
 function Account() {
-    const avatarStyle = { backgroundColor: '#FF4E00', marginTop: '1rem', width: '5rem', height: '5rem' };
+    const avatarStyle = { backgroundColor: '#150039`', marginTop: '1rem', width: '5rem', height: '5rem' };
     const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' };
 
     const { id } = useParams();
