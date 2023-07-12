@@ -1,10 +1,12 @@
 import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent } from '@mui/material'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 function Booking() {
     //validation schema
+    const navigate = useNavigate();
+
     const formik = useFormik({
         initialValues: {
             startDate: '',
@@ -15,7 +17,8 @@ function Booking() {
             endDate: Yup.date().required('')
         }),
         onSubmit: values => {
-            console.log(values)
+            const url = `http://localhost:5173/booking_confirm?startDate=${values.startDate}&endDate=${values.endDate}`;
+            window.location.href = url;
         }
     })
     const paperStyle = {width: '100%', marginTop: 10 }
@@ -142,7 +145,7 @@ function Booking() {
                                 <Typography style={{ flexGrow: 1 }}>
                                     $Price/day
                                 </Typography>
-                                <Button variant='contained' color='btn' style={btnstyle} LinkComponent={Link} to='/booking_confirm'>Rent</Button>
+                                <Button type='submit' variant='contained' color='btn' style={btnstyle} onClick={() => formik.handleSubmit()}>Rent</Button>
                             </Box>
                         </CardContent>
                     </Card>

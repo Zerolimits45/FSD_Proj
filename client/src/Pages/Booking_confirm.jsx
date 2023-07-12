@@ -1,29 +1,44 @@
 import React from 'react'
 import { Typography, Grid, Container, TextField, Box, Button, Paper } from '@mui/material'
 import { useFormik } from 'formik'
+import { useNavigate, useLocation } from 'react-router-dom'
 import * as yup from 'yup'
+import http from '../http'
 
 function Booking_confirm() {
   const paperStyle = { width: '100%', marginTop: 1 }
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
 
+  const navigate = useNavigate()
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const startDate = searchParams.get('startDate')
+  const endDate = searchParams.get('endDate')
+
   const formik = useFormik({
     initialValues: {
       name: '',
       email: '',
-      license: '',
+      licencenumber: '',
     },
     validationSchema: yup.object().shape({
-      name: yup.string().trim().required('Name is required'),
-      email: yup.string().trim().email('Email must be valid').required('Email is required'),
-      license: yup.string().trim().required('License is required'),
+      email: yup.string().trim().email().required(),
+      name: yup.string().trim().min(5).required(),
+      licencenumber: yup.string().trim().min(9).max(9).required(),
     }),
     onSubmit: (data) => {
       data.name = data.name.trim();
       data.email = data.email.trim();
-      data.license = data.license.trim();
-      console.log(data);
+      data.licencenumber = data.licencenumber.trim();
+      data.startdate = startDate;
+      data.enddate = endDate;
+
+      http.post('/booking', data)
+        .then((res) => {
+          console.log(res.data)
+          navigate("/")
+        })
     },
   });
 
@@ -77,15 +92,15 @@ function Booking_confirm() {
         />
         <TextField
           style={textfieldstyle}
-          name='license'
+          name='licencenumber'
           onChange={formik.handleChange}
-          value={formik.values.license}
-          error={formik.touched.license && Boolean(formik.errors.license)}
-          helperText={formik.touched.license && formik.errors.license}
+          value={formik.values.licencenumber}
+          error={formik.touched.licencenumber && Boolean(formik.errors.licencenumber)}
+          helperText={formik.touched.licencenumber && formik.errors.licencenumber}
           placeholder='Enter License Number'
           fullWidth
         />
-        <Button type="submit" color='btn' variant='contained' fullWidth style={btnstyle}>Book Now</Button>
+        <Button type="submit" color='btn' variant='contained' fullWidth style={btnstyle} >Book Now</Button>
       </Box>
     </Container>
   )
