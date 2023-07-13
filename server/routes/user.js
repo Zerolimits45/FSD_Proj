@@ -5,7 +5,7 @@ const { User } = require('../models');
 const yup = require("yup");
 const { sign, verify } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
-var nodemailer = require('nodemailer');
+var nodemailer = require('nodemailer-mock');
 const otpGenerator = require('otp-generator');
 
 const transporter = nodemailer.createTransport({
