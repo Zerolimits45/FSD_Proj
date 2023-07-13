@@ -16,7 +16,6 @@ function Booking() {
         })
     }, [])
 
-
     //validation schema
     const formik = useFormik({
         initialValues: {
@@ -28,7 +27,8 @@ function Booking() {
             endDate: Yup.date().required('')
         }),
         onSubmit: values => {
-            console.log(values)
+            const url = `http://localhost:5173/booking_confirm?startDate=${values.startDate}&endDate=${values.endDate}`;
+            window.location.href = url;
         }
     })
     const paperStyle = { width: '100%', marginTop: 10 }
@@ -153,7 +153,7 @@ function Booking() {
                                         <Typography style={{ flexGrow: 1 }}>
                                             ${car.price}/day
                                         </Typography>
-                                        <Button variant='contained' color='btn' style={btnstyle} LinkComponent={Link} to='/booking_confirm'>Rent</Button>
+                                        <Button variant='contained' color='btn' style={btnstyle} onClick={() => formik.handleSubmit()}>Rent</Button>
                                     </Box>
                                 </CardContent>
                             </Card>

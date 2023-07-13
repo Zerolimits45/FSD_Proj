@@ -1,28 +1,37 @@
 import React from 'react'
 import { Typography, Grid, Container, TextField, Box, Button, Paper, Card, CardContent } from '@mui/material'
 import { useFormik } from 'formik'
+import { useNavigate, useLocation } from 'react-router-dom'
 import * as yup from 'yup'
+import http from '../http'
 
 function Booking_confirm() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
 
+  const navigate = useNavigate()
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const startDate = searchParams.get('startDate')
+  const endDate = searchParams.get('endDate')
+
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      license: '',
+      licencenumber: '',
     },
     validationSchema: yup.object().shape({
-      name: yup.string().trim().required('Name is required'),
-      email: yup.string().trim().email('Email must be valid').required('Email is required'),
-      license: yup.string().trim().required('License is required'),
+      licencenumber: yup.string().trim().min(9).max(9).required(),
     }),
     onSubmit: (data) => {
-      data.name = data.name.trim();
-      data.email = data.email.trim();
-      data.license = data.license.trim();
-      console.log(data);
+      data.licencenumber = data.licencenumber.trim();
+      data.startdate = startDate;
+      data.enddate = endDate;
+
+      http.post('/booking', data)
+        .then((res) => {
+          console.log(res.data)
+          navigate("/")
+        })
     },
   });
 
@@ -39,7 +48,7 @@ function Booking_confirm() {
               <Grid container spacing={2}>
                 <Grid item xs={12} md={8}>
                   <Box>
-                    <img src="../images/VW.png" alt="" width={'100%'} height={'300px'} style={{objectFit:'contain'}} />
+                    <img src="../images/VW.png" alt="" width={'100%'} height={'300px'} style={{ objectFit: 'contain' }} />
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={4} display={'flex'} alignItems={'center'}>
@@ -65,32 +74,11 @@ function Booking_confirm() {
       <Box component="form" onSubmit={formik.handleSubmit}>
         <TextField
           style={textfieldstyle}
-          name='name'
+          name='licencenumber'
           onChange={formik.handleChange}
-          value={formik.values.name}
-          error={formik.touched.name && Boolean(formik.errors.name)}
-          helperText={formik.touched.name && formik.errors.name}
-          placeholder='Enter your name'
-          fullWidth
-
-        />
-        <TextField
-          style={textfieldstyle}
-          name='email'
-          onChange={formik.handleChange}
-          value={formik.values.email}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          placeholder='Enter Email'
-          fullWidth
-        />
-        <TextField
-          style={textfieldstyle}
-          name='license'
-          onChange={formik.handleChange}
-          value={formik.values.license}
-          error={formik.touched.license && Boolean(formik.errors.license)}
-          helperText={formik.touched.license && formik.errors.license}
+          value={formik.values.licencenumber}
+          error={formik.touched.licencenumber && Boolean(formik.errors.licencenumber)}
+          helperText={formik.touched.licencenumber && formik.errors.licencenumber}
           placeholder='Enter License Number'
           fullWidth
         />

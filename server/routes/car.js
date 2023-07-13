@@ -20,8 +20,6 @@ router.post('/create', validateToken, async (req, res) => {
         gear: yup.string().trim().required(),
         seats: yup.number().required(),
         price: yup.number().required(),
-        name: yup.string().trim().required(),
-        email: yup.string().trim().email().required(),
         license: yup.string().trim().required(),
     })
     try {
@@ -40,8 +38,6 @@ router.post('/create', validateToken, async (req, res) => {
     data.make = data.make.trim();
     data.type = data.type.trim();
     data.gear = data.gear.trim();
-    data.name = data.name.trim();
-    data.email = data.email.trim();
     data.license = data.license.trim();
     data.userid = req.user.id;
 
