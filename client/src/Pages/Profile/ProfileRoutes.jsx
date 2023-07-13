@@ -40,16 +40,6 @@ function ProfileRoutes() {
                                     <ListItemText primary="Help" />
                                 </ListItemButton>
                             </ListItem>
-                            <ListItem>
-                                <ListItemButton LinkComponent={Link} to='/profile/bookings/rating'>
-                                    <ListItemText primary="rating" />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem>
-                                <ListItemButton LinkComponent={Link} to='/profile/help/view'>
-                                    <ListItemText primary="help view" />
-                                </ListItemButton>
-                            </ListItem>
                         </List>
                     </Card>
                 </Grid>
