@@ -19,8 +19,6 @@ function RegisterCar() {
       gear: '',
       seats: '',
       price: '',
-      name: '',
-      email: '',
       license: '',
 
     },
@@ -33,8 +31,6 @@ function RegisterCar() {
       gear: yup.string().trim().required('Gear is required'),
       seats: yup.number().required('Seats is required'),
       price: yup.number().required('Price is required'),
-      name: yup.string().trim().required('Name is required'),
-      email: yup.string().trim().email('Email must be valid').required('Email is required'),
       license: yup.string().trim().required('License is required'),
 
     }),
@@ -45,8 +41,6 @@ function RegisterCar() {
       data.make = data.make.trim();
       data.type = data.type.trim();
       data.gear = data.gear.trim();
-      data.name = data.name.trim();
-      data.email = data.email.trim();
       data.license = data.license.trim();
       console.log(data);
       http.post('/car/create', data)
@@ -206,34 +200,6 @@ function RegisterCar() {
           <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
             and this car belongs to:
           </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                varient='filled'
-                style={textfieldstyle}
-                name='name'
-                onChange={formik.handleChange}
-                value={formik.values.name}
-                error={formik.touched.name && Boolean(formik.errors.name)}
-                helperText={formik.touched.name && formik.errors.name}
-                placeholder='Driver Name'
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                varient='filled'
-                style={textfieldstyle}
-                name='email'
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-                placeholder='Driver email'
-                fullWidth
-              />
-            </Grid>
-          </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
