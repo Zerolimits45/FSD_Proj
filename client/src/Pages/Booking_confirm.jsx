@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import { useNavigate, useLocation } from 'react-router-dom'
 import * as yup from 'yup'
 import http from '../http'
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 
 function Booking_confirm() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
@@ -54,10 +55,13 @@ function Booking_confirm() {
                 <Grid item xs={12} md={4} display={'flex'} alignItems={'center'}>
                   <Box style={{ display: 'flex', flexDirection: 'column' }}>
                     <Typography variant='h6' fontWeight={600}>
-                      Volkswagen Golf
+                      Volkswagen Golf | Sedan
                     </Typography>
                     <Typography variant='h6' fontWeight={600}>
-                      $100
+                      <AccessTimeFilledIcon fontSize='small' /> {startDate} - {endDate}
+                    </Typography>
+                    <Typography variant='h6' fontWeight={600}>
+                      Total: $450
                     </Typography>
                   </Box>
                 </Grid>
