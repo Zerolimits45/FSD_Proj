@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react'
 import http from '../../http'
 
 function Registered_Cars() {
-    const paperStyle = { width: '100%', marginTop: 10 }
+    const cardStyle = { width: '100%', marginTop: 10 }
     const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
+    const carTitle = { color: "#150039", fontWeight: "bold" }
+    
 
     //fetching car list
     const [carList, setCarList] = useState([]);
@@ -28,7 +30,7 @@ function Registered_Cars() {
                 {
                     carList.map((car) => (
                         <Grid item xs={12} md={6} xl={4}>
-                            <Card elevation={5} style={paperStyle}>
+                            <Card elevation={5} style={cardStyle}>
                                 <CardContent>
                                     <Typography>
                                         {car.model} {car.make} | {car.type}

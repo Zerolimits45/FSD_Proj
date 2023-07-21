@@ -8,7 +8,7 @@ import http from '../../http';
 
 function Password_Edit() {
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
-
+    const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' };
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -87,14 +87,20 @@ function Password_Edit() {
                         <Button
                             type="submit"
                             variant='contained'
-                            style={{ backgroundColor: '#FF4E00', color: 'white', marginTop: '1rem' }}
+                            color='btn'
+                            style={btnstyle}
                             onClick={() => formik.handleSubmit}
                         >
                             Save Password
                         </Button>
                     </Grid>
                 </Grid>
-                <Button LinkComponent={Link} to={`/profile/account/${id}`} style={{ backgroundColor: 'white', marginTop: '1rem' }}>Back</Button>
+                <Button
+                    LinkComponent={Link} to={`/profile/account/${id}`}
+                    style={{ backgroundColor: 'white', marginTop: '1rem', fontWeight: 'bold'}}
+                >
+                    Back
+                </Button>
             </Box>
         </Container>
 

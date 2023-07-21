@@ -69,7 +69,7 @@ function Change_Password() {
           <TextField
             style={fieldspacing}
             name="password"
-            placeholder= 'New Password'
+            placeholder='New Password'
             value={formik.values.password}
             onChange={formik.handleChange}
             error={formik.touched.password && Boolean(formik.errors.password)}
@@ -86,7 +86,14 @@ function Change_Password() {
             helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
             fullWidth
           />
-          <Button type="submit" color='primary' variant='contained' fullWidth style={btnstyle}>Change Password</Button>
+          <Button type="submit"
+            variant="contained"
+            color="btn"
+            style={btnstyle}
+            fullWidth
+          >
+            Change Password
+          </Button>
         </Box>
       </Paper>
     </Grid>

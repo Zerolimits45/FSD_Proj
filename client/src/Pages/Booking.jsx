@@ -31,9 +31,12 @@ function Booking() {
             window.location.href = url;
         }
     })
+
     const paperStyle = { width: '100%', marginTop: 10 }
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px' }
     const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
+    const carTitle = { color: "#150039", fontWeight: "semibold" }
+
     return (
         <Container maxWidth='xl'>
             <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
@@ -142,10 +145,10 @@ function Booking() {
                         <Grid item xs={12} md={6} xl={4}>
                             <Card elevation={5} style={paperStyle}>
                                 <CardContent>
-                                    <Typography>
+                                    <Typography style={carTitle}>
                                         {car.model} {car.make} | {car.type}
                                     </Typography>
-                                    <Typography>
+                                    <Typography style={carTitle}>
                                         {car.gear} | {car.seats} seater
                                     </Typography>
                                     <img src="../images/VW.png" alt="" width={'100%'} />
