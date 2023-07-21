@@ -10,12 +10,11 @@ function Account() {
     const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' };
     const accountTitle = { color: "#150039", fontWeight: "bold" }
     const accountText = { color: "#150039" , fontWeight: "semibold"}
-    const { id } = useParams();
 
     const { user, setUser } = useContext(UserContext)
 
     useEffect(() => {
-        http.get(`/user/profile/${id}`).then((res) => {
+        http.get(`/user/profile/${user.id}`).then((res) => {
             setUser(res.data)
         });
     }, []);
@@ -59,7 +58,7 @@ function Account() {
                         color="btn"
                         style={btnstyle}
                         LinkComponent={Link}
-                        to={`/profile/account/edit/${user.id}`}
+                        to={`/profile/account/edit`}
                     >
                         Edit Details
                     </Button>

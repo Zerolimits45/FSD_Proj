@@ -45,7 +45,7 @@ export default function Navbar() {
                         {user && (
                             <>
                                 <AccountCircle style={{ color: 'white' }} />
-                                <Button color="inherit" LinkComponent={Link} to={`/profile/account/${user.id}`}>{user.name}</Button>
+                                <Button color="inherit" LinkComponent={Link} to={`/profile/account`}>{user.name}</Button>
                                 <Button onClick={logout} style={{ color: 'white' }}>Logout</Button>
                             </>
                         )

@@ -9,7 +9,7 @@ import http from '../../http';
 function Password_Edit() {
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
     const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' };
-    const { id } = useParams();
+    const { user, setUser } = useContext(UserContext)
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -24,10 +24,10 @@ function Password_Edit() {
             confirmPassword: yup.string().trim().min(8).max(50).oneOf([yup.ref('newPassword')], 'Passwords Do Not Match').required()
         }),
         onSubmit: (data) => {
-            http.put(`/user/profile/changepassword/${id}`, data)
+            http.put(`/user/profile/changepassword/${user.id}`, data)
                 .then((res) => {
                     console.log(res.data);
-                    navigate(`/profile/account/${id}`);
+                    navigate(`/profile/account`);
                 })
                 .catch((error) => {
                     if (error.response && error.response.status === 400) {

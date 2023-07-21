@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent, Avatar } from '@mui/material'
 import { useFormik } from 'formik'
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import http from '../../http';
+import UserContext from '../../contexts/UserContext.js';
 import * as Yup from 'yup'
 
 function Account_Edit() {
-    const { id } = useParams();
+    const { user, setUser } = useContext(UserContext)
     const navigate = useNavigate();
 
-    const [user, setU] = useState({
+    const [u, setU] = useState({
         name: "",
         email: "",
         phone: "",
     });
 
     useEffect(() => {
-        http.get(`/user/profile/${id}`).then((res) => {
+        http.get(`/user/profile/${user.id}`).then((res) => {
             setU(res.data);
         });
     }, []);
@@ -24,7 +25,7 @@ function Account_Edit() {
     const regEx = /^[89]{1}\d{7}$/
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
     const formik = useFormik({
-        initialValues: user,
+        initialValues: u,
         enableReinitialize: true,
         validationSchema: Yup.object({
             name: Yup.string().trim().min(5, 'Minimum 5 characters').required('Required'),
@@ -35,10 +36,10 @@ function Account_Edit() {
             data.name = data.name.trim();
             data.email = data.email.trim();
             data.phone = data.phone.trim();
-            http.put(`/user/profile/edit/${id}`, data)
+            http.put(`/user/profile/edit/${user.id}`, data)
                 .then((res) => {
                     console.log(res.data);
-                    navigate(`/profile/account/${id}`);
+                    navigate(`/profile/account`);
                 });
         },
     });
