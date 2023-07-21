@@ -73,7 +73,7 @@ function Account() {
                 color="btn"
                 style={btnstyle}
                 LinkComponent={Link}
-                to={`/profile/account/changepassword/${user.id}`}
+                to={`/profile/account/changepassword`}
             >
                 Change Password
             </Button>

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent, Avatar } from '@mui/material'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import UserContext from '../../contexts/UserContext.js';
 import http from '../../http';
 
 
@@ -96,7 +97,7 @@ function Password_Edit() {
                     </Grid>
                 </Grid>
                 <Button
-                    LinkComponent={Link} to={`/profile/account/${id}`}
+                    LinkComponent={Link} to={`/profile/account`}
                     style={{ backgroundColor: 'white', marginTop: '1rem', fontWeight: 'bold'}}
                 >
                     Back
