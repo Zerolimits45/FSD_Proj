@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Grid, Container, TextField, Box, Button, Paper, Card, CardContent } from '@mui/material'
+import { Typography, Grid, Container, TextField, Box, Button, Paper, Card, CardContent,Divider } from '@mui/material'
 import { useFormik } from 'formik'
 import { useNavigate, useLocation } from 'react-router-dom'
 import * as yup from 'yup'
@@ -9,6 +9,7 @@ import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 function Booking_confirm() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
+  const dividerstyle = { backgroundColor: '#150039' }
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -60,6 +61,7 @@ function Booking_confirm() {
                     <Typography variant='h6' fontWeight={600}>
                       <AccessTimeFilledIcon fontSize='small' /> {startDate} - {endDate}
                     </Typography>
+                    <Divider style={dividerstyle}/>
                     <Typography variant='h6' fontWeight={600}>
                       Total: $450
                     </Typography>
