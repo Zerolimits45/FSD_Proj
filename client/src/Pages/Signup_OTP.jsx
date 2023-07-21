@@ -32,12 +32,7 @@ function Signup_OTP() {
         }),
         onSubmit: (data) => {
             data.otp = data.otp.trim();
-            const token = localStorage.getItem('token');
-            http.post('/user/register_otp', data, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+            http.post('/user/register_otp', data)
                 .then((res) => {
                     toast.success('Signed Up successfully');
                     navigate('/');

@@ -72,12 +72,12 @@ router.post('/register', async (req, res) => {
     data.role = 'customer';
 
     const token = sign({ otp, data }, process.env.APP_SECRET);
-
-    res.json({ message: 'OTP sent successfully.', token: token });
+    req.session.token = token
+    res.json({ message: 'OTP sent successfully.'});
 })
 
 router.post('/register_otp', async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
+    const token = req.session.token
     try {
         const decoded = verify(token, process.env.APP_SECRET);
         const otp = decoded.otp;
@@ -102,6 +102,7 @@ router.post('/register_otp', async (req, res) => {
         }
 
         const user = await User.create(u);
+        delete req.session.token;
         res.json(user);
     } catch (error) {
         res.status(401).json({ message: 'Invalid token' });
