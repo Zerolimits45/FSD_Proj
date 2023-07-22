@@ -26,7 +26,6 @@ function ProfileRoutes() {
                                     <AccountCircleIcon color='primary' />
                                 </ListItemIcon>
                                 <ListItemButton LinkComponent={Link} to='/profile/account/:id' >
-
                                     <ListItemText primary="Account" />
                                 </ListItemButton>
                             </ListItem>
