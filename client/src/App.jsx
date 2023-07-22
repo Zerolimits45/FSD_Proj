@@ -19,6 +19,7 @@ import Account from './Pages/Profile/Account'
 import Account_Edit from './Pages/Profile/Account_Edit'
 import Password_Edit from './Pages/Profile/Password_Edit'
 import ProfileRoutes from './Pages/Profile/ProfileRoutes'
+import AdminRoutes from './Pages/Admin/AdminRoutes'
 import Help from './Pages/Profile/Help'
 import Forgot_Password from './Pages/Forgot_Password'
 import Change_Password from './Pages/Change_Password'
@@ -53,6 +54,7 @@ function App() {
         <Route path="/booking_confirm" element={<Booking_confirm />} />
         <Route path="/register" element={<RegisterCar />} />
         <Route path="/profile/*" element={<ProfileRoutes />} />
+        <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>
     </UserContext.Provider>
   )
