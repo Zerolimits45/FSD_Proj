@@ -9,7 +9,10 @@ import Account from './Account'
 import Account_Edit from './Account_Edit'
 import Password_Edit from './Password_Edit'
 import Help from './Help'
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import HelpIcon from '@mui/icons-material/Help';
 
 function ProfileRoutes() {
     return (
@@ -19,24 +22,37 @@ function ProfileRoutes() {
                     <Card>
                         <List>
                             <ListItem>
-                                <ListItemButton LinkComponent={Link} to='/profile/account' >
+                                <ListItemIcon>
+                                    <AccountCircleIcon color='primary' />
+                                </ListItemIcon>
+                                <ListItemButton LinkComponent={Link} to='/profile/account/:id' >
+
                                     <ListItemText primary="Account" />
                                 </ListItemButton>
                             </ListItem>
                             <Divider />
                             <ListItem>
+                                <ListItemIcon>
+                                    <DirectionsCarIcon color='primary' />
+                                </ListItemIcon>
                                 <ListItemButton LinkComponent={Link} to='/profile/registered_cars' >
                                     <ListItemText primary="My Cars" />
                                 </ListItemButton>
                             </ListItem>
                             <Divider />
                             <ListItem>
+                                <ListItemIcon>
+                                    <LibraryBooksIcon color='primary' />
+                                </ListItemIcon>
                                 <ListItemButton LinkComponent={Link} to='/profile/bookings' >
                                     <ListItemText primary="My Bookings" />
                                 </ListItemButton>
                             </ListItem>
                             <Divider />
                             <ListItem>
+                                <ListItemIcon>
+                                    <HelpIcon color='primary' />
+                                </ListItemIcon>
                                 <ListItemButton LinkComponent={Link} to='/profile/help'>
                                     <ListItemText primary="Help" />
                                 </ListItemButton>
