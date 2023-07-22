@@ -34,8 +34,6 @@ function Signup() {
             data.password = data.password.trim();
             http.post('/user/register', data)
                 .then((res) => {
-                    const token = res.data.token
-                    localStorage.setItem('token', token)
                     console.log(res.data)
                     navigate("/signup_otp")
                 })

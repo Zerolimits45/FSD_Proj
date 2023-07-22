@@ -1,9 +1,29 @@
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session')
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+app.use(session({
+  secret: process.env.APP_SECRET,
+  resave: false,
+  saveUninitialized: false,
+}))
+
+// Set up CORS with the allowed origin of your client's domain
+const allowedOrigins = ['http://localhost:5173']; // Replace with your client's domain
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Allow cookies to be included with requests
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Simple Route
