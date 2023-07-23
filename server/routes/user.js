@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { User } = require('../models');
+const { User, Sequelize } = require('../models');
 const yup = require("yup");
 const { sign, verify } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
@@ -184,7 +184,7 @@ router.get("/profiles", async (req, res) => {
     let list = await User.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        attributes: ['id', 'email', 'name', 'phone']
+        attributes: ['id', 'email', 'name', 'phone', 'role']
     });
     res.json(list);
 });
