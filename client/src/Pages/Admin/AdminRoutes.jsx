@@ -3,6 +3,7 @@ import { Collapse, Container, List, ListItem, ListItemButton, ListItemIcon, List
 import { Routes, Route, Link } from 'react-router-dom'
 import User_view from './User_view'
 import Cars_view from './Cars_view'
+import Dashboard from './Dashboard'
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -19,7 +20,7 @@ function AdminRoutes() {
                                 <ListItemIcon>
                                     <DashboardIcon color='primary' />
                                 </ListItemIcon>
-                                <ListItemButton>
+                                <ListItemButton LinkComponent={Link} to='/admin/dashboard'>
                                     <ListItemText primary="Dashboard" />
                                 </ListItemButton>
                             </ListItem>
@@ -55,6 +56,7 @@ function AdminRoutes() {
                 </Grid>
                 <Grid item xs={12} sm={9}>
                     <Routes>
+                        <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/users" element={<User_view />} />
                         <Route path="/cars" element={<Cars_view />} />
                         <Route path="/bookings" element={<Bookings_view />} />
