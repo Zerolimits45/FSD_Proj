@@ -11,22 +11,23 @@ function Registered_Cars_Edit() {
   const [carList, setCarList] = useState(null);
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
-  
+
 
   const paperStyle = { width: '100%', marginTop: 10 }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
+  const textstyle = { color: '#150039', fontWeight: 'bold' }
 
   const formik = useFormik({
     initialValues: {
-      startDate: carList ? new Date(carList.startDate).toISOString().split('T')[0]: "",
+      startDate: carList ? new Date(carList.startDate).toISOString().split('T')[0] : "",
       endDate: carList ? new Date(carList.endDate).toISOString().split('T')[0] : "",
       model: carList ? carList.model : "",
       make: carList ? carList.make : "",
       type: carList ? carList.type : "",
       gear: carList ? carList.gear : "",
-      seats: carList ? carList.seats: "",
-      price: carList ? carList.price: "",
+      seats: carList ? carList.seats : "",
+      price: carList ? carList.price : "",
     },
     validationSchema: yup.object().shape({
       startDate: yup.string().trim().required('Start date is required'),
@@ -48,11 +49,11 @@ function Registered_Cars_Edit() {
       console.log(data);
 
       http.put('/car/' + id, data)
-      .then((res) => {
-        enqueueSnackbar('Car details saved', { variant: 'success' });
-        console.log(res.data);
-      }
-      )
+        .then((res) => {
+          enqueueSnackbar('Car details saved', { variant: 'success' });
+          console.log(res.data);
+        }
+        )
     },
     enableReinitialize: true
   });
@@ -68,42 +69,64 @@ function Registered_Cars_Edit() {
   return (
     <Container maxWidth='xl'>
       <Box component="form" onSubmit={formik.handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              varient='filled'
-              style={textfieldstyle}
-              name='startDate'
-              type='date'
-              onChange={formik.handleChange}
-              value= {formik.values.startDate}
-              error={formik.touched.startDate && Boolean(formik.errors.startDate)}
-              helperText={formik.touched.startDate && formik.errors.startDate}
-              placeholder='Registration start date'
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              varient='filled'
-              style={textfieldstyle}
-              name='endDate'
-              type='date'
-              onChange={formik.handleChange}
-              value= {formik.values.endDate}
-              error={formik.touched.endDate && Boolean(formik.errors.endDate)}
-              helperText={formik.touched.endDate && formik.errors.endDate}
-              placeholder='Registration end date'
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
-          Please fill in your car details:
+        <Typography variant='h6' color="white" marginBottom={2}>
+          Edit time period of your car registration:
         </Typography>
-        <Grid container spacing={2}>
+        <Card>
+          <CardContent>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <Typography variant='h7' style={textstyle}>
+                  Start Date:
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Typography variant='h7' style={textstyle}>
+                  End Date:
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <TextField
+                  varient='filled'
+                  style={textfieldstyle}
+                  name='startDate'
+                  type='date'
+                  onChange={formik.handleChange}
+                  value={formik.values.startDate}
+                  error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+                  helperText={formik.touched.startDate && formik.errors.startDate}
+                  placeholder='Registration start date'
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  varient='filled'
+                  style={textfieldstyle}
+                  name='endDate'
+                  type='date'
+                  onChange={formik.handleChange}
+                  value={formik.values.endDate}
+                  error={formik.touched.endDate && Boolean(formik.errors.endDate)}
+                  helperText={formik.touched.endDate && formik.errors.endDate}
+                  placeholder='Registration end date'
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+
+        <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
+          Edit details of your car:
+        </Typography>
+        <Card>
+          <CardContent>
+            <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField
+              label="Car Model"
               varient='filled'
               style={textfieldstyle}
               name='model'
@@ -117,6 +140,7 @@ function Registered_Cars_Edit() {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
+              label="Car make"
               varient='filled'
               style={textfieldstyle}
               name='make'
@@ -132,6 +156,7 @@ function Registered_Cars_Edit() {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField
+              label="Car Type"
               varient='filled'
               style={textfieldstyle}
               name='type'
@@ -145,6 +170,7 @@ function Registered_Cars_Edit() {
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
+              label="Gear type"
               varient='filled'
               style={textfieldstyle}
               name='gear'
@@ -160,6 +186,7 @@ function Registered_Cars_Edit() {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField
+              label="No. of Seats"
               varient='filled'
               style={textfieldstyle}
               name='seats'
@@ -171,10 +198,9 @@ function Registered_Cars_Edit() {
               fullWidth
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField
+             label="Price per day"
               varient='filled'
               style={textfieldstyle}
               name='price'
@@ -188,6 +214,9 @@ function Registered_Cars_Edit() {
             />
           </Grid>
         </Grid>
+          </CardContent>
+        </Card>
+        
         {/* upload image of car */}
         <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
           Please upload an image of your car:

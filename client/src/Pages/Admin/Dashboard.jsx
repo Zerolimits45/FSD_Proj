@@ -9,6 +9,12 @@ function Dashboard() {
             setUserList(res.data);
         });
     })
+    const [carList, setCarList] = useState([]);
+    useEffect(() => {
+        http.get('/car/all').then((res) => {
+            setCarList(res.data);
+        })
+    }, [])
 
     return (
         <Container maxWidth='xl'>
@@ -44,7 +50,7 @@ function Dashboard() {
                                 Total Registered Cars
                             </Typography>
                             <Typography variant='h3' color="primary" marginBottom={2} align='center'>
-                                100
+                                {carList.length}
                             </Typography>
                         </CardContent>
                     </Card>
