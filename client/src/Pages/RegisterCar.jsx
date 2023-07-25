@@ -256,7 +256,7 @@ function RegisterCar() {
                   </label>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <Button onClick={() => setStep(2)} style={backbtnstyle} fullWidth>
+                  <Button onClick={() => setStep(1)} style={backbtnstyle} fullWidth>
                     Back
                   </Button>
                 </Grid>
@@ -289,7 +289,7 @@ function RegisterCar() {
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <Button onClick={() => setStep(0)} style={backbtnstyle} fullWidth>
+                  <Button onClick={() => setStep(2)} style={backbtnstyle} fullWidth>
                     Back
                   </Button>
                 </Grid>
