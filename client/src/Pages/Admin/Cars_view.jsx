@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid'
+import http from '../../http'
 
 function RenderButton(props) {
     const { hasFocus, value } = props;
@@ -40,6 +41,8 @@ function RenderButton(props) {
     );
 }
 
+
+
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'model', headerName: 'Model', width: 70 },
@@ -51,12 +54,26 @@ const columns = [
     { field: 'action', headerName: 'Actions', width: 200, renderCell: RenderButton },
 ];
 
-const rows = [
-    { id: 1, model: 'Peugot', make: '406', type: 'Sedan', gear: 'Automatic', seats: '5', price: '100' },
-
-];
-
 function Cars_view() {
+
+    const [carList, setCarList] = useState([]);
+    useEffect(() => {
+        http.get('/car/all').then((res) => {
+            setCarList(res.data);
+        })
+    }, [])
+
+
+    const rows = carList.map((car) => ({
+        id: car.id,
+        model: car.model,
+        make: car.make,
+        type: car.type,
+        gear: car.gear,
+        seats: car.seats,
+        price: car.price,
+    }));
+
     return (
         <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
             <DataGrid
