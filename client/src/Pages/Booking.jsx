@@ -14,7 +14,7 @@ function Booking() {
     const [carList, setCarList] = useState([]);
     const [carId, setCarId] = useState('')
     const navigate = useNavigate();
-    const {user} = useContext(UserContext)
+    const { user } = useContext(UserContext)
 
     const handleRent = (carId) => {
         setCarId(carId);
@@ -52,41 +52,57 @@ function Booking() {
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px' }
     const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
     const carTitle = { color: "#150039", fontWeight: "semibold" }
+    const textstyle = { color: '#150039', fontWeight: 'bold' }
 
     return (
         <Container maxWidth='xl'>
             <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
                 Set your date and choose a car
             </Typography>
+
             <form onSubmit={formik.handleSubmit}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            varient='filled'
-                            style={textfieldstyle}
-                            name='startDate'
-                            type='date'
-                            onChange={formik.handleChange}
-                            value={formik.values.startDate}
-                            error={formik.touched.startDate && Boolean(formik.errors.startDate)}
-                            helperText={formik.touched.startDate && formik.errors.startDate}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            varient='filled'
-                            style={textfieldstyle}
-                            name='endDate'
-                            type='date'
-                            helperText={formik.touched.endDate && formik.errors.endDate}
-                            onChange={formik.handleChange}
-                            value={formik.values.endDate}
-                            error={formik.touched.endDate && Boolean(formik.errors.endDate)}
-                            fullWidth
-                        />
-                    </Grid>
-                </Grid>
+                <Card>
+                    <CardContent>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={6}>
+                                <Typography variant='h7' style={textstyle}>
+                                    Start Date:
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Typography variant='h7' style={textstyle}>
+                                    End Date:
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    varient='filled'
+                                    style={textfieldstyle}
+                                    name='startDate'
+                                    type='date'
+                                    onChange={formik.handleChange}
+                                    value={formik.values.startDate}
+                                    error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+                                    helperText={formik.touched.startDate && formik.errors.startDate}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    varient='filled'
+                                    style={textfieldstyle}
+                                    name='endDate'
+                                    type='date'
+                                    helperText={formik.touched.endDate && formik.errors.endDate}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.endDate}
+                                    error={formik.touched.endDate && Boolean(formik.errors.endDate)}
+                                    fullWidth
+                                />
+                            </Grid>
+                        </Grid>
+                    </CardContent>
+                </Card>
             </form>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
