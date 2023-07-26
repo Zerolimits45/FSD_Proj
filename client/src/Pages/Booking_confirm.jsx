@@ -10,7 +10,8 @@ import { differenceInDays } from 'date-fns';
 function Booking_confirm() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
-  const dividerstyle = { backgroundColor: '#150039' }
+  const dividerstyle = { backgroundColor: '#150039', fontWeight: 'bold', margin: '10px 0' }
+  const textstyle = { color: '#150039'}
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -69,14 +70,14 @@ function Booking_confirm() {
                 </Grid>
                 <Grid item xs={12} md={4} display={'flex'} alignItems={'center'}>
                   <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                    <Typography variant='h6' fontWeight={600}>
+                    <Typography variant='h5' fontWeight={600} style={textstyle}>
                     {car.model} {car.make} | {car.type}
                     </Typography>
-                    <Typography variant='h6' fontWeight={600}>
-                      <AccessTimeFilledIcon fontSize='small' /> {startDate} - {endDate}
+                    <Typography variant='h6' fontWeight={600} marginTop={2} style={textstyle}>
+                      <AccessTimeFilledIcon fontSize='small' /> {daysDifference} days
                     </Typography>
                     <Divider style={dividerstyle} />
-                    <Typography variant='h6' fontWeight={600}>
+                    <Typography variant='h6' fontWeight={600} style={textstyle}>
                       Total: $ {car.price * daysDifference}
                     </Typography>
                   </Box>
@@ -89,7 +90,7 @@ function Booking_confirm() {
         </Grid>
       </Grid>
       <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
-        Driver details
+        Please fill up your details:
       </Typography>
       <Box component="form" onSubmit={formik.handleSubmit}>
         <TextField
