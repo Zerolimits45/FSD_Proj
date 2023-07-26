@@ -5,6 +5,7 @@ import * as yup from 'yup'
 import { useEffect, useState } from 'react'
 import http from '../../http'
 import { useSnackbar } from 'notistack';
+import { differenceInDays } from 'date-fns';
 
 function Registered_Cars_Edit() {
   //fetching car list
@@ -31,7 +32,12 @@ function Registered_Cars_Edit() {
     },
     validationSchema: yup.object().shape({
       startDate: yup.string().trim().required('Start date is required'),
-      endDate: yup.string().trim().required('End date is required'),
+      endDate: yup.string().trim().required('End date is required')
+        .test('is-after-or-equal-start-date', 'End date must be after start date', function (value) {
+          const startDate = this.resolve(yup.ref('startDate'));
+          return startDate && differenceInDays(new Date(value), new Date(startDate)) >= 0;
+        }),
+
       model: yup.string().trim().required('Model is required'),
       make: yup.string().trim().required('Make is required'),
       type: yup.string().trim().required('Type is required'),
@@ -40,6 +46,7 @@ function Registered_Cars_Edit() {
       price: yup.number().required('Price is required'),
     }),
     onSubmit: (data) => {
+      data.price = Number(data.price);
       data.startDate = data.startDate.trim();
       data.endDate = data.endDate.trim();
       data.model = data.model.trim();
@@ -124,99 +131,99 @@ function Registered_Cars_Edit() {
         <Card>
           <CardContent>
             <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Car Model"
-              varient='filled'
-              style={textfieldstyle}
-              name='model'
-              onChange={formik.handleChange}
-              value={formik.values.model}
-              error={formik.touched.model && Boolean(formik.errors.model)}
-              helperText={formik.touched.model && formik.errors.model}
-              placeholder='Car model'
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Car make"
-              varient='filled'
-              style={textfieldstyle}
-              name='make'
-              onChange={formik.handleChange}
-              value={formik.values.make}
-              error={formik.touched.make && Boolean(formik.errors.make)}
-              helperText={formik.touched.make && formik.errors.make}
-              placeholder='Car make'
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Car Type"
-              varient='filled'
-              style={textfieldstyle}
-              name='type'
-              onChange={formik.handleChange}
-              value={formik.values.type}
-              error={formik.touched.type && Boolean(formik.errors.type)}
-              helperText={formik.touched.type && formik.errors.type}
-              placeholder='Car Type'
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Gear type"
-              varient='filled'
-              style={textfieldstyle}
-              name='gear'
-              onChange={formik.handleChange}
-              value={formik.values.gear}
-              error={formik.touched.gear && Boolean(formik.errors.gear)}
-              helperText={formik.touched.gear && formik.errors.gear}
-              placeholder='Gear type'
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="No. of Seats"
-              varient='filled'
-              style={textfieldstyle}
-              name='seats'
-              onChange={formik.handleChange}
-              value={formik.values.seats}
-              error={formik.touched.seats && Boolean(formik.errors.seats)}
-              helperText={formik.touched.seats && formik.errors.seats}
-              placeholder='No. of Seats'
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-             label="Price per day"
-              varient='filled'
-              style={textfieldstyle}
-              name='price'
-              type='number'
-              onChange={formik.handleChange}
-              value={formik.values.price}
-              error={formik.touched.price && Boolean(formik.errors.price)}
-              helperText={formik.touched.price && formik.errors.price}
-              placeholder='Price per day'
-              fullWidth
-            />
-          </Grid>
-        </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="Car Model"
+                  varient='filled'
+                  style={textfieldstyle}
+                  name='model'
+                  onChange={formik.handleChange}
+                  value={formik.values.model}
+                  error={formik.touched.model && Boolean(formik.errors.model)}
+                  helperText={formik.touched.model && formik.errors.model}
+                  placeholder='Car model'
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="Car make"
+                  varient='filled'
+                  style={textfieldstyle}
+                  name='make'
+                  onChange={formik.handleChange}
+                  value={formik.values.make}
+                  error={formik.touched.make && Boolean(formik.errors.make)}
+                  helperText={formik.touched.make && formik.errors.make}
+                  placeholder='Car make'
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="Car Type"
+                  varient='filled'
+                  style={textfieldstyle}
+                  name='type'
+                  onChange={formik.handleChange}
+                  value={formik.values.type}
+                  error={formik.touched.type && Boolean(formik.errors.type)}
+                  helperText={formik.touched.type && formik.errors.type}
+                  placeholder='Car Type'
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="Gear type"
+                  varient='filled'
+                  style={textfieldstyle}
+                  name='gear'
+                  onChange={formik.handleChange}
+                  value={formik.values.gear}
+                  error={formik.touched.gear && Boolean(formik.errors.gear)}
+                  helperText={formik.touched.gear && formik.errors.gear}
+                  placeholder='Gear type'
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="No. of Seats"
+                  varient='filled'
+                  style={textfieldstyle}
+                  name='seats'
+                  onChange={formik.handleChange}
+                  value={formik.values.seats}
+                  error={formik.touched.seats && Boolean(formik.errors.seats)}
+                  helperText={formik.touched.seats && formik.errors.seats}
+                  placeholder='No. of Seats'
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="Price per day"
+                  varient='filled'
+                  style={textfieldstyle}
+                  name='price'
+                  type='number'
+                  onChange={formik.handleChange}
+                  value={formik.values.price}
+                  error={formik.touched.price && Boolean(formik.errors.price)}
+                  helperText={formik.touched.price && formik.errors.price}
+                  placeholder='Price per day'
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
           </CardContent>
         </Card>
-        
+
         {/* upload image of car */}
         <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
           Please upload an image of your car:
