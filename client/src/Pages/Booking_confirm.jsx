@@ -83,14 +83,12 @@ function Booking_confirm() {
                   </Box>
                 </Grid>
               </Grid>
-
-
             </CardContent>
           </Card>
         </Grid>
       </Grid>
       <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
-        Please fill up your details:
+        Please fill up your details
       </Typography>
       <Box component="form" onSubmit={formik.handleSubmit}>
         <TextField
