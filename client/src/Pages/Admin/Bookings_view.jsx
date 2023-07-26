@@ -54,7 +54,7 @@ function Bookings_view() {
     
     const [bookingList, setBookingList] = useState([]);
     useEffect(() => {
-        http.get('/booking/user').then((res) => {
+        http.get('/booking').then((res) => {
             setBookingList(res.data);
         })
     }, [])
