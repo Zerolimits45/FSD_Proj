@@ -4,7 +4,8 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 import http from '../http'
 import { useSnackbar } from 'notistack';
-import { useState } from 'react'
+import { useState } from 'react';
+import { differenceInDays } from 'date-fns';
 
 function RegisterCar() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
@@ -29,7 +30,11 @@ function RegisterCar() {
     },
     validationSchema: yup.object().shape({
       startDate: yup.string().trim().required('Start date is required'),
-      endDate: yup.string().trim().required('End date is required'),
+      endDate: yup.string().trim().required('End date is required')
+        .test('is-after-or-equal-start-date', 'End date must be after start date', function (value) {
+          const startDate = this.resolve(yup.ref('startDate'));
+          return startDate && differenceInDays(value, startDate) >= 0;
+        }),
       model: yup.string().trim().required('Model is required'),
       make: yup.string().trim().required('Make is required'),
       type: yup.string().trim().required('Type is required'),
