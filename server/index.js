@@ -1,4 +1,12 @@
 const express = require('express');
+const router = express.Router();
+const { validateToken } = require('../middlewares/auth');
+const { upload } = require('../middlewares/upload');
+router.post('/upload', validateToken, upload, (req, res) => {
+  res.json({ filename: req.file.filename });
+});
+module.exports = router;
+
 const cors = require('cors');
 const session = require('express-session')
 require('dotenv').config();
@@ -25,22 +33,27 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static('public'));
 
 // Simple Route
 app.get("/", (req, res) => {
-    res.send("Welcome to the learning space.");
+  res.send("Welcome to the learning space.");
 });
 
 // authentication for help page
 app.get('/help', (req, res) => {
-    const isAuthenticated = req.user ? true : false; // Check if the user is authenticated
-    res.render('help', { isAuthenticated }); // Render the React component with the authentication status
-  });
-  
+  const isAuthenticated = req.user ? true : false; // Check if the user is authenticated
+  res.render('help', { isAuthenticated }); // Render the React component with the authentication status
+});
+
 
 // Routes
 const userRoute = require("./routes/user")
 app.use("/user", userRoute)
+
+const fileRoute = require('./routes/file');
+app.use("/file", fileRoute);
 
 const ratingRoute = require("./routes/rating")
 app.use("/profile/rate", ratingRoute)
@@ -56,8 +69,8 @@ app.use("/booking", bookingRoute)
 
 const db = require('./models');
 db.sequelize.sync({ alter: true }).then(() => {
-    let port = process.env.APP_PORT;
-    app.listen(port, () => {
-        console.log(`⚡ Server running on http://localhost:${port}`);
-    });
+  let port = process.env.APP_PORT;
+  app.listen(port, () => {
+    console.log(`⚡ Server running on http://localhost:${port}`);
+  });
 });
