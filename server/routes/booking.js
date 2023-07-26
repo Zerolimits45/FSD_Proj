@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
     let list = await Booking.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        attributes: ['id', 'startdate', 'enddate', 'licencenumber']
+        attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status']
     });
     res.json(list);
 });
@@ -52,7 +52,7 @@ router.get("/", async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         let id = req.params.id;
-        const booking = await Booking.findByPk(id, { attributes: ['id', 'email', 'startdate', 'enddate', 'licencenumber', 'price', 'userid', 'carid'] });
+        const booking = await Booking.findByPk(id, { attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status', 'userid', 'carid'] });
         res.send(booking);
     } catch (err) {
         console.log(err);
@@ -61,7 +61,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/user', validateToken, async (req, res) => {
-    const booking = await Car.findAll({ where: { userid: req.user.id } });
+    const booking = await Booking.findAll({ where: { userid: req.user.id } });
     res.json(booking);
 });
 

@@ -15,6 +15,12 @@ function Dashboard() {
             setCarList(res.data);
         })
     }, [])
+    const [bookingList, setBookingList] = useState([]);
+    useEffect(() => {
+        http.get('/booking').then((res) => {
+            setBookingList(res.data);
+        })
+    }, [])
 
     return (
         <Container maxWidth='xl'>
@@ -38,7 +44,7 @@ function Dashboard() {
                                 Total Bookings
                             </Typography>
                             <Typography variant='h3' color="primary" marginBottom={2} align='center'>
-                                100
+                                {bookingList.length}
                             </Typography>
                         </CardContent>
                     </Card>
