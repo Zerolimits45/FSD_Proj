@@ -44,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Car.associate = models => {
         Car.belongsTo(models.User, { foreignKey: 'userid', as: 'user' })
+        Car.hasMany(models.Booking, { foreignKey: 'carid', onDelete: 'cascade' })
     }
 
     return Car;

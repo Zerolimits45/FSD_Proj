@@ -1,14 +1,25 @@
 import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent } from '@mui/material'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useEffect, useState } from 'react'
 import http from '../http'
+import { differenceInDays } from 'date-fns';
+import UserContext from '../contexts/UserContext.js';
+
 
 function Booking() {
     //fetching car list
     const [carList, setCarList] = useState([]);
+    const [carId, setCarId] = useState('')
+    const navigate = useNavigate();
+    const {user} = useContext(UserContext)
+
+    const handleRent = (carId) => {
+        setCarId(carId);
+        formik.handleSubmit();
+    };
 
     useEffect(() => {
         http.get('/car/all').then((res) => {
@@ -23,12 +34,17 @@ function Booking() {
             endDate: ''
         },
         validationSchema: Yup.object({
-            startDate: Yup.date().required(''),
-            endDate: Yup.date().required('')
+            startDate: Yup.date().required('Start Date Required'),
+            endDate: Yup.date()
+                .required('End Date Required')
+                .test('is-after-or-equal-start-date', 'End date must be after start date', function (value) {
+                    const startDate = this.resolve(Yup.ref('startDate'));
+                    return startDate && differenceInDays(value, startDate) >= 0;
+                }),
         }),
         onSubmit: values => {
-            const url = `http://localhost:5173/booking_confirm?startDate=${values.startDate}&endDate=${values.endDate}`;
-            window.location.href = url;
+            const url = `/booking_confirm?startDate=${values.startDate}&endDate=${values.endDate}&carId=${carId}`;
+            navigate(url);
         }
     })
 
@@ -156,7 +172,7 @@ function Booking() {
                                         <Typography style={{ flexGrow: 1 }}>
                                             ${car.price}/day
                                         </Typography>
-                                        <Button variant='contained' color='btn' style={btnstyle} onClick={() => formik.handleSubmit()}>Rent</Button>
+                                        <Button variant='contained' color='btn' style={btnstyle} onClick={() => handleRent(car.id)}>Rent</Button>
                                     </Box>
                                 </CardContent>
                             </Card>
