@@ -1,34 +1,32 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import http from '../../http'
 
 function RenderButton(props) {
     const { hasFocus, value } = props;
-    const buttonElement = React.useRef(null);
-    const rippleRef = React.useRef(null);
 
-    React.useLayoutEffect(() => {
-        if (hasFocus) {
-            const input = buttonElement.current?.querySelector('input');
-            input?.focus();
-        } else if (rippleRef.current) {
-            rippleRef.current.stop({});
-        }
-    }, [hasFocus]);
+    const [carList, setCarList] = useState([]);
+    useEffect(() => {
+        http.get('/car/all').then((res) => {
+            setCarList(res.data);
+        })
+    }, [])
 
     return (
         <>
+         {carList.map((car) => (
             <Button
-                ref={buttonElement}
+                LinkComponent={Link} to={'/admin/cars/edit/' + car.id}
                 variant="contained"
                 size="small"
                 style={{ backgroundColor: '#6CA0DC' }}
             >
                 Edit
             </Button>
+         ))}
             <Button
-                ref={buttonElement}
                 variant="contained"
                 size="small"
                 style={{ marginLeft: 16, backgroundColor: '#C70000' }}
@@ -36,8 +34,6 @@ function RenderButton(props) {
                 Delete
             </Button>
         </>
-
-
     );
 }
 

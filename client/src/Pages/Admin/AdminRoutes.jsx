@@ -9,6 +9,7 @@ import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import Bookings_view from './Bookings_view'
+import Cars_Edit from './Cars_Edit'
 function AdminRoutes() {
     return (
         <Container maxWidth='xl'>
@@ -59,6 +60,7 @@ function AdminRoutes() {
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/users" element={<User_view />} />
                         <Route path="/cars" element={<Cars_view />} />
+                        <Route path="/cars/edit/:id" element={<Cars_Edit />} /> 
                         <Route path="/bookings" element={<Bookings_view />} />
                     </Routes>
                 </Grid>
