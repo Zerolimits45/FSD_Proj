@@ -136,37 +136,6 @@ function Booking() {
                         </Button>
                     </Box>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
-                        Filter by vehicle class
-                    </Typography>
-                    <Box>
-                        <Button variant='text'>
-                            <Box textAlign={"center"} marginRight={2}>
-                                <img src="../images/Standard.png" alt="" />
-                                <Typography variant='h6' fontSize={14} color="white" marginBottom={2} >
-                                    Standard
-                                </Typography>
-                            </Box>
-                        </Button>
-                        <Button variant='text'>
-                            <Box textAlign={"center"} marginRight={2}>
-                                <img src="../images/Electric.png" alt="" />
-                                <Typography variant='h6' fontSize={14} color="white" marginBottom={2} marginTop={1} >
-                                    Electric
-                                </Typography>
-                            </Box>
-                        </Button>
-                        <Button variant='text'>
-                            <Box textAlign={"center"} marginRight={2}>
-                                <img src="../images/Luxury.png" alt="" />
-                                <Typography variant='h6' fontSize={14} color="white" marginBottom={2} >
-                                    Luxury
-                                </Typography>
-                            </Box>
-                        </Button>
-                    </Box>
-                </Grid>
             </Grid>
             <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
                 Cars that are near you
