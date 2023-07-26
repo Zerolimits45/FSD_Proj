@@ -19,7 +19,15 @@ module.exports = (sequelize, DataTypes) => {
         status: {
             type: DataTypes.STRING,
             allowNull: false
-        }
+        },
+        userid: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        carid: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
     })
     Booking.associate = models => {
         Booking.belongsTo(models.User, { foreignKey: 'userid', as: 'user' })
