@@ -176,7 +176,6 @@ router.get("/profiles", async (req, res) => {
     let search = req.query.search;
     if (search) {
         condition[Sequelize.Op.or] = [
-            { email: { [Sequelize.Op.like]: `%${search}%` } },
             { name: { [Sequelize.Op.like]: `%${search}%` } }
         ];
     }

@@ -12,9 +12,8 @@ router.post('/', validateToken, async (req, res) => {
     // Validate request body
     let validationSchema = yup.object().shape({
         startdate: yup.date().required(),
-        enddate: yup.date().required(),
+        enddate: yup.date().required().min(yup.ref('startdate'), "End date must be after start date"),
         licencenumber: yup.string().trim().min(9).max(9).required(),
-
     })
     try {
         await validationSchema.validate(data,
@@ -29,7 +28,10 @@ router.post('/', validateToken, async (req, res) => {
     data.licencenumber = data.licencenumber.trim();
     data.startdate = new Date(data.startdate);
     data.enddate = new Date(data.enddate);
+    data.status = 'Ongoing';
     data.userid = req.user.id
+    data.carid = data.carid;
+    data.price = data.price
 
     // Create booking
     const booking = await Booking.create(data);
@@ -38,13 +40,6 @@ router.post('/', validateToken, async (req, res) => {
 
 router.get("/", async (req, res) => {
     let condition = {};
-    let search = req.query.search;
-    if (search) {
-        condition[Sequelize.Op.or] = [
-            { email: { [Sequelize.Op.like]: `%${search}%` } },
-            { name: { [Sequelize.Op.like]: `%${search}%` } }
-        ];
-    }
 
     let list = await Booking.findAll({
         where: condition,
@@ -57,12 +52,17 @@ router.get("/", async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         let id = req.params.id;
-        const booking = await Booking.findByPk(id, { attributes: ['id', 'email', 'startdate', 'enddate', 'name', 'licencenumber'] });
+        const booking = await Booking.findByPk(id, { attributes: ['id', 'email', 'startdate', 'enddate', 'licencenumber', 'price', 'userid', 'carid'] });
         res.send(booking);
     } catch (err) {
         console.log(err);
         res.status(500).send('Error retrieving booking');
     }
+});
+
+router.get('/user', validateToken, async (req, res) => {
+    const booking = await Car.findAll({ where: { userid: req.user.id } });
+    res.json(booking);
 });
 
 router.delete("/:id", async (req, res) => {

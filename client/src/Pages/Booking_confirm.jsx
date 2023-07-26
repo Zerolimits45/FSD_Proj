@@ -1,10 +1,11 @@
-import React from 'react'
-import { Typography, Grid, Container, TextField, Box, Button, Paper, Card, CardContent,Divider } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Typography, Grid, Container, TextField, Box, Button, Paper, Card, CardContent, Divider } from '@mui/material'
 import { useFormik } from 'formik'
 import { useNavigate, useLocation } from 'react-router-dom'
 import * as yup from 'yup'
 import http from '../http'
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import { differenceInDays } from 'date-fns';
 
 function Booking_confirm() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
@@ -16,6 +17,17 @@ function Booking_confirm() {
   const searchParams = new URLSearchParams(location.search)
   const startDate = searchParams.get('startDate')
   const endDate = searchParams.get('endDate')
+  const carId = searchParams.get('carId')
+
+  const [car, setCar] = useState([]);
+  const daysDifference = differenceInDays(new Date(endDate), new Date(startDate));
+
+  useEffect(() => {
+    http.get(`/car/${carId}`).then((res) => {
+      setCar(res.data);
+      console.log(res.data);
+    })
+  }, [])
 
   const formik = useFormik({
     initialValues: {
@@ -28,6 +40,8 @@ function Booking_confirm() {
       data.licencenumber = data.licencenumber.trim();
       data.startdate = startDate;
       data.enddate = endDate;
+      data.carid = car.id
+      data.price = car.price * daysDifference
 
       http.post('/booking', data)
         .then((res) => {
@@ -56,14 +70,14 @@ function Booking_confirm() {
                 <Grid item xs={12} md={4} display={'flex'} alignItems={'center'}>
                   <Box style={{ display: 'flex', flexDirection: 'column' }}>
                     <Typography variant='h6' fontWeight={600}>
-                      Volkswagen Golf | Sedan
+                    {car.model} {car.make} | {car.type}
                     </Typography>
                     <Typography variant='h6' fontWeight={600}>
                       <AccessTimeFilledIcon fontSize='small' /> {startDate} - {endDate}
                     </Typography>
-                    <Divider style={dividerstyle}/>
+                    <Divider style={dividerstyle} />
                     <Typography variant='h6' fontWeight={600}>
-                      Total: $450
+                      Total: $ {car.price * daysDifference}
                     </Typography>
                   </Box>
                 </Grid>
