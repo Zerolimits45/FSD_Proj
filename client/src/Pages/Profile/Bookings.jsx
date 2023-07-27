@@ -11,7 +11,7 @@ function Bookings() {
   return (
     <Container maxWidth='xl'>
       <Typography variant='h6' color="white" marginBottom={2}>
-        Your completed bookings
+        Your Bookings
       </Typography>
       <Grid container>
         <Grid item xs={12} md={12}>
@@ -26,19 +26,25 @@ function Bookings() {
                 <Grid item xs={12} md={4} display={'flex'} alignItems={'center'}>
                   <Box style={{ display: 'flex', flexDirection: 'column' }}>
                     <Typography variant='h5' fontWeight={600} style={textstyle}>
+                      Booking Details:
+                    </Typography>
+                    <Typography variant='h5' fontWeight={600} style={textstyle}>
                     stuff | stuff
                     </Typography>
-                    <Typography variant='h6' fontWeight={600} marginTop={2} style={textstyle}>
+                    <Typography variant='h6' fontWeight={600} style={textstyle}>
                       <AccessTimeFilledIcon fontSize='small' /> stuff days
+                    </Typography>
+                    <Typography variant='h6' fontWeight={600} style={textstyle}>
+                      Total: $ price
                     </Typography>
                     <Divider style={dividerstyle} />
                     <Typography variant='h6' fontWeight={600} style={textstyle}>
-                      Total: $ price
+                      Status: status
                     </Typography>
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={12} display={'flex'} justifyContent={'center'}>
-                  <Button variant='contained' style={completestyle}>Complete Booking</Button>
+                  <Button variant='contained' style={completestyle}>Rate Experience</Button> 
                   <Button color='btn' variant='contained' style={btnstyle}>Cancel Booking</Button>
                 </Grid>
               </Grid>
