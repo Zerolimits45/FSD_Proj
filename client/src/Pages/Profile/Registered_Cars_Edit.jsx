@@ -1,4 +1,4 @@
-import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent } from '@mui/material'
+import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent, MenuItem } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
@@ -163,7 +163,7 @@ function Registered_Cars_Edit() {
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <TextField
-                  label="Car Type"
+                  label='Car type'
                   varient='filled'
                   style={textfieldstyle}
                   name='type'
@@ -171,13 +171,17 @@ function Registered_Cars_Edit() {
                   value={formik.values.type}
                   error={formik.touched.type && Boolean(formik.errors.type)}
                   helperText={formik.touched.type && formik.errors.type}
-                  placeholder='Car Type'
                   fullWidth
-                />
+                  select
+                >
+                  <MenuItem value='sedan'>Sedan</MenuItem>
+                  <MenuItem value='suv'>SUV</MenuItem>
+                  <MenuItem value='minivan'>Minivan</MenuItem>
+                </TextField>
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
-                  label="Gear type"
+                  label='Gear type'
                   varient='filled'
                   style={textfieldstyle}
                   name='gear'
@@ -185,9 +189,12 @@ function Registered_Cars_Edit() {
                   value={formik.values.gear}
                   error={formik.touched.gear && Boolean(formik.errors.gear)}
                   helperText={formik.touched.gear && formik.errors.gear}
-                  placeholder='Gear type'
                   fullWidth
-                />
+                  select
+                >
+                  <MenuItem value='manual'>Manual</MenuItem>
+                  <MenuItem value='automatic'>Automatic</MenuItem>
+                </TextField>
               </Grid>
             </Grid>
             <Grid container spacing={2}>
