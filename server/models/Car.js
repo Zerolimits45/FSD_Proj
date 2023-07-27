@@ -36,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        imageFile: {
+            type: DataTypes.STRING
+        },
         userid: {
             type: DataTypes.INTEGER,
             allowNull: false

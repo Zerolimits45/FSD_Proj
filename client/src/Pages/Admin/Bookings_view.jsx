@@ -73,7 +73,7 @@ function RenderButton(props) {
                         onClick={() => {
                             http.delete(`/booking/${booking.id}`).then((res) => {
                                 console.log(res.data)
-                                navigate('/admin/dashboard')
+                                navigate('/admin/bookings')
                             });
                         }}>
                         Delete
