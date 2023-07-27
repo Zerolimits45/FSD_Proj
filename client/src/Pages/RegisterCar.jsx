@@ -6,6 +6,7 @@ import http from '../http'
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { differenceInDays } from 'date-fns';
+import AspectRatio from '@mui/joy/AspectRatio';
 
 function RegisterCar() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0', textAlign: 'left' }
@@ -14,6 +15,8 @@ function RegisterCar() {
   const textstyle = { color: '#150039', fontWeight: 'bold' }
   const { enqueueSnackbar } = useSnackbar();
   const [step, setStep] = useState(0);
+  const [imageFile, setImageFile] = useState(null);
+
 
   const formik = useFormik({
     initialValues: {
@@ -61,6 +64,30 @@ function RegisterCar() {
         )
     },
   });
+
+  const onFileChange = (e) => {
+    let file = e.target.files[0];
+    if (file) {
+      if (file.size > 1024 * 1024) {
+        enqueueSnackbar('Maximun file size is 1MB', { variant: 'error' });
+        return;
+      }
+      let formData = new FormData();
+      formData.append('file', file);
+      http.post('/file/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then((res) => {
+          setImageFile(res.data.filename);
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+    }
+  };
+
   return (
     <Container maxWidth='xl' >
       <Box>
@@ -250,24 +277,27 @@ function RegisterCar() {
           )}
           {step === 2 && (
             <>
-              {/* upload image of car */}
               <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
                 Please upload an image of your car:
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <input
-                    accept="image/*"
-                    style={{ display: 'none' }}
-                    id="raised-button-file"
-                    multiple
-                    type="file"
-                  />
-                  <label htmlFor="raised-button-file">
-                    <Button variant="raised" component="span" style={{ backgroundColor: '#FF4E00', color: 'white' }}>
+                  <Box sx={{ textAlign: 'center', mt: 2 }} >
+                    <Button variant="contained" style={btnstyle} component="label">
                       Upload Image
+                      <input hidden accept="image/*" multiple type="file"
+                        onChange={onFileChange} />
                     </Button>
-                  </label>
+                    {
+                      imageFile && (
+                        <AspectRatio sx={{ mt: 2 }}>
+                          <Box component="img" alt="car image"
+                            src={`${import.meta.env.VITE_FILE_BASE_URL}${imageFile}`}>
+                          </Box>
+                        </AspectRatio>
+                      )
+                    }
+                  </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Button onClick={() => setStep(1)} style={backbtnstyle} fullWidth>
