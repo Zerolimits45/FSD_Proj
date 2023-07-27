@@ -31,8 +31,8 @@ function Cars_Edit() {
       price: carList ? carList.price : "",
     },
     validationSchema: yup.object().shape({
-      startDate: yup.trim().required('Start date is required'),
-      endDate: yup.trim().required('End date is required'),
+      startDate: yup.string().trim().required('Start date is required'),
+      endDate: yup.string().trim().required('End date is required'),
       model: yup.string().trim().required('Model is required'),
       make: yup.string().trim().required('Make is required'),
       type: yup.string().trim().required('Type is required'),
