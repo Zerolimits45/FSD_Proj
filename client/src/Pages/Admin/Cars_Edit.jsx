@@ -13,8 +13,6 @@ function Cars_Edit() {
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
 
-
-  const paperStyle = { width: '100%', marginTop: 10 }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const textstyle = { color: '#150039', fontWeight: 'bold' }
