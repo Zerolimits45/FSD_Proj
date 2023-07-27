@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Grid, Container, TextField, Box, Button, CardContent, Card } from '@mui/material'
+import { Typography, Grid, Container, TextField, Box, Button, CardContent, Card, MenuItem } from '@mui/material'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import http from '../http'
@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { differenceInDays } from 'date-fns';
 
 function RegisterCar() {
-  const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
+  const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0', textAlign: 'left' }
   const backbtnstyle = { margin: '20px 0', fontWeight: 'bold', color: '#150039', backgroundColor: '#FFFFFF' }
   const btnstyle = { margin: '20px 0', fontWeight: 'bold', color: 'white', backgroundColor: '#FF4E00' }
   const textstyle = { color: '#150039', fontWeight: 'bold' }
@@ -33,7 +33,7 @@ function RegisterCar() {
       endDate: yup.string().trim().required('End date is required')
         .test('is-after-or-equal-start-date', 'End date must be after start date', function (value) {
           const startDate = this.resolve(yup.ref('startDate'));
-          return startDate && differenceInDays(value, startDate) >= 0;
+          return startDate && differenceInDays(new Date(value), new Date(startDate)) >= 0;
         }),
       model: yup.string().trim().required('Model is required'),
       make: yup.string().trim().required('Make is required'),
@@ -179,7 +179,12 @@ function RegisterCar() {
                         error={formik.touched.type && Boolean(formik.errors.type)}
                         helperText={formik.touched.type && formik.errors.type}
                         fullWidth
-                      />
+                        select
+                      >
+                        <MenuItem value='sedan'>Sedan</MenuItem>
+                        <MenuItem value='suv'>SUV</MenuItem>
+                        <MenuItem value='minivan'>Minivan</MenuItem>
+                      </TextField>
                     </Grid>
                     <Grid item xs={12} md={6}>
                       <TextField
@@ -192,7 +197,11 @@ function RegisterCar() {
                         error={formik.touched.gear && Boolean(formik.errors.gear)}
                         helperText={formik.touched.gear && formik.errors.gear}
                         fullWidth
-                      />
+                        select
+                      >
+                        <MenuItem value='manual'>Manual</MenuItem>
+                        <MenuItem value='automatic'>Automatic</MenuItem>
+                      </TextField>
                     </Grid>
                   </Grid>
                   <Grid container spacing={2}>
