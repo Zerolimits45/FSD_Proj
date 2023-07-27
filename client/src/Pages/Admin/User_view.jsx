@@ -64,7 +64,7 @@ function RenderButton(props) {
         userList.map((user) => (
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>
-              Delete Tutorial
+              Delete User
             </DialogTitle>
             <DialogContent>
               <DialogContentText>

@@ -6,43 +6,64 @@ import * as yup from 'yup'
 import { useEffect, useState } from 'react'
 import http from '../../http'
 import { useSnackbar } from 'notistack';
+import { differenceInDays } from 'date-fns';
 
 function Bookings_Edit() {
-    const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
-    const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
-    const textstyle = { color: '#150039', fontWeight: 'bold' }
-    
-    const [bookingList, setBookingList] = useState([]);
-    const { enqueueSnackbar } = useSnackbar();
+  const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
+  const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
+  const textstyle = { color: '#150039', fontWeight: 'bold' }
 
-    const formik = useFormik({
-        initialValues: {
-            startDate: bookingList ? new Date(bookingList.startDate).toISOString().split('T')[0] : "",
-            endDate: bookingList ? new Date(bookingList.endDate).toISOString().split('T')[0] : "",
-            licencenumber: bookingList ? bookingList.licencenumber : "",
-            price: bookingList ? bookingList.price : "",
-        },
-        validationSchema: yup.object().shape({
-            startDate: yup.string().trim().required('Start date is required'),
-            endDate: yup.string().trim().required('End date is required'),
-            licencenumber: yup.string().trim().required('Licence number is required'),
-            price: yup.number().required('Price is required'),
+  const [booking, setBooking] = useState({
+    startdate: "",
+    enddate: "",
+    licencenumber: "",
+    price: ""
+  });
+  const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const formik = useFormik({
+    initialValues: booking,
+    validationSchema: yup.object().shape({
+      startdate: yup.date().required('Start Date Required'),
+      enddate: yup.date()
+        .required('End Date Required')
+        .test('is-after-or-equal-start-date', 'End date must be after start date', function (value) {
+          const startDate = this.resolve(yup.ref('startdate'));
+          return startDate && differenceInDays(value, startDate) >= 0;
         }),
-        onSubmit: (data) => {
-            data.startDate = data.startDate.trim();
-            data.endDate = data.endDate.trim();
-            data.licencenumber = data.licencenumber.trim();
-            console.log(data);
+      licencenumber: yup.string().trim().required('Licence number is required'),
+      price: yup.number().required('Price is required'),
+    }),
+    onSubmit: (data) => {
+      data.licencenumber = data.licencenumber.trim();
 
-            http.put('/booking/' + id, data)
-                .then((res) => {
-                    enqueueSnackbar('Booking details saved', { variant: 'success' });
-                    console.log(res.data);
-                }
-                )
-        },
-        enableReinitialize: true
+      http.put('/booking/' + id, data)
+        .then((res) => {
+          enqueueSnackbar('Booking details saved', { variant: 'success' });
+          console.log(res.data);
+        }
+        )
+    },
+    enableReinitialize: true
+  });
+
+  useEffect(() => {
+    http.get(`/booking/${id}`).then((res) => {
+      const startDate = new Date(res.data.startdate).toISOString().split('T')[0];
+      const endDate = new Date(res.data.enddate).toISOString().split('T')[0];
+
+      setBooking({
+        ...res.data,
+        startdate: startDate,
+        enddate: endDate,
+      });
+
+      console.log(res.data);
     });
+  }, []);
+
+
   return (
     <Container maxWidth='xl'>
       <Box component="form" onSubmit={formik.handleSubmit}>
@@ -67,12 +88,12 @@ function Bookings_Edit() {
                 <TextField
                   varient='filled'
                   style={textfieldstyle}
-                  name='startDate'
+                  name='startdate'
                   type='date'
                   onChange={formik.handleChange}
-                  value={formik.values.startDate}
-                  error={formik.touched.startDate && Boolean(formik.errors.startDate)}
-                  helperText={formik.touched.startDate && formik.errors.startDate}
+                  value={formik.values.startdate}
+                  error={formik.touched.startdate && Boolean(formik.errors.startdate)}
+                  helperText={formik.touched.startdate && formik.errors.startdate}
                   placeholder='Booking start date'
                   fullWidth
                 />
@@ -81,12 +102,12 @@ function Bookings_Edit() {
                 <TextField
                   varient='filled'
                   style={textfieldstyle}
-                  name='endDate'
+                  name='enddate'
                   type='date'
                   onChange={formik.handleChange}
-                  value={formik.values.endDate}
-                  error={formik.touched.endDate && Boolean(formik.errors.endDate)}
-                  helperText={formik.touched.endDate && formik.errors.endDate}
+                  value={formik.values.enddate}
+                  error={formik.touched.enddate && Boolean(formik.errors.enddate)}
+                  helperText={formik.touched.enddate && formik.errors.enddate}
                   placeholder='Booking end date'
                   fullWidth
                 />
@@ -108,9 +129,9 @@ function Bookings_Edit() {
                   style={textfieldstyle}
                   name='licencenumber'
                   onChange={formik.handleChange}
-                  value={formik.values.model}
-                  error={formik.touched.model && Boolean(formik.errors.model)}
-                  helperText={formik.touched.model && formik.errors.model}
+                  value={formik.values.licencenumber}
+                  error={formik.touched.licencenumber && Boolean(formik.errors.licencenumber)}
+                  helperText={formik.touched.licencenumber && formik.errors.licencenumber}
                   fullWidth
                 />
               </Grid>
@@ -121,16 +142,19 @@ function Bookings_Edit() {
                   style={textfieldstyle}
                   name='price'
                   onChange={formik.handleChange}
-                  value={formik.values.make}
-                  error={formik.touched.make && Boolean(formik.errors.make)}
-                  helperText={formik.touched.make && formik.errors.make}
+                  value={formik.values.price}
+                  error={formik.touched.price && Boolean(formik.errors.price)}
+                  helperText={formik.touched.price && formik.errors.price}
                   fullWidth
                 />
               </Grid>
             </Grid>
           </CardContent>
         </Card>
-        </Box>
+        <Button type='submit' variant="contained" color='btn' style={btnstyle} >
+          Save Details
+        </Button>
+      </Box>
     </Container>
   )
 }

@@ -73,6 +73,7 @@ router.get('/:id', async (req, res) => {
 // Update car by id
 router.put('/:id', validateToken, async (req, res) => {
     let data = req.body;
+    data.price = parseFloat(data.price);
     // Validate request body
     let validationSchema = yup.object().shape({
         startDate: yup.string()

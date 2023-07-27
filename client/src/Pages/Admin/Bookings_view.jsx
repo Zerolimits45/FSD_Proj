@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom'
 import { DataGrid } from '@mui/x-data-grid';
 import http from '../../http'
 
@@ -17,6 +19,7 @@ function RenderButton(props) {
         }
     }, [hasFocus]);
 
+    const navigate = useNavigate();
     const [bookingList, setBookingList] = useState([]);
     useEffect(() => {
         http.get('/booking').then((res) => {
@@ -24,39 +27,90 @@ function RenderButton(props) {
         })
     }, [bookingList.map((booking) => booking.status)])
 
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <>
-            <Button
-                ref={buttonElement}
-                variant="contained"
-                size="small"
-                style={{ backgroundColor: '#6CA0DC' }}
-            >
-                Edit
-            </Button>
-            <Button
-                ref={buttonElement}
-                variant="contained"
-                size="small"
-                style={{ marginLeft: 16, backgroundColor: '#C70000' }}
-            >
-                Delete
-            </Button>
-            {bookingList.map((booking) => (
-                <Button
-                    ref={buttonElement}
-                    variant="contained"
-                    size="small"
-                    style={{ marginLeft: 16, backgroundColor: '#228B22' }}
-                    onClick={() => {
-                        http.put(`/booking/complete/${booking.id}`).then((res) => {
-                            console.log(res.data)
-                        });
-                    }}
-                >
-                    Complete Booking
-                </Button>
-            ))}
+            {
+                bookingList.map((booking) => (
+                    <Button
+                        ref={buttonElement}
+                        variant="contained"
+                        size="small"
+                        style={{ backgroundColor: '#6CA0DC' }}
+                        LinkComponent={Link} to={`/admin/bookings/edit/${booking.id}`}
+                    >
+                        Edit
+                    </Button>
+                ))
+            }
+            {
+                bookingList.map((booking) => (
+                    <Button
+                        ref={buttonElement}
+                        variant="contained"
+                        size="small"
+                        style={{ marginLeft: 16, backgroundColor: '#C70000' }}
+                        onClick={handleOpen}
+                    >
+                        Delete
+                    </Button>
+                ))
+            }
+            {
+                bookingList.map((booking) => (
+                    booking.status !== 'Completed' && (
+                        <Button
+                            ref={buttonElement}
+                            variant="contained"
+                            size="small"
+                            style={{ marginLeft: 16, backgroundColor: '#228B22' }}
+                            onClick={() => {
+                                http.put(`/booking/complete/${booking.id}`).then((res) => {
+                                    console.log(res.data)
+                                });
+                            }}
+                        >
+                            Complete Booking
+                        </Button>
+                    )
+                ))
+            }
+            {
+                bookingList.map((booking) => (
+                    <Dialog open={open} onClose={handleClose}>
+                        <DialogTitle>
+                            Delete Booking
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Are you sure you want to delete this booking?
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button variant="contained" color="inherit"
+                                onClick={handleClose}>
+                                Cancel
+                            </Button>
+                            <Button variant="contained" color="error"
+                                onClick={() => {
+                                    http.delete(`/booking/${booking.id}`).then((res) => {
+                                        console.log(res.data)
+                                        navigate('/admin/dashboard')
+                                    });
+                                }}>
+                                Delete
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                ))
+            }
         </>
 
 

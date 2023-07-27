@@ -63,7 +63,7 @@ function AdminRoutes() {
                         <Route path="/cars" element={<Cars_view />} />
                         <Route path="/cars/edit/:id" element={<Cars_Edit />} /> 
                         <Route path="/bookings" element={<Bookings_view />} />
-                        <Route path="/bookings/edit" element={<Bookings_Edit />} />
+                        <Route path="/bookings/edit/:id" element={<Bookings_Edit />} />
                     </Routes>
                 </Grid>
             </Grid>
