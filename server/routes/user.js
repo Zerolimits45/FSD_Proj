@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { User, Sequelize } = require('../models');
+const { User, Sequelize, Booking, Car } = require('../models');
 const yup = require("yup");
 const { sign, verify } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
@@ -73,7 +73,7 @@ router.post('/register', async (req, res) => {
 
     const token = sign({ otp, data }, process.env.APP_SECRET);
     req.session.token = token
-    res.json({ message: 'OTP sent successfully.'});
+    res.json({ message: 'OTP sent successfully.' });
 })
 
 router.post('/register_otp', async (req, res) => {
@@ -384,19 +384,27 @@ router.delete("/:id", validateToken, async (req, res) => {
         return;
     }
 
-    let num = await User.destroy({
+    await Booking.destroy({
+        where: { userid: id }
+    });
+
+    await Car.destroy({
+        where: { userid: id }
+    });
+
+    const num = await User.destroy({
         where: { id: id }
-    })
-    if (num == 1) {
+    });
+    if (num === 1) {
         res.json({
             message: "User was deleted successfully."
         });
-    }
-    else {
+    } else {
         res.status(400).json({
             message: `Cannot delete user with id ${id}.`
         });
     }
+
 });
 
 module.exports = router;
