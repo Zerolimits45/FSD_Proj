@@ -35,6 +35,14 @@ function RenderButton(props) {
             >
                 Delete
             </Button>
+            <Button
+                ref={buttonElement}
+                variant="contained"
+                size="small"
+                style={{ marginLeft: 16, backgroundColor: '#228B22' }}
+            >
+                Complete Booking
+            </Button>
         </>
 
 
@@ -49,7 +57,7 @@ function Bookings_view() {
         { field: 'enddate', headerName: 'End Date', width: 120 },
         { field: 'price', headerName: 'Price', width: 100 },
         { field: 'status', headerName: 'Status', width: 100 },
-        { field: 'action', headerName: 'Actions', width: 200, renderCell: RenderButton },
+        { field: 'action', headerName: 'Actions', width: 400, renderCell: RenderButton },
     ];
     
     const [bookingList, setBookingList] = useState([]);
