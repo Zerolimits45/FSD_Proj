@@ -8,7 +8,7 @@ import UserContext from '../../contexts/UserContext.js';
 import http from '../../http'
 
 function RenderButton(props) {
-  const { hasFocus, value } = props;
+  const { hasFocus, value, user } = props;
   const buttonElement = React.useRef(null);
   const rippleRef = React.useRef(null);
 
@@ -22,12 +22,6 @@ function RenderButton(props) {
   }, [hasFocus]);
 
   const navigate = useNavigate();
-  const [userList, setUserList] = useState([]);
-  useEffect(() => {
-    http.get(`/user/profiles`).then((res) => {
-      setUserList(res.data);
-    });
-  }, []);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -47,48 +41,44 @@ function RenderButton(props) {
       >
         Edit
       </Button>
-      {
-        userList.map((user) => (
-          <Button
-            ref={buttonElement}
-            variant="contained"
-            size="small"
-            style={{ marginLeft: 16, backgroundColor: '#C70000' }}
-            onClick={handleOpen}
-          >
+
+      <Button
+        ref={buttonElement}
+        variant="contained"
+        size="small"
+        style={{ marginLeft: 16, backgroundColor: '#C70000' }}
+        onClick={handleOpen}
+      >
+        Delete
+      </Button>
+
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>
+          Delete User
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this user?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="inherit"
+            onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="error"
+            onClick={() => {
+              http.delete(`/user/${user.id}`).then((res) => {
+                console.log(res.data)
+                navigate('/admin/dashboard')
+              });
+            }}>
             Delete
           </Button>
-        ))
-      }
-      {
-        userList.map((user) => (
-          <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>
-              Delete User
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Are you sure you want to delete this user?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button variant="contained" color="inherit"
-                onClick={handleClose}>
-                Cancel
-              </Button>
-              <Button variant="contained" color="error"
-                onClick={() => {
-                  http.delete(`/user/${user.id}`).then((res) => {
-                    console.log(res.data)
-                    navigate('/admin/dashboard')
-                  });
-                }}>
-                Delete
-              </Button>
-            </DialogActions>
-          </Dialog>
-        ))
-      }
+        </DialogActions>
+      </Dialog>
+
     </>
 
 
@@ -101,7 +91,7 @@ const columns = [
   { field: 'email', headerName: 'Email', width: 200 },
   { field: 'phone', headerName: 'Phone', width: 100 },
   { field: 'role', headerName: 'Role', width: 100 },
-  { field: 'action', headerName: 'Actions', width: 200, renderCell: RenderButton },
+  { field: 'action', headerName: 'Actions', width: 200, renderCell: (params) => <RenderButton user={params.row} /> },
 ];
 
 function User_view() {
@@ -127,7 +117,7 @@ function User_view() {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [userList]);
 
   const onSearchKeyDown = (e) => {
     if (e.key === "Enter") {
