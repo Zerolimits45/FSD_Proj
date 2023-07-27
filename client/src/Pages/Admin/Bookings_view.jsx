@@ -17,6 +17,13 @@ function RenderButton(props) {
         }
     }, [hasFocus]);
 
+    const [bookingList, setBookingList] = useState([]);
+    useEffect(() => {
+        http.get('/booking').then((res) => {
+            setBookingList(res.data);
+        })
+    }, [bookingList.map((booking) => booking.status)])
+
     return (
         <>
             <Button
@@ -35,14 +42,21 @@ function RenderButton(props) {
             >
                 Delete
             </Button>
-            <Button
-                ref={buttonElement}
-                variant="contained"
-                size="small"
-                style={{ marginLeft: 16, backgroundColor: '#228B22' }}
-            >
-                Complete Booking
-            </Button>
+            {bookingList.map((booking) => (
+                <Button
+                    ref={buttonElement}
+                    variant="contained"
+                    size="small"
+                    style={{ marginLeft: 16, backgroundColor: '#228B22' }}
+                    onClick={() => {
+                        http.put(`/booking/complete/${booking.id}`).then((res) => {
+                            console.log(res.data)
+                        });
+                    }}
+                >
+                    Complete Booking
+                </Button>
+            ))}
         </>
 
 
@@ -59,13 +73,13 @@ function Bookings_view() {
         { field: 'status', headerName: 'Status', width: 100 },
         { field: 'action', headerName: 'Actions', width: 400, renderCell: RenderButton },
     ];
-    
+
     const [bookingList, setBookingList] = useState([]);
     useEffect(() => {
         http.get('/booking').then((res) => {
             setBookingList(res.data);
         })
-    }, [])
+    }, [bookingList.map((booking) => booking.status)])
 
     const rows = bookingList.map((booking) => ({
         id: booking.id,
@@ -75,7 +89,7 @@ function Bookings_view() {
         price: booking.price,
         status: booking.status
     }))
-    
+
     return (
         <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
             <DataGrid

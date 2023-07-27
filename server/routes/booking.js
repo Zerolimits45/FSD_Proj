@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Booking } = require('../models');
+const { Booking, Car } = require('../models');
 const yup = require("yup");
 const { sign } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
@@ -38,7 +38,7 @@ router.post('/', validateToken, async (req, res) => {
     res.json(booking);
 })
 
-router.get("/", async (req, res) => {
+router.get("/", validateToken, async (req, res) => {
     let condition = {};
 
     let list = await Booking.findAll({
@@ -60,9 +60,20 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/user', validateToken, async (req, res) => {
-    const booking = await Booking.findAll({ where: { userid: req.user.id } });
-    res.json(booking);
+router.get('/user/:id', validateToken, async (req, res) => {
+    let list = await Booking.findAll({
+        where: {userid: req.params.id},
+        order: [['createdAt', 'DESC']],
+        attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status'],
+        include: [
+            {
+                model: Car,
+                as: 'car',
+                attributes: ['model', 'make', 'type'],
+            },
+        ],
+    });
+    res.json(list);
 });
 
 router.delete("/:id", async (req, res) => {
@@ -79,6 +90,24 @@ router.delete("/:id", async (req, res) => {
         res.status(400).json({
             message: `Cannot delete booking with id ${id}.`
         });
+    }
+});
+
+router.put('/complete/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const booking = await Booking.findByPk(id);
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+        
+        booking.status = 'Completed';
+        await booking.save();
+
+        res.json(booking);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error updating booking status' });
     }
 });
 
