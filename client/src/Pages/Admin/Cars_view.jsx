@@ -4,28 +4,20 @@ import { Button } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import http from '../../http'
 
-function RenderButton(props) {
-    const { hasFocus, value } = props;
 
-    const [carList, setCarList] = useState([]);
-    useEffect(() => {
-        http.get('/car/all').then((res) => {
-            setCarList(res.data);
-        })
-    }, [])
+function RenderButton(props) {
+    const { carId } = props;
 
     return (
         <>
-         {carList.map((car) => (
             <Button
-                LinkComponent={Link} to={'/admin/cars/edit/' + car.id}
+                LinkComponent={Link} to={`/admin/cars/edit/${carId}`}
                 variant="contained"
                 size="small"
                 style={{ backgroundColor: '#6CA0DC' }}
             >
                 Edit
             </Button>
-         ))}
             <Button
                 variant="contained"
                 size="small"
@@ -47,7 +39,7 @@ const columns = [
     { field: 'gear', headerName: 'Gear', width: 100 },
     { field: 'seats', headerName: 'Seats', width: 70 },
     { field: 'price', headerName: 'Price', width: 70 },
-    { field: 'action', headerName: 'Actions', width: 200, renderCell: RenderButton },
+    { field: 'action', headerName: 'Actions', width: 200, renderCell:(params) => <RenderButton carId={params.row.id} />  },
 ];
 
 function Cars_view() {

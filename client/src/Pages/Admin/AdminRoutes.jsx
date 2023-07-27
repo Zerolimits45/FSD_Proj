@@ -9,6 +9,7 @@ import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import Bookings_view from './Bookings_view'
+import Bookings_Edit from './Bookings_Edit'
 import Cars_Edit from './Cars_Edit'
 function AdminRoutes() {
     return (
@@ -62,6 +63,7 @@ function AdminRoutes() {
                         <Route path="/cars" element={<Cars_view />} />
                         <Route path="/cars/edit/:id" element={<Cars_Edit />} /> 
                         <Route path="/bookings" element={<Bookings_view />} />
+                        <Route path="/bookings/edit" element={<Bookings_Edit />} />
                     </Routes>
                 </Grid>
             </Grid>
