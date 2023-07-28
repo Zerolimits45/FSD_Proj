@@ -152,7 +152,14 @@ function Booking() {
                                     <Typography style={carTitle}>
                                         {car.gear} | {car.seats} seater
                                     </Typography>
-                                    <img src="../images/VW.png" alt="" width={'100%'} />
+                                    {
+                                        car.imageFile && (
+                                            <Box component="img" width="100%"
+                                                src={`${import.meta.env.VITE_FILE_BASE_URL}${car.imageFile}`}
+                                                alt="car image">
+                                            </Box>
+                                        )
+                                    }
                                     <Box display={'flex'}>
                                         <Typography style={{ flexGrow: 1 }}>
                                             ${car.price}/day

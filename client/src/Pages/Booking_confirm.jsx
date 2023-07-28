@@ -11,7 +11,7 @@ function Booking_confirm() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
   const dividerstyle = { backgroundColor: '#150039', fontWeight: 'bold', margin: '10px 0' }
-  const textstyle = { color: '#150039'}
+  const textstyle = { color: '#150039' }
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -65,20 +65,37 @@ function Booking_confirm() {
               <Grid container spacing={2}>
                 <Grid item xs={12} md={8}>
                   <Box>
-                    <img src="../images/VW.png" alt="" width={'100%'} height={'300px'} style={{ objectFit: 'contain' }} />
+                    {
+                      car.imageFile && (
+                        <Box component="img" alt="car image" width="100%" height="500px" style={{ objectFit: 'contain' }}
+                          src={`${import.meta.env.VITE_FILE_BASE_URL}${car.imageFile}`}>
+                        </Box>
+                      )
+                    }
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={4} display={'flex'} alignItems={'center'}>
                   <Box style={{ display: 'flex', flexDirection: 'column' }}>
                     <Typography variant='h5' fontWeight={600} style={textstyle}>
-                    {car.model} {car.make} | {car.type}
+                      {car.model} {car.make} | {car.type}
                     </Typography>
-                    <Typography variant='h6' fontWeight={600} marginTop={2} style={textstyle}>
+                    <Divider style={dividerstyle} />
+                    <Typography variant='h6' fontWeight={400} style={textstyle}>
+                      Start Date: {startDate}
+                    </Typography>
+                    <Typography variant='h6' fontWeight={400} style={textstyle}>
+                      End Date: {endDate}
+                    </Typography>
+                    <Typography variant='h6' fontWeight={400} marginTop={2} style={textstyle}>
                       <AccessTimeFilledIcon fontSize='small' /> {daysDifference} days
                     </Typography>
                     <Divider style={dividerstyle} />
-                    <Typography variant='h6' fontWeight={600} style={textstyle}>
+                    <Typography variant='h6' fontWeight={400} style={textstyle}>
                       Total: $ {car.price * daysDifference}
+                    </Typography>
+                    <Divider style={dividerstyle} />
+                    <Typography variant='h6' fontWeight={300} style={textstyle}>
+                      Please head down to the our building to collect your car.
                     </Typography>
                   </Box>
                 </Grid>
