@@ -17,6 +17,7 @@ function Cars_Edit() {
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const textstyle = { color: '#150039', fontWeight: 'bold' }
+  const [imageFile, setImageFile] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -44,6 +45,9 @@ function Cars_Edit() {
       price: yup.number().required('Price is required'),
     }),
     onSubmit: (data) => {
+      if (imageFile) {
+        data.imageFile = imageFile;
+      }
       data.startDate = data.startDate.trim();
       data.endDate = data.endDate.trim();
       data.model = data.model.trim();
@@ -67,7 +71,30 @@ function Cars_Edit() {
       setCarList(res.data);
       console.log(res.data);
     })
-  }, [])
+  }, []);
+
+  const onFileChange = (e) => {
+    let file = e.target.files[0];
+    if (file) {
+      if (file.size > 1024 * 1024) {
+        enqueueSnackbar('Maximun file size is 1MB', { variant: 'error' });
+        return;
+      }
+      let formData = new FormData();
+      formData.append('file', file);
+      http.post('/file/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then((res) => {
+          setImageFile(res.data.filename);
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+    }
+  };
   return (
     <Container maxWidth='xl'>
       <Box component="form" onSubmit={formik.handleSubmit}>
@@ -225,21 +252,28 @@ function Cars_Edit() {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-            <input
-              accept="image/*"
-              style={{ display: 'none' }}
-              id="raised-button-file"
-              multiple
-              type="file"
-            />
-            <label htmlFor="raised-button-file">
-              <Button variant="raised" component="span" style={{ backgroundColor: '#FF4E00', color: 'white' }}>
+          <Box sx={{mt: 2 }} >
+              <Button variant="contained" color='btn' style={btnstyle} component="label">
                 Upload Image
+                <input hidden accept="image/*" multiple type="file"
+                  onChange={onFileChange} />
               </Button>
-            </label>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <Card>
+              <CardContent>
+                {
+                  imageFile && (
+                    <Box component="img" alt="car image" width="100%" height="600px" style={{ objectFit: 'contain' }}
+                      src={`${import.meta.env.VITE_FILE_BASE_URL}${imageFile}`}>
+                    </Box>
+                  )
+                }
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
-        <br />
         <Button type='submit' variant="contained" color='btn' style={btnstyle} >
           Save Details
         </Button>
