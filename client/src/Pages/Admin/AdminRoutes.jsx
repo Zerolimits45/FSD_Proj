@@ -11,6 +11,8 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import Bookings_view from './Bookings_view'
 import Bookings_Edit from './Bookings_Edit'
 import Cars_Edit from './Cars_Edit'
+import Feedback_view from './Feedback_view'
+import Rating_view from './Rating_view'
 function AdminRoutes() {
     return (
         <Container maxWidth='xl'>
@@ -53,6 +55,24 @@ function AdminRoutes() {
                                     <ListItemText primary="Bookings" />
                                 </ListItemButton>
                             </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemIcon>
+                                    <LibraryBooksIcon color='primary' />
+                                </ListItemIcon>
+                                <ListItemButton LinkComponent={Link} to='/admin/rating'>
+                                    <ListItemText primary="Rating" />
+                                </ListItemButton>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemIcon>
+                                    <LibraryBooksIcon color='primary' />
+                                </ListItemIcon>
+                                <ListItemButton LinkComponent={Link} to='/admin/feedback'>
+                                    <ListItemText primary="Feedback" />
+                                </ListItemButton>
+                            </ListItem>
                         </List>
                     </Card>
                 </Grid>
@@ -64,6 +84,8 @@ function AdminRoutes() {
                         <Route path="/cars/edit/:id" element={<Cars_Edit />} /> 
                         <Route path="/bookings" element={<Bookings_view />} />
                         <Route path="/bookings/edit/:id" element={<Bookings_Edit />} />
+                        <Route path="/feedback" element={<Feedback_view />} />
+                        <Route path="/rating" element={<Rating_view/>} />
                     </Routes>
                 </Grid>
             </Grid>

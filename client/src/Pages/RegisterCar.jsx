@@ -6,7 +6,6 @@ import http from '../http'
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { differenceInDays } from 'date-fns';
-import AspectRatio from '@mui/joy/AspectRatio';
 
 function RegisterCar() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0', textAlign: 'left' }
@@ -281,23 +280,23 @@ function RegisterCar() {
                 Please upload an image of your car:
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid item xs={12} md={12}>
                   <Box sx={{ textAlign: 'center', mt: 2 }} >
                     <Button variant="contained" style={btnstyle} component="label">
                       Upload Image
                       <input hidden accept="image/*" multiple type="file"
                         onChange={onFileChange} />
                     </Button>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={12}>
                     {
                       imageFile && (
-                        <AspectRatio sx={{ mt: 2 }}>
-                          <Box component="img" alt="car image"
-                            src={`${import.meta.env.VITE_FILE_BASE_URL}${imageFile}`}>
-                          </Box>
-                        </AspectRatio>
+                        <Box component="img" alt="car image" width="100%" height="100%"
+                          src={`${import.meta.env.VITE_FILE_BASE_URL}${imageFile}`}>
+                        </Box>
                       )
                     }
-                  </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Button onClick={() => setStep(1)} style={backbtnstyle} fullWidth>
