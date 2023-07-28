@@ -10,14 +10,14 @@ import { differenceInDays } from 'date-fns';
 function Registered_Cars_Edit() {
   //fetching car list
   const [carList, setCarList] = useState(null);
+  const [car, setCar] = useState([]);
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
 
-
-  const paperStyle = { width: '100%', marginTop: 10 }
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const textstyle = { color: '#150039', fontWeight: 'bold' }
+  const [imageFile, setImageFile] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -29,6 +29,7 @@ function Registered_Cars_Edit() {
       gear: carList ? carList.gear : "",
       seats: carList ? carList.seats : "",
       price: carList ? carList.price : "",
+      imageFile: carList ? carList.imageFile : "",
     },
     validationSchema: yup.object().shape({
       startDate: yup.string().trim().required('Start date is required'),
@@ -46,6 +47,9 @@ function Registered_Cars_Edit() {
       price: yup.number().required('Price is required'),
     }),
     onSubmit: (data) => {
+      if (imageFile) {
+        data.imageFile = imageFile;
+      }
       data.price = Number(data.price);
       data.startDate = data.startDate.trim();
       data.endDate = data.endDate.trim();
@@ -70,7 +74,30 @@ function Registered_Cars_Edit() {
       setCarList(res.data);
       console.log(res.data);
     })
-  }, [])
+  }, []);
+
+  const onFileChange = (e) => {
+    let file = e.target.files[0];
+    if (file) {
+      if (file.size > 1024 * 1024) {
+        enqueueSnackbar('Maximun file size is 1MB', { variant: 'error' });
+        return;
+      }
+      let formData = new FormData();
+      formData.append('file', file);
+      http.post('/file/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then((res) => {
+          setImageFile(res.data.filename);
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+    }
+  };
 
 
   return (
@@ -231,24 +258,31 @@ function Registered_Cars_Edit() {
           </CardContent>
         </Card>
 
-        {/* upload image of car */}
         <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
           Please upload an image of your car:
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <input
-              accept="image/*"
-              style={{ display: 'none' }}
-              id="raised-button-file"
-              multiple
-              type="file"
-            />
-            <label htmlFor="raised-button-file">
-              <Button variant="raised" component="span" style={{ backgroundColor: '#FF4E00', color: 'white' }}>
+          <Grid item xs={12} md={12}>
+            <Box sx={{mt: 2 }} >
+              <Button variant="contained" color='btn' style={btnstyle} component="label">
                 Upload Image
+                <input hidden accept="image/*" multiple type="file"
+                  onChange={onFileChange} />
               </Button>
-            </label>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <Card>
+              <CardContent>
+                {
+                  imageFile && (
+                    <Box component="img" alt="car image" width="100%" height="600px" style={{ objectFit: 'contain' }}
+                      src={`${import.meta.env.VITE_FILE_BASE_URL}${imageFile}`}>
+                    </Box>
+                  )
+                }
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
         <br />
