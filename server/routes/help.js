@@ -5,7 +5,7 @@ const yup = require("yup");
 const { validateToken } = require('../middlewares/auth');
 require('dotenv').config();
 
-router.post('/:id', async (req, res) => {
+router.post('/', validateToken, async (req, res) => {
     let data = req.body;
     const regEx = /^[0-9a-zA-Z]+$/;
     // Validate request body
@@ -44,25 +44,18 @@ router.get("/view/edit/:id", async (req, res) => {
     res.json(help);
 });
 
-router.get("/view", async (req, res) => {
+router.get("/view", validateToken, async (req, res) => {
     let condition = {};
-    let search = req.query.search;
-    if (search) {
-        condition[Sequelize.Op.or] = [
-            { license_no: { [Sequelize.Op.like]: `%${search}%` } },
-            { model: { [Sequelize.Op.like]: `%${search}%` } },
-        ];
-    }
 
     let list = await Help.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        //attributes: ['email', 'reason']   // lists out the elements in the table according to params such as 'name' and 'license_no'
+        attributes: ['id', 'name', 'email', 'reason']
     });
     res.json(list);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", validateToken, async (req, res) => {
     let id = req.params.id;
     // Check id not found
     let help = await Help.findByPk(id);
@@ -70,13 +63,6 @@ router.delete("/:id", async (req, res) => {
         res.sendStatus(404);
         return;
     }
-
-    // Check request user id
-    /* let userId = req.user.id;
-    if (help.userId != userId) {
-        res.sendStatus(403);
-        return;
-    } */
 
     let num = await Help.destroy({
         where: { id: id }

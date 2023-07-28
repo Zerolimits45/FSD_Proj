@@ -28,7 +28,7 @@ function Help() {
             data.email = data.email.trim();
             data.reason = data.reason.trim();
 
-            http.post(`/profile/help/${user.id}`, data)
+            http.post(`/profile/help`, data)
                 .then((res) => {
                     enqueueSnackbar('Help request sent successfully', { variant: 'success' });
                     formik.resetForm();

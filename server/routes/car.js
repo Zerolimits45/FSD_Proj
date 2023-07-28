@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Car } = require('../models');
+const { Car, Booking } = require('../models');
 const yup = require("yup");
 const { validateToken } = require('../middlewares/auth');
 require('dotenv').config();
@@ -25,7 +25,7 @@ router.post('/create', validateToken, async (req, res) => {
     try {
         console.log(data);
         await validationSchema.validate(data,
-            { abortEarly: false, strict: true});
+            { abortEarly: false, strict: true });
     }
     catch (err) {
         console.log(err);
@@ -86,7 +86,7 @@ router.put('/:id', validateToken, async (req, res) => {
         gear: yup.string().trim().required(),
         seats: yup.number().required(),
         price: yup.number().required(),
-        
+
     })
     try {
         await validationSchema.validate(data,
@@ -112,8 +112,21 @@ router.put('/:id', validateToken, async (req, res) => {
 
 // Delete car by id
 router.delete('/:id', validateToken, async (req, res) => {
-    await Car.destroy({ where: { id: req.params.id } });
-    res.json({ message: `Car ${req.params.id} deleted.` });
+    await Booking.destroy({
+        where: { carid: req.params.id }
+    });
+    const num = await Car.destroy({
+        where: { id: req.params.id }
+    });
+    if (num === 1) {
+        res.json({
+            message: "User was deleted successfully."
+        });
+    } else {
+        res.status(400).json({
+            message: `Cannot delete car with id ${req.params.id}.`
+        });
+    }
 }
 );
 
