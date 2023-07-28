@@ -60,12 +60,16 @@ function Bookings() {
                       </Box>
                     </Grid>
                     <Grid item xs={12} md={12} display={'flex'} justifyContent={'center'}>
-                      {booking.status == 'Completed' &&
-                        <Button variant='contained' style={completestyle} LinkComponent={Link} to={'/profile/bookings/rating'}>
+                      {
+                        booking.status == 'Completed' && booking.feedbackid == null &&
+                        <Button variant='contained' style={completestyle} LinkComponent={Link} to={`/profile/bookings/rating/${booking.id}`}>
                           Rate Experience
                         </Button>
                       }
-                      <Button color='btn' variant='contained' style={btnstyle}>Cancel Booking</Button>
+                      {
+                        booking.status != 'Completed' && (
+                        <Button color='btn' variant='contained' style={btnstyle}>Cancel Booking</Button> )
+                      }
                     </Grid>
                   </Grid>
                 </CardContent>

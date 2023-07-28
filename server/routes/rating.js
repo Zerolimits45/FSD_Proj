@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { Feedback } = require('../models');
+const { Feedback, Booking } = require('../models');
 const yup = require("yup");
 const { validateToken } = require('../middlewares/auth');
 require('dotenv').config();
 
-router.post('/', async (req, res) => {
+router.post('/:id', async (req, res) => {
+    const id = req.params.id;
     let data = req.body;
     // Validate request body
     let validationSchema = yup.object().shape({
@@ -24,8 +25,17 @@ router.post('/', async (req, res) => {
 
     // Trim string values
     data.feedback = data.feedback.trim();
-    // Create user
+    data.bookingid = id
+
+    const booking = await Booking.findByPk(id);
+    if (!booking) {
+        return res.status(404).json({ message: 'Booking not found' });
+    }
+
     const rating = await Feedback.create(data);
+    booking.feedbackid = rating.id;
+    await booking.save();
+
     res.json(rating);
 });
 
@@ -41,18 +51,18 @@ router.get("/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
     let condition = {};
-    let search = req.query.search;
-    
-    if (search) {
-        condition[Sequelize.Op.or] = [
-            { rate: { [Sequelize.Op.like]: `%${search}%` } },
-        ];
-    }
 
     let list = await Feedback.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        model: Feedback, as: "rating", attributes: ['id', 'rate', 'feedback'] 
+        attributes: ['id', 'rate', 'feedback'],
+        include: [
+            {
+                model: Booking,
+                as: 'booking',
+                attributes: ['licencenumber'],
+            },
+        ],
     });
     res.json(list);
 });
@@ -66,12 +76,13 @@ router.delete("/:id", async (req, res) => {
         return;
     }
 
-    // Check request user id
-    let userId = req.user.id;
-    if (rating.userId != userId) {
-        res.sendStatus(403);
-        return;
+    const booking = await Booking.findByPk(rating.bookingid);
+    if (!booking) {
+        return res.status(404).json({ message: 'Booking not found' });
     }
+
+    booking.feedbackid = null
+    await booking.save()
 
     let num = await Feedback.destroy({
         where: { id: id }

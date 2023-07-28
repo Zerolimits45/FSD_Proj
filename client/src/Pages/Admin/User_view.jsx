@@ -96,12 +96,7 @@ const columns = [
 
 function User_view() {
   const [userList, setUserList] = useState([]);
-  const [search, setSearch] = useState('');
   const { user } = useContext(UserContext)
-
-  const onSearchChange = (e) => {
-    setSearch(e.target.value);
-  };
 
   const getUsers = () => {
     http.get(`/user/profiles`).then((res) => {
@@ -109,30 +104,9 @@ function User_view() {
     });
   };
 
-  const searchUsers = () => {
-    http.get(`/user/profiles?search=${search}`).then((res) => {
-      setUserList(res.data);
-    });
-  };
-
   useEffect(() => {
     getUsers();
-  }, [userList]);
-
-  const onSearchKeyDown = (e) => {
-    if (e.key === "Enter") {
-      searchUsers();
-    }
-  };
-
-  const onClickSearch = () => {
-    searchUsers();
-  }
-
-  const onClickClear = () => {
-    setSearch('');
-    getUsers();
-  };
+  }, []);
 
   const rows = userList.map((user) => ({
     id: user.id,
@@ -145,29 +119,6 @@ function User_view() {
   return (
     <>
       <div style={{ width: '100%', backgroundColor: 'white' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, ml: 2 }}>
-          <Input value={search} placeholder="Search"
-            onChange={onSearchChange}
-            onKeyDown={onSearchKeyDown} sx={{ mt: 2 }} />
-          <IconButton color="primary"
-            onClick={onClickSearch} sx={{ mt: 2 }}>
-            <Search />
-          </IconButton>
-          <IconButton color="primary"
-            onClick={onClickClear} sx={{ mt: 2 }}>
-            <Clear />
-          </IconButton>
-          <Box sx={{ flexGrow: 1 }} />
-          {
-            user && user.role == 'admin' && (
-              <Link to='/admin/addstaff' style={{ textDecoration: 'none' }}>
-                <Button variant='contained' sx={{ mt: 2, mr: 2 }}>
-                  Add Staff
-                </Button>
-              </Link>
-            )
-          }
-        </Box>
         <DataGrid
           rows={rows}
           columns={columns}
