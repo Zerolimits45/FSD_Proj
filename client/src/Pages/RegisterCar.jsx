@@ -47,6 +47,9 @@ function RegisterCar() {
 
     }),
     onSubmit: (data) => {
+      if (imageFile) {
+        data.imageFile = imageFile;
+      }
       data.startDate = data.startDate.trim();
       data.endDate = data.endDate.trim();
       data.model = data.model.trim();
@@ -290,13 +293,17 @@ function RegisterCar() {
                   </Box>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    {
-                      imageFile && (
-                        <Box component="img" alt="car image" width="100%" height="100%"
-                          src={`${import.meta.env.VITE_FILE_BASE_URL}${imageFile}`}>
-                        </Box>
-                      )
-                    }
+                  <Card>
+                    <CardContent>
+                      {
+                        imageFile && (
+                          <Box component="img" alt="car image" width="100%" height="600px" style={{ objectFit: 'contain' }}
+                            src={`${import.meta.env.VITE_FILE_BASE_URL}${imageFile}`}>
+                          </Box>
+                        )
+                      }
+                    </CardContent>
+                  </Card>
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Button onClick={() => setStep(1)} style={backbtnstyle} fullWidth>
