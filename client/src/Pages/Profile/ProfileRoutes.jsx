@@ -101,7 +101,7 @@ function ProfileRoutes() {
                         <Route path="/account/edit" element={<Account_Edit />} />
                         <Route path="/account/changepassword" element={<Password_Edit />} />
                         <Route path="/bookings" element={<Bookings />} />
-                        <Route path="/bookings/rating" element={<Rating_Booking />} />
+                        <Route path="/bookings/rating/:id" element={<Rating_Booking />} />
                         <Route path="/registered_cars" element={<Registered_Cars />} />
                         <Route path="/registered_cars/edit/:id" element={<Registered_Cars_Edit />} />
                         <Route path="/help" element={<Help />} />

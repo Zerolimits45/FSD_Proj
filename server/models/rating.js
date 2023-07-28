@@ -9,6 +9,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        bookingid: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
     })
+    Feedback.associate = models => {
+        Feedback.belongsTo(models.Booking, { foreignKey: 'bookingid', as: 'booking' })
+    }
     return Feedback
 }

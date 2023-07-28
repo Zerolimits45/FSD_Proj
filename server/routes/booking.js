@@ -111,7 +111,7 @@ router.get('/user/:id', validateToken, async (req, res) => {
     let list = await Booking.findAll({
         where: { userid: req.params.id },
         order: [['createdAt', 'DESC']],
-        attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status'],
+        attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status', 'feedbackid'],
         include: [
             {
                 model: Car,

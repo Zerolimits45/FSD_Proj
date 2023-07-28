@@ -210,9 +210,9 @@ function RegisterCar() {
                         fullWidth
                         select
                       >
-                        <MenuItem value='sedan'>Sedan</MenuItem>
-                        <MenuItem value='suv'>SUV</MenuItem>
-                        <MenuItem value='minivan'>Minivan</MenuItem>
+                        <MenuItem value='Sedan'>Sedan</MenuItem>
+                        <MenuItem value='SUV'>SUV</MenuItem>
+                        <MenuItem value='Minivan'>Minivan</MenuItem>
                       </TextField>
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -228,8 +228,8 @@ function RegisterCar() {
                         fullWidth
                         select
                       >
-                        <MenuItem value='manual'>Manual</MenuItem>
-                        <MenuItem value='automatic'>Automatic</MenuItem>
+                        <MenuItem value='Manual'>Manual</MenuItem>
+                        <MenuItem value='Automatic'>Automatic</MenuItem>
                       </TextField>
                     </Grid>
                   </Grid>

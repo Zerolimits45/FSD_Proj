@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         price: {
-            type: DataTypes.DECIMAL(10,2),
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: false
         },
         status: {
@@ -28,10 +28,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        feedbackid: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
     })
     Booking.associate = models => {
         Booking.belongsTo(models.User, { foreignKey: 'userid', as: 'user' })
-        Booking.belongsTo(models.Car, {foreignKey: 'carid', as: 'car'})
+        Booking.belongsTo(models.Car, { foreignKey: 'carid', as: 'car' })
+        Booking.belongsTo(models.Feedback, { foreignKey: 'feedbackid', as: 'feedback' });
     }
     return Booking
 }
