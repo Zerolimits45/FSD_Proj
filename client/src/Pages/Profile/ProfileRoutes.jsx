@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState, useContext } from 'react'
 import { Collapse, Container, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Grid, Card } from '@mui/material'
 import { Routes, Route, Link } from 'react-router-dom'
 import Registered_Cars from './Registered_Cars'
@@ -13,8 +14,16 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import HelpIcon from '@mui/icons-material/Help';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 
 function ProfileRoutes() {
+    const [open, setOpen] = React.useState(true);
+
+    const handleClick = () => {
+        setOpen(!open);
+    };
     return (
         <Container maxWidth='xl'>
             <Grid container spacing={2} marginTop={10}>
@@ -52,10 +61,37 @@ function ProfileRoutes() {
                                 <ListItemIcon>
                                     <HelpIcon color='primary' />
                                 </ListItemIcon>
-                                <ListItemButton LinkComponent={Link} to='/profile/help'>
+                                <ListItemButton onClick={handleClick}>
                                     <ListItemText primary="Help" />
+                                    {open ? <ExpandLess /> : <ExpandMore />}
                                 </ListItemButton>
                             </ListItem>
+                            <Collapse in={open} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to='/profile/help'>
+                                        <ListItemIcon>
+                                            <FeedbackIcon color='primary' />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Feedback" />
+                                    </ListItemButton>
+                                </List>
+                                <List component="div" disablePadding>
+                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to='/profile/help'>
+                                        <ListItemIcon>
+                                            <FeedbackIcon color='primary' />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Cancel Booking Request" />
+                                    </ListItemButton>
+                                </List>
+                                <List component="div" disablePadding>
+                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to='/profile/help'>
+                                        <ListItemIcon>
+                                            <FeedbackIcon color='primary' />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Car Removal Request" />
+                                    </ListItemButton>
+                                </List>
+                            </Collapse>
                         </List>
                     </Card>
                 </Grid>
