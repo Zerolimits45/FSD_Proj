@@ -38,6 +38,7 @@ function RenderButton(props) {
         variant="contained"
         size="small"
         style={{ backgroundColor: '#6CA0DC' }}
+        LinkComponent={Link} to={`/admin/users/edit/${user.id}`}
       >
         Edit
       </Button>
@@ -96,7 +97,7 @@ const columns = [
 
 function User_view() {
   const [userList, setUserList] = useState([]);
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
 
   const getUsers = () => {
     http.get(`/user/profiles`).then((res) => {
@@ -108,13 +109,15 @@ function User_view() {
     getUsers();
   }, []);
 
-  const rows = userList.map((user) => ({
+  const users = userList.map((user) => ({
     id: user.id,
     name: user.name,
     email: user.email,
     phone: user.phone,
     role: user.role,
   }));
+
+  const rows = users.filter((user) => user.role == 'customer');
 
   return (
     <>
