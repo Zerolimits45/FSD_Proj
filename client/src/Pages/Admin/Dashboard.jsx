@@ -9,6 +9,7 @@ function Dashboard() {
             setUserList(res.data);
         });
     })
+    const rows = userList.filter((user) => user.role == 'customer');
     const [carList, setCarList] = useState([]);
     useEffect(() => {
         http.get('/car/all').then((res) => {
@@ -32,7 +33,7 @@ function Dashboard() {
                                 Total Users
                             </Typography>
                             <Typography variant='h3' color="primary" marginBottom={2} align='center'>
-                                {userList.length}
+                                {rows.length}
                             </Typography>
                         </CardContent>
                     </Card>
