@@ -26,6 +26,7 @@ import Change_Password from './Pages/Change_Password'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Signup_OTP from './Pages/Signup_OTP';
+import Discussions from './Pages/Discussions'
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/booking_confirm" element={<Booking_confirm />} />
         <Route path="/register" element={<RegisterCar />} />
+        <Route path="/discussions" element={<Discussions />} />
         {isLoggedIn && (
           <Route path="/profile/*" element={<ProfileRoutes />} />
         )}
