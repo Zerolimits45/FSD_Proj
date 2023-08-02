@@ -36,7 +36,7 @@ function Bookings() {
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={8}>
                       <Box>
-                        <img src="../images/VW.png" alt="" width={'80%'} height={'300px'} style={{ objectFit: 'contain' }} />
+                        <img src={`${import.meta.env.VITE_FILE_BASE_URL}${booking.car.imageFile}`} alt="" width={'80%'} height={'300px'} style={{ objectFit: 'contain' }} />
                       </Box>
                     </Grid>
                     <Grid item xs={12} md={4} display={'flex'} alignItems={'center'}>

@@ -40,8 +40,10 @@ export default function Navbar() {
                             <Button color="inherit" LinkComponent={Link} to='/'>Home</Button>
                             <Button color="inherit" LinkComponent={Link} to='/booking'>Rent a Car</Button>
                             <Button color="inherit" LinkComponent={Link} to='/register'>Register a Car</Button>
-                            <Button color="inherit" LinkComponent={Link} >Discussions</Button>
-                            <Button color="inherit" LinkComponent={Link} to={'/admin/dashboard'} >Admin Test</Button>
+                            <Button color="inherit" LinkComponent={Link} to='/discussions' >Discussions</Button>
+                            {user && user.role == 'admin' && (
+                                <Button color="inherit" LinkComponent={Link} to={'/admin/dashboard'} >Admin Dashboard</Button>
+                            )}
                         </Box>
                         {user && (
                             <>

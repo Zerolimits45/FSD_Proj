@@ -41,7 +41,12 @@ function Login() {
                 .then((res) => {
                     localStorage.setItem("accessToken", res.data.accessToken);
                     setUser(res.data.user);
-                    navigate("/")
+                    if (res.data.user.role == 'admin') {
+                        navigate("/admin/dashboard")
+                    }
+                    else {
+                        navigate("/")
+                    }
                 })
                 .catch((error) => {
                     if (error.response && error.response.status === 400) {

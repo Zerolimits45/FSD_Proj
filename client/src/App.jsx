@@ -6,7 +6,7 @@ import Navbar from './Components/Navbar'
 import Login from './Pages/Login'
 import Signup from './Pages/Signup'
 import Booking from './Pages/Booking'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import UserContext from './contexts/UserContext.js';
 import http from './http';
 import Booking_confirm from './Pages/Booking_confirm'
@@ -26,6 +26,7 @@ import Change_Password from './Pages/Change_Password'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Signup_OTP from './Pages/Signup_OTP';
+import Discussions from './Pages/Discussions'
 
 
 function App() {
@@ -38,6 +39,9 @@ function App() {
       });
     }
   }, []);
+
+  const isAdmin = user && user.role === 'admin';
+  const isLoggedIn = user && user.role === 'customer';
 
   return (
     <UserContext.Provider value={{user, setUser}}>
@@ -53,8 +57,16 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/booking_confirm" element={<Booking_confirm />} />
         <Route path="/register" element={<RegisterCar />} />
-        <Route path="/profile/*" element={<ProfileRoutes />} />
-        <Route path="/admin/*" element={<AdminRoutes />} />
+        <Route path="/discussions" element={<Discussions />} />
+        {isLoggedIn && (
+          <Route path="/profile/*" element={<ProfileRoutes />} />
+        )}
+        {isAdmin && (
+          <>
+            <Route path="/admin/*" element={<AdminRoutes />} />
+            <Route path="/profile/*" element={<Navigate to="/admin/dashboard" />} />
+          </>
+        )}
       </Routes>
     </UserContext.Provider>
   )

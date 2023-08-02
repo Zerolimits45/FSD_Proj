@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router();
-const { Discussion, Sequelize } = require('../models')
+const { Discussion, Sequelize, User, Comment } = require('../models')
 const yup = require("yup");
+const { validateToken } = require('../middlewares/auth');
+require('dotenv').config();
 
-router.post("/", async (req, res) => {
+router.post("/", validateToken, async (req, res) => {
     let data = req.body;
     // Validate request body
     let validationSchema = yup.object({
@@ -21,6 +23,8 @@ router.post("/", async (req, res) => {
     }
     data.title = data.title.trim();
     data.description = data.description.trim();
+    data.commentsCount = 0;
+    data.userid = req.user.id;
     let result = await Discussion.create(data);
     res.json(result);
 });
@@ -36,8 +40,21 @@ router.get("/", async (req, res) => {
     }
     let list = await Discussion.findAll({
         where: condition,
-        order: [['createdAt', 'DESC']]
+        order: [['createdAt', 'DESC']],
+        attributes: ['id', 'title', 'description', 'commentsCount', 'createdAt'],
+        include: [
+            {
+                model: User,
+                as: 'user',
+                attributes: ['name'],
+            },
+        ]
     });
+    for (let discussion of list) {
+        const comment = await Comment.findAll({ where: { discussionid: discussion.id } })
+        discussion.commentsCount = comment.length;
+    }
+
     res.json(list);
 });
 
