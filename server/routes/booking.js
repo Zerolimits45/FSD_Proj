@@ -116,7 +116,7 @@ router.get('/user/:id', validateToken, async (req, res) => {
             {
                 model: Car,
                 as: 'car',
-                attributes: ['model', 'make', 'type'],
+                attributes: ['model', 'make', 'type', 'imageFile'],
             },
         ],
     });

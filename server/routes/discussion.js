@@ -36,7 +36,8 @@ router.get("/", async (req, res) => {
     }
     let list = await Discussion.findAll({
         where: condition,
-        order: [['createdAt', 'DESC']]
+        order: [['createdAt', 'DESC']],
+        attributes: ['id', 'title', 'description']
     });
     res.json(list);
 });
