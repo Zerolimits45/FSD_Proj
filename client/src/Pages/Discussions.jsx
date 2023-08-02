@@ -103,7 +103,7 @@ function Discussions() {
                                                     </Grid>
                                                     <Grid item xs={12} md={12}>
                                                         <Typography variant='h7' fontWeight={700} color={'#150039'} marginBottom={5} align='left'>
-                                                            Comments (1000)
+                                                            Comments ({discussion.commentsCount})
                                                         </Typography>
                                                     </Grid>
                                                 </Grid>

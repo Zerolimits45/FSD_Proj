@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) =>{
         },
     });
     Comment.associate = models => {
-        Comment.belongsTo(models.Discussion, { foreignKey: 'discussionid', as: 'comment' })
+        Comment.belongsTo(models.Discussion, { foreignKey: 'discussionid', as: 'discussion' })
     }
     return Comment;
  }
