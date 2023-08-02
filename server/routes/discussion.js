@@ -60,7 +60,16 @@ router.get("/", validateToken, async (req, res) => {
 
 router.get("/comments/:id", async (req, res) => {
     let id = req.params.id;
-    let comment = await Comment.findAll({ where: { discussionid: id } })
+    let comment = await Comment.findAll({
+        where: { discussionid: id },
+        include: [
+            {
+                model: User,
+                as: 'user',
+                attributes: ['name'],
+            },
+        ]
+    })
     // Check id not found
     if (!comment) {
         res.sendStatus(404);
@@ -86,13 +95,14 @@ router.post("/comment/:id", validateToken, async (req, res) => {
     }
     data.description = data.description.trim();
     data.discussionid = req.params.id;
+    data.userid = req.user.id
     let result = await Comment.create(data);
     res.json(result);
 });
 
 router.get("/user", validateToken, async (req, res) => {
     let list = await Discussion.findAll({
-        where: {userid: req.user.id},
+        where: { userid: req.user.id },
         order: [['createdAt', 'DESC']],
         attributes: ['id', 'title', 'description', 'commentsCount', 'createdAt'],
         include: [

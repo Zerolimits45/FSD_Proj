@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { User, Sequelize, Booking, Car } = require('../models');
+const { User, Sequelize, Booking, Car, Discussion } = require('../models');
 const yup = require("yup");
 const { sign, verify } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
@@ -389,6 +389,10 @@ router.delete("/:id", validateToken, async (req, res) => {
     });
 
     await Car.destroy({
+        where: { userid: id }
+    });
+
+    await Discussion.destroy({
         where: { userid: id }
     });
 

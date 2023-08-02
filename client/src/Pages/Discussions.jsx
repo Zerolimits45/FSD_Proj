@@ -66,10 +66,14 @@ function Discussions() {
 
     const [open, setOpen] = useState(false);
     const [selectedDiscussionId, setSelectedDiscussionId] = useState(null);
+    const [commentList, setCommentList] = useState([]);
 
     const handleOpen = (discussionId) => {
         setSelectedDiscussionId(discussionId);
         setOpen(true);
+        http.get(`/discussion/comments/${discussionId}`).then((res) => {
+            setCommentList(res.data);
+        })
     };
     const handleClose = () => {
         setOpen(false);
@@ -155,7 +159,7 @@ function Discussions() {
                                                             </Typography>
                                                         </Grid>
                                                         <Grid item xs={12} md={12}>
-                                                            <Typography variant='h7' fontWeight={700} color={'#150039'} marginBottom={5} align='left' onClick={() => handleOpen(discussion.id)}>
+                                                            <Typography variant='h7' fontWeight={700} color={'#150039'} marginBottom={5} sx={{ cursor: 'pointer' }} onClick={() => handleOpen(discussion.id)}>
                                                                 Comments ({discussion.commentsCount})
                                                             </Typography>
                                                         </Grid>
@@ -216,17 +220,39 @@ function Discussions() {
                                                         <Button type='submit' color='btn' variant="contained" style={btnstyle} fullWidth onClick={formik2.handleSubmit}>
                                                             Comment
                                                         </Button>
+                                                    </Grid>
+                                                    {
+                                                        commentList.map((comment) => (
+                                                            <>
+                                                                <Grid item xs={12} md={12}>
+                                                                    <Grid container style={{ border: '1px solid #ccc', padding: '15px', marginBottom: '10px', borderRadius: '10px' }}>
+                                                                        <Grid item xs={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }} marginBottom={2}>
+                                                                            <AccountCircle />
+                                                                            <Typography variant='h7' fontWeight={700} color={'#150039'} style={{ marginLeft: '5px' }}>
+                                                                                {comment.user.name}
+                                                                            </Typography>
+                                                                        </Grid>
+
+                                                                        <Grid item xs={12}>
+                                                                            <Typography variant='body1' fontWeight={700} color={'#150039'}>
+                                                                                {comment.description}
+                                                                            </Typography>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </>
+                                                        ))
+                                                    }
                                                 </Grid>
-                                            </Grid>
-                                        </CardContent>
-                                    </Dialog >
+                                            </CardContent>
+                                        </Dialog >
                                     </>
-                        ))
+                                ))
                             }
-                    </Grid>
+                        </Grid>
+                    </Box>
                 </Box>
             </Box>
-        </Box>
         </Container >
     )
 }
