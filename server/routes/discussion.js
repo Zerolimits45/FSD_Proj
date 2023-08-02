@@ -29,7 +29,7 @@ router.post("/", validateToken, async (req, res) => {
     res.json(result);
 });
 
-router.get("/", async (req, res) => {
+router.get("/", validateToken, async (req, res) => {
     let condition = {};
     let search = req.query.search;
     if (search) {
@@ -40,6 +40,59 @@ router.get("/", async (req, res) => {
     }
     let list = await Discussion.findAll({
         where: condition,
+        order: [['createdAt', 'DESC']],
+        attributes: ['id', 'title', 'description', 'commentsCount', 'createdAt'],
+        include: [
+            {
+                model: User,
+                as: 'user',
+                attributes: ['name'],
+            },
+        ]
+    });
+    for (let discussion of list) {
+        const comment = await Comment.findAll({ where: { discussionid: discussion.id } })
+        discussion.commentsCount = comment.length;
+    }
+
+    res.json(list);
+});
+
+router.get("/comments/:id", async (req, res) => {
+    let id = req.params.id;
+    let comment = await Comment.findAll({ where: { discussionid: id } })
+    // Check id not found
+    if (!comment) {
+        res.sendStatus(404);
+        return;
+    }
+    res.json(comment);
+});
+
+router.post("/comment/:id", validateToken, async (req, res) => {
+    let data = req.body;
+    // Validate request body
+    let validationSchema = yup.object({
+        description: yup.string().trim().min(3).max(500).required()
+    });
+    try {
+        await validationSchema.validate(data,
+            { abortEarly: false });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(400).json({ errors: err.errors });
+        return;
+    }
+    data.description = data.description.trim();
+    data.discussionid = req.params.id;
+    let result = await Comment.create(data);
+    res.json(result);
+});
+
+router.get("/user", validateToken, async (req, res) => {
+    let list = await Discussion.findAll({
+        where: {userid: req.user.id},
         order: [['createdAt', 'DESC']],
         attributes: ['id', 'title', 'description', 'commentsCount', 'createdAt'],
         include: [
@@ -111,17 +164,22 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
     let id = req.params.id;
+
+    await Comment.destroy({
+        where: { discussionid: id }
+    });
+
     let num = await Discussion.destroy({
         where: { id: id }
     })
     if (num == 1) {
         res.json({
-            message: "Tutorial was deleted successfully."
+            message: "Discussion was deleted successfully."
         });
     }
     else {
         res.status(400).json({
-            message: `Cannot delete tutorial with id ${id}.`
+            message: `Cannot delete discussion with id ${id}.`
         });
     }
 });
