@@ -9,5 +9,9 @@
          allowNull: false
         }
     });
+    Discussion.associate = models => {
+        Discussion.hasMany(models.Comment, { foreignKey: 'discussionid', onDelete: 'cascade' })
+    }
+
     return Discussion;
  }

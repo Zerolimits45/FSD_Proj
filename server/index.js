@@ -60,6 +60,9 @@ app.use("/car", carRoute)
 const bookingRoute = require("./routes/booking")
 app.use("/booking", bookingRoute)
 
+const discussionRoute = require("./routes/discussion")
+app.use("/discussion", discussionRoute)
+
 const db = require('./models');
 db.sequelize.sync({ alter: true }).then(() => {
   let port = process.env.APP_PORT;
