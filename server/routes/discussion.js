@@ -193,4 +193,24 @@ router.delete("/:id", async (req, res) => {
         });
     }
 });
+
+router.delete("/comment/:id", async (req, res) => {
+    let id = req.params.id;
+
+    let num = await Comment.destroy({
+        where: { id: id }
+    });
+    
+    if (num == 1) {
+        res.json({
+            message: "Discussion was deleted successfully."
+        });
+    }
+    else {
+        res.status(400).json({
+            message: `Cannot delete discussion with id ${id}.`
+        });
+    }
+});
+
 module.exports = router;
