@@ -10,6 +10,7 @@ import Account from './Account'
 import Account_Edit from './Account_Edit'
 import Password_Edit from './Password_Edit'
 import Help from './Help'
+import Discussion from './Discussion'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
@@ -17,6 +18,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import FeedbackIcon from '@mui/icons-material/Feedback';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 function ProfileRoutes() {
     const [open, setOpen] = React.useState(true);
@@ -54,6 +56,15 @@ function ProfileRoutes() {
                                 </ListItemIcon>
                                 <ListItemButton LinkComponent={Link} to='/profile/bookings' >
                                     <ListItemText primary="My Bookings" />
+                                </ListItemButton>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemIcon>
+                                    <MailOutlineIcon color='primary' />
+                                </ListItemIcon>
+                                <ListItemButton LinkComponent={Link} to='/profile/discussion' >
+                                    <ListItemText primary="My Posts" />
                                 </ListItemButton>
                             </ListItem>
                             <Divider />
@@ -105,6 +116,7 @@ function ProfileRoutes() {
                         <Route path="/registered_cars" element={<Registered_Cars />} />
                         <Route path="/registered_cars/edit/:id" element={<Registered_Cars_Edit />} />
                         <Route path="/help" element={<Help />} />
+                        <Route path="/discussion" element={<Discussion />} />
                     </Routes>
                 </Grid>
             </Grid>

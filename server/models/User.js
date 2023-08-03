@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         User.hasMany(models.Car, { foreignKey: 'userid', onDelete: 'cascade' })
         User.hasMany(models.Booking, { foreignKey: 'userid', onDelete: 'cascade' })
         User.hasMany(models.Discussion, { foreignKey: 'userid', onDelete: 'cascade' })
+        User.hasMany(models.Comment, { foreignKey: 'userid', onDelete: 'cascade' })
     }
 
     return User
