@@ -23,7 +23,37 @@ export default function Home() {
           style={{ backgroundColor: '#FF4E00', color: 'white', borderRadius: 17, alignItems: 'center', margin: 'auto', width: 200, height: 50, fontSize: 20, fontWeight: 600 }}>
           Rent a Car </Button>
 
+        <Grid container spacing={2} marginTop={10}>
+          <Grid item xs={12} md={6}>
+            <Typography variant='h4' fontWeight={700} color={'white'} >
+              Who Are We?
+            </Typography>
+            <Typography variant='h6' fontWeight={400} color={'white'} >
+              We are a car rental company that provides you with the best car rental services in the country.
+
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <img src="../images/Home_img_1.jpg" alt="" style={{ width: '100%', borderRadius: '20px' }} />
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={2} marginTop={10}>
+          <Grid item xs={12} md={6}>
+          <img src="../images/Home_img_1.jpg" alt="" style={{ width: '100%', borderRadius: '20px' }} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+          <Typography variant='h4' fontWeight={700} color={'white'} >
+              Why Choose Us?
+            </Typography>
+            <Typography variant='h6' fontWeight={400} color={'white'} >
+             Because we have affordable prices and the best cars in the country.
+            </Typography>
+          </Grid>
+        </Grid>
       </Box>
+
+
     </Container>
   );
 }

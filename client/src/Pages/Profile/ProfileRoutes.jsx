@@ -88,7 +88,7 @@ function ProfileRoutes() {
                                     </ListItemButton>
                                 </List>
                                 <List component="div" disablePadding>
-                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to='/profile/help'>
+                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to=''>
                                         <ListItemIcon>
                                             <CancelIcon color='primary' />
                                         </ListItemIcon>
@@ -96,7 +96,7 @@ function ProfileRoutes() {
                                     </ListItemButton>
                                 </List>
                                 <List component="div" disablePadding>
-                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to='/profile/help'>
+                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to=''>
                                         <ListItemIcon>
                                             <CancelIcon color='primary' />
                                         </ListItemIcon>
