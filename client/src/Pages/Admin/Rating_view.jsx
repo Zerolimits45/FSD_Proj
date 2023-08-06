@@ -80,7 +80,7 @@ function Rating_view() {
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'license', headerName: 'License', width: 100 },
         { field: 'rating', headerName: 'Rating', width: 120, renderCell: (params) => <Stars value={params.row.rating} /> },
-        { field: 'feedback', headerName: 'Feedback', width: 120 },
+        { field: 'feedback', headerName: 'Feedback', width: 300 },
         { field: 'action', headerName: 'Actions', width: 400, renderCell: (params) => <RenderButton ratingId={params.row.id} /> },
     ];
     const rows = ratingList.map((rating) => ({

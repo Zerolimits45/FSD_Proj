@@ -66,7 +66,7 @@ router.get("/comments/:id", async (req, res) => {
             {
                 model: User,
                 as: 'user',
-                attributes: ['name'],
+                attributes: ['id', 'name', 'role'],
             },
         ]
     })

@@ -14,7 +14,6 @@ import Cars_Edit from './Cars_Edit'
 import Feedback_view from './Feedback_view'
 import Rating_view from './Rating_view'
 import User_Edit from './User_Edit'
-import Discussions_View from './Discussions_View'
 function AdminRoutes() {
     return (
         <Container maxWidth='xl'>
@@ -75,15 +74,6 @@ function AdminRoutes() {
                                     <ListItemText primary="Feedback" />
                                 </ListItemButton>
                             </ListItem>
-                            <Divider />
-                            <ListItem>
-                                <ListItemIcon>
-                                    <LibraryBooksIcon color='primary' />
-                                </ListItemIcon>
-                                <ListItemButton LinkComponent={Link} to='/admin/discussions'>
-                                    <ListItemText primary="Discussions" />
-                                </ListItemButton>
-                            </ListItem>
                         </List>
                     </Card>
                 </Grid>
@@ -98,7 +88,6 @@ function AdminRoutes() {
                         <Route path="/bookings/edit/:id" element={<Bookings_Edit />} />
                         <Route path="/feedback" element={<Feedback_view />} />
                         <Route path="/rating" element={<Rating_view/>} />
-                        <Route path="/discussions" element={<Discussions_View/>} />
                     </Routes>
                 </Grid>
             </Grid>
