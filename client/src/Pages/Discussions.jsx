@@ -13,7 +13,7 @@ import UserContext from '../contexts/UserContext.js';
 
 function Discussions() {
 
-    const btnstyle = { margin: '20px 0', fontWeight: 'bold', color: 'white', backgroundColor: '#FF4E00' }
+    const btnstyle = { fontWeight: 'bold', color: 'white', backgroundColor: '#FF4E00' }
     const navigate = useNavigate();
     const { user } = useContext(UserContext)
 
@@ -115,8 +115,8 @@ function Discussions() {
                             <Typography variant='h5' fontWeight={700} color={'#150039'} marginBottom={5} align='center'>
                                 Share your thoughts
                             </Typography>
-                            <Grid container justifyContent='center'>
-                                <Grid item xs={12}>
+                            <Grid container justifyContent='center' spacing={2}>
+                                <Grid item xs={4}>
                                     <TextField
                                         fullWidth
                                         label='Enter Title'
@@ -126,6 +126,8 @@ function Discussions() {
                                         error={formik.touched.title && Boolean(formik.errors.title)}
                                         helperText={formik.touched.title && formik.errors.title}
                                     />
+                                </Grid>
+                                <Grid item xs={7}>
                                     <TextField
                                         fullWidth
                                         label='Enter Description'
@@ -136,11 +138,11 @@ function Discussions() {
                                         helperText={formik.touched.description && formik.errors.description}
                                     />
                                 </Grid>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button type='submit' color='btn' variant="contained" style={btnstyle} fullWidth>
-                                    Post
-                                </Button>
+                                <Grid item xs={1}>
+                                    <Button type='submit' color='btn' variant="contained" style={btnstyle} fullWidth sx={{height: '50px'}}>
+                                        Post
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </CardContent>
                     </Card>
@@ -266,7 +268,7 @@ function Discussions() {
                                                                             </Typography>
                                                                         </Grid>
                                                                         {
-                                                                            user.role == 'admin' && (
+                                                                            user.role == 'admin' || comment.user.id == user.id && (
                                                                                 <Grid item xs={6} md={6}>
                                                                                     <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                                                                                         <DeleteIcon sx={{ cursor: 'pointer' }} onClick={() => handleOpen3(comment.id)} />
