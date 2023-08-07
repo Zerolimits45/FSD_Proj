@@ -9,7 +9,7 @@ function Dashboard() {
             setUserList(res.data);
         });
     })
-    const rows = userList.filter((user) => user.role == 'customer');
+    const rows = userList.filter((user) => (user.role == 'customer' || user.role == 'staff'));
     const [carList, setCarList] = useState([]);
     useEffect(() => {
         http.get('/car/all').then((res) => {

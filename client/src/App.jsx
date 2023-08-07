@@ -27,6 +27,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Signup_OTP from './Pages/Signup_OTP';
 import Discussions from './Pages/Discussions'
+import Staff_Complete from './Pages/Staff_Complete'
 
 
 function App() {
@@ -41,19 +42,20 @@ function App() {
   }, []);
 
   const isAdmin = user && user.role === 'admin';
+  const isStaff = user && user.role === 'staff';
   const isLoggedIn = user && user.role === 'customer';
 
   return (
-    <UserContext.Provider value={{user, setUser}}>
+    <UserContext.Provider value={{ user, setUser }}>
       <Navbar />
-      <ToastContainer/>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signup_otp" element={<Signup_OTP />} />
-        <Route path="/user/forgotpassword" element={<Forgot_Password />}/>
-        <Route path="/user/changepassword" element={<Change_Password />}/>
+        <Route path="/user/forgotpassword" element={<Forgot_Password />} />
+        <Route path="/user/changepassword" element={<Change_Password />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/booking_confirm" element={<Booking_confirm />} />
         <Route path="/register" element={<RegisterCar />} />
@@ -61,12 +63,13 @@ function App() {
         {isLoggedIn && (
           <Route path="/profile/*" element={<ProfileRoutes />} />
         )}
-        {isAdmin && (
+        {(isAdmin || isStaff) && (
           <>
             <Route path="/admin/*" element={<AdminRoutes />} />
             <Route path="/profile/*" element={<Navigate to="/admin/dashboard" />} />
           </>
         )}
+        <Route path="/verify" element={<Staff_Complete />} />
       </Routes>
     </UserContext.Provider>
   )
