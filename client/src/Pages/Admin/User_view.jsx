@@ -91,7 +91,6 @@ const columns = [
   { field: 'name', headerName: 'Name', width: 100 },
   { field: 'email', headerName: 'Email', width: 200 },
   { field: 'phone', headerName: 'Phone', width: 100 },
-  { field: 'role', headerName: 'Role', width: 100 },
   { field: 'action', headerName: 'Actions', width: 200, renderCell: (params) => <RenderButton user={params.row} /> },
 ];
 

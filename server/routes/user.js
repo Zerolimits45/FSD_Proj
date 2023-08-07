@@ -415,4 +415,72 @@ router.delete("/:id", validateToken, async (req, res) => {
 
 });
 
+router.post('/addstaff', async (req, res) => {
+    let data = req.body;
+    const regEx = /^[89]{1}\d{7}$/
+    // Validate request body
+    let validationSchema = yup.object().shape({
+        name: yup.string().trim().min(5).max(50).required(),
+        email: yup.string().trim().email().required(),
+        phone: yup.string().trim().min(8).max(8).matches(regEx, "Phone is Invalid").required(),
+    })
+    try {
+        await validationSchema.validate(data,
+            { abortEarly: false, strict: true });
+    }
+    catch (err) {
+        res.status(400).json({ errors: err.errors });
+        return;
+    }
+
+    // Trim string values
+    data.name = data.name.trim();
+    data.email = data.email.trim();
+    data.phone = data.phone.trim();
+
+    // Check email
+    let emailExists = await User.findOne({
+        where: { email: data.email }
+    });
+    if (emailExists) {
+        return res.status(400).json({ message: "Email already exists." });
+    }
+
+    data.password = await bcrypt.hash('staffPassword', 10);
+    data.role = 'staff';
+
+    const token = sign({ data }, process.env.APP_SECRET)
+    const verifyEmailLink = `http://localhost:5173/verify?token=${token}`;
+
+    const mailOptions = {
+        from: 'forschoolkenneth@gmail.com',
+        to: data.email,
+        subject: 'Staff Verification',
+        text: `Click the following link to verify your staff account: <a href="${verifyEmailLink}">${verifyEmailLink}</a>`,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log(mailOptions)
+    } catch (error) {
+        console.error('Error sending email:', error);
+        return res.status(500).json({ message: 'Failed to send email.' });
+    }
+
+    res.json({ message: 'Email sent successfully.' });
+})
+
+router.post('/verifystaff', async (req, res) => {
+    const token = req.query.token
+    try {
+        const decoded = verify(token, process.env.APP_SECRET);
+        const u = decoded.data;
+
+        const user = await User.create(u);
+        res.json(user);
+    } catch (error) {
+        res.status(401).json({ message: 'Invalid token' });
+    }
+})
+
 module.exports = router;
