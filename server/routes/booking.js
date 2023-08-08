@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Booking, Car } = require('../models');
+const { Booking, Car, Feedback } = require('../models');
 const yup = require("yup");
 const { sign } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
@@ -100,7 +100,7 @@ router.put('/:id', async (req, res) => {
                 message: `Cannot update Booking with id ${id}.`
             });
         }
-        
+
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: 'Error updating booking status' });
@@ -108,19 +108,48 @@ router.put('/:id', async (req, res) => {
 });
 
 router.get('/user/:id', validateToken, async (req, res) => {
-    let list = await Booking.findAll({
-        where: { userid: req.params.id },
-        order: [['createdAt', 'DESC']],
-        attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status', 'feedbackid'],
-        include: [
-            {
-                model: Car,
-                as: 'car',
-                attributes: ['model', 'make', 'type', 'imageFile'],
-            },
-        ],
-    });
-    res.json(list);
+    try {
+        let list = await Booking.findAll({
+            where: { userid: req.params.id },
+            order: [['createdAt', 'DESC']],
+            attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status'],
+            include: [
+                {
+                    model: Car,
+                    as: 'car',
+                    attributes: ['model', 'make', 'type', 'imageFile'],
+                },
+            ],
+        });
+
+        const bookingIds = list.map(booking => booking.id);
+
+        const feedbacks = await Feedback.findAll({
+            attributes: ['bookingid', 'id', 'rate'], 
+            where: { bookingid: bookingIds },
+        });
+
+        const feedbackMap = new Map();
+        feedbacks.forEach(feedback => {
+            const bookingId = feedback.bookingid;
+            if (!feedbackMap.has(bookingId)) {
+                feedbackMap.set(bookingId, []);
+            }
+            feedbackMap.get(bookingId).push(feedback);
+        });
+
+        const bookingsWithFeedback = list.map(booking => ({
+            ...booking.toJSON(),
+            feedback: feedbackMap.get(booking.id) || [],
+        }));
+
+        res.json(bookingsWithFeedback);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "An error occurred while fetching user bookings.",
+        });
+    }
 });
 
 router.delete("/:id", async (req, res) => {
