@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { User, Sequelize, Booking, Car, Discussion, Comment } = require('../models');
+const { User, Sequelize, Booking, Car, Discussion, Comment, Feedback } = require('../models');
 const yup = require("yup");
 const { sign, verify } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
 var nodemailer = require('nodemailer-mock');
-const otpGenerator = require('otp-generator');
+const { otpGen } = require('otp-gen-agent');
 
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
@@ -51,7 +51,7 @@ router.post('/register', async (req, res) => {
         return res.status(400).json({ message: "Email already exists." });
     }
 
-    const otp = otpGenerator.generate(6, { digits: true, upperCase: false, specialChars: false });
+    const otp = await otpGen();
 
     const mailOptions = {
         from: 'forschoolkenneth@gmail.com',
@@ -384,6 +384,10 @@ router.delete("/:id", validateToken, async (req, res) => {
         return;
     }
 
+    await Feedback.destroy({
+        where: { userid: id }
+    });
+
     await Booking.destroy({
         where: { userid: id }
     });
@@ -456,7 +460,11 @@ router.post('/addstaff', async (req, res) => {
         from: 'forschoolkenneth@gmail.com',
         to: data.email,
         subject: 'Staff Verification',
-        text: `Click the following link to verify your staff account: <a href="${verifyEmailLink}">${verifyEmailLink}</a>`,
+        text: `Your Staff Account:\n
+        Email: ${data.email}\n
+        Password: 'staffPassword'\n
+        Click the following link to verify your staff account: <a href="${verifyEmailLink}">${verifyEmailLink}</a>\n
+        PLEASE CHANGE YOUR PASSWORD UPON LOGGING IN`,
     };
 
     try {

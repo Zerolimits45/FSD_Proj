@@ -64,6 +64,7 @@ function Stars(props) {
             name="rating"
             size="small"
             value={value}
+            readOnly
         />
     )
 }
