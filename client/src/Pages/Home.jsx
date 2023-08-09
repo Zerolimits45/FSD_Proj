@@ -3,6 +3,7 @@ import { Container, Box, Paper, Grid, Typography, Button, Divider, Card, CardCon
 import { styled } from '@mui/material/styles';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import zIndex from '@mui/material/styles/zIndex';
 
 export default function Home() {
   return (
@@ -26,28 +27,25 @@ export default function Home() {
         <Grid container spacing={2} marginTop={10}>
           <Grid item xs={12} md={6}>
             <Typography variant='h4' fontWeight={700} color={'white'} >
-              Who Are We?
+              Welcome to WeGo,
             </Typography>
             <Typography variant='h6' fontWeight={400} color={'white'} >
-              We are a car rental company that provides you with the best car rental services in the country.
-
+              Your ultimate destination for seamless, comfortable, and unforgettable journeys. As a premier car rental company, we are dedicated to providing you with exceptional service, a diverse fleet of vehicles, and a commitment to making every mile of your adventure extraordinary.
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
-            <img src="../images/Home_img_1.jpg" alt="" style={{ width: '100%', borderRadius: '20px' }} />
-          </Grid>
+            <img src="../images/Home_img_1.jpg" alt="" style={{ width: '100%', borderRadius: '10px 100px' }} />          </Grid>
         </Grid>
-
         <Grid container spacing={2} marginTop={10}>
           <Grid item xs={12} md={6}>
-          <img src="../images/Home_img_1.jpg" alt="" style={{ width: '100%', borderRadius: '20px' }} />
+            <img src="../images/Home_img_2.jpeg" alt="" style={{ width: '100%', borderRadius: '10px 100px' }} />
           </Grid>
           <Grid item xs={12} md={6}>
-          <Typography variant='h4' fontWeight={700} color={'white'} >
-              Why Choose Us?
+            <Typography variant='h4' fontWeight={700} color={'white'} >
+              Quality and Safety
             </Typography>
             <Typography variant='h6' fontWeight={400} color={'white'} >
-             Because we have affordable prices and the best cars in the country.
+              Your safety is paramount to us. Our vehicles undergo rigorous inspections and maintenance to ensure they're in top condition before you drive away. We strive to provide you with the highest quality vehicles that meet the highest safety standards.
             </Typography>
           </Grid>
         </Grid>
