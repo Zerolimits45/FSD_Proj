@@ -28,6 +28,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Signup_OTP from './Pages/Signup_OTP';
 import Discussions from './Pages/Discussions'
 import Staff_Complete from './Pages/Staff_Complete'
+import Booking_Success from './Pages/Booking_Success'
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
           </>
         )}
         <Route path="/verify" element={<Staff_Complete />} />
+        <Route path="/success" element={<Booking_Success/>} />
       </Routes>
     </UserContext.Provider>
   )

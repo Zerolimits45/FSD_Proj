@@ -8,7 +8,7 @@ require('dotenv').config();
 
 // Register route
 router.post('/', validateToken, async (req, res) => {
-    let data = req.body;
+    let data = req.session.booking;
     // Validate request body
     let validationSchema = yup.object().shape({
         startdate: yup.date().required(),
@@ -35,6 +35,7 @@ router.post('/', validateToken, async (req, res) => {
 
     // Create booking
     const booking = await Booking.create(data);
+    delete req.session.booking
     res.json(booking);
 })
 

@@ -12,7 +12,7 @@ function BookingCard({ booking }) {
   const dividerstyle = { backgroundColor: '#150039', fontWeight: 'bold', margin: '10px 0' };
   const textstyle = { color: '#150039' };
 
-  const feedbackRate = booking.feedback[0].rate;
+  const feedbackRate = booking.feedback[0]?.rate; // Use optional chaining to handle undefined
   const [value, setValue] = useState(feedbackRate);
 
   return (

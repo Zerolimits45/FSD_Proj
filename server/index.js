@@ -12,7 +12,7 @@ app.use(session({
 }))
 
 // Set up CORS with the allowed origin of your client's domain
-const allowedOrigins = ['http://localhost:5173']; // Replace with your client's domain
+const allowedOrigins = ['http://localhost:5173', '<ngrok address>']; // Replace with your client's domain
 const corsOptions = {
   origin: (origin, callback) => {
     if (allowedOrigins.includes(origin) || !origin) {
@@ -62,6 +62,9 @@ app.use("/booking", bookingRoute)
 
 const discussionRoute = require("./routes/discussion")
 app.use("/discussion", discussionRoute)
+
+const stripeRoute = require("./routes/stripe")
+app.use("/stripe", stripeRoute)
 
 const db = require('./models');
 db.sequelize.sync({ alter: true }).then(() => {
