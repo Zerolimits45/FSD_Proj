@@ -15,6 +15,7 @@ function RegisterCar() {
   const { enqueueSnackbar } = useSnackbar();
   const [step, setStep] = useState(0);
   const [imageFile, setImageFile] = useState(null);
+  const [carPrice, setCarPrice] = useState(0);
 
 
   const formik = useFormik({
@@ -26,7 +27,6 @@ function RegisterCar() {
       type: '',
       gear: '',
       seats: '',
-      price: '',
       license: '',
 
     },
@@ -42,7 +42,6 @@ function RegisterCar() {
       type: yup.string().trim().required('Type is required'),
       gear: yup.string().trim().required('Gear is required'),
       seats: yup.number().required('Seats is required'),
-      price: yup.number().required('Price is required'),
       license: yup.string().trim().required('License is required'),
 
     }),
@@ -57,6 +56,7 @@ function RegisterCar() {
       data.type = data.type.trim();
       data.gear = data.gear.trim();
       data.license = data.license.trim();
+      data.price = carPrice
       console.log(data);
       http.post('/car/create', data)
         .then((res) => {
@@ -203,7 +203,17 @@ function RegisterCar() {
                         varient='filled'
                         style={textfieldstyle}
                         name='type'
-                        onChange={formik.handleChange}
+                        onChange={(e) => {
+                          formik.handleChange(e);
+                          const selectedType = e.target.value;
+                          if (selectedType === 'Sedan') {
+                            setCarPrice(40);
+                          } else if (selectedType === 'SUV') {
+                            setCarPrice(50);
+                          } else if (selectedType === 'Minivan') {
+                            setCarPrice(60);
+                          }
+                        }}
                         value={formik.values.type}
                         error={formik.touched.type && Boolean(formik.errors.type)}
                         helperText={formik.touched.type && formik.errors.type}
@@ -255,11 +265,9 @@ function RegisterCar() {
                         varient='filled'
                         style={textfieldstyle}
                         name='price'
-                        onChange={formik.handleChange}
-                        value={formik.values.price}
-                        error={formik.touched.price && Boolean(formik.errors.price)}
-                        helperText={formik.touched.price && formik.errors.price}
+                        value={carPrice}
                         fullWidth
+                        disabled
                       />
                     </Grid>
                     <Grid item xs={12} md={6}>
