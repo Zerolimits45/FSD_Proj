@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Typography, Grid, Container, Box, Button, Card, CardContent, Divider, Rating } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import { Link } from 'react-router-dom';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import http from '../../http';
@@ -14,6 +15,24 @@ function BookingCard({ booking }) {
 
   const feedbackRate = booking.feedback[0]?.rate; // Use optional chaining to handle undefined
   const [value, setValue] = useState(feedbackRate);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const cancelBooking = () => {
+    const requestData = {
+      request: `Cancel Booking with Id ${booking.id}`,
+      bookingid: booking.id,
+    };
+    http.post('/request/cancelbooking', requestData).then((res) => {
+      console.log(res.data)
+      handleClose()
+    })
+  }
 
   return (
     <Grid container>
@@ -67,8 +86,8 @@ function BookingCard({ booking }) {
                     />
                   )
                 )}
-                {booking.status !== 'Completed' && (
-                  <Button color='btn' variant='contained' style={btnstyle}>
+                {booking.status == 'Ongoing' && (
+                  <Button color='btn' variant='contained' style={btnstyle} onClick={handleOpen}>
                     Cancel Booking
                   </Button>
                 )}
@@ -77,6 +96,27 @@ function BookingCard({ booking }) {
           </CardContent>
         </Card>
       </Grid>
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>
+          Cancel Booking
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to cancel this booking?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="inherit"
+            onClick={handleClose}>
+            Back
+          </Button>
+          <Button variant="contained" color="error"
+            onClick={cancelBooking}>
+            Cancel Booking
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 }

@@ -16,6 +16,7 @@ import Rating_view from './Rating_view'
 import User_Edit from './User_Edit'
 import New_Staff from './New_Staff'
 import Staff_View from './Staff_View'
+import Request_View from './Request_View'
 import UserContext from '../../contexts/UserContext.js';
 
 function AdminRoutes() {
@@ -95,6 +96,15 @@ function AdminRoutes() {
                                     <ListItemText primary="Feedback" />
                                 </ListItemButton>
                             </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemIcon>
+                                    <LibraryBooksIcon color='primary' />
+                                </ListItemIcon>
+                                <ListItemButton LinkComponent={Link} to='/admin/request'>
+                                    <ListItemText primary="Request" />
+                                </ListItemButton>
+                            </ListItem>
                         </List>
                     </Card>
                 </Grid>
@@ -111,6 +121,7 @@ function AdminRoutes() {
                         <Route path="/rating" element={<Rating_view />} />
                         <Route path="/staff" element={<Staff_View />} />
                         <Route path="/staff/add" element={<New_Staff />} />
+                        <Route path="/request" element={<Request_View />} />
                     </Routes>
                 </Grid>
             </Grid>

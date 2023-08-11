@@ -8,9 +8,10 @@ import UserContext from '../../contexts/UserContext.js';
 import http from '../../http'
 
 function RenderButton(props) {
-    const { hasFocus, value, user } = props;
+    const { hasFocus, value, u } = props;
     const buttonElement = React.useRef(null);
     const rippleRef = React.useRef(null);
+    const { user } = useContext(UserContext)
 
     React.useLayoutEffect(() => {
         if (hasFocus) {
@@ -33,19 +34,19 @@ function RenderButton(props) {
 
     return (
         <>
-            {user.role === 'admin' && ( 
+            {user.role == 'admin' && ( 
                 <Button
                     ref={buttonElement}
                     variant="contained"
                     size="small"
                     style={{ backgroundColor: '#6CA0DC' }}
-                    LinkComponent={Link} to={`/admin/users/edit/${user.id}`}
+                    LinkComponent={Link} to={`/admin/users/edit/${u.id}`}
                 >
                     Edit
                 </Button>
             )}
 
-            {user.role === 'admin' && ( 
+            {user.role == 'admin' && ( 
                 <Button
                     ref={buttonElement}
                     variant="contained"
@@ -74,7 +75,7 @@ function RenderButton(props) {
                     </Button>
                     <Button variant="contained" color="error"
                         onClick={() => {
-                            http.delete(`/user/${user.id}`).then((res) => {
+                            http.delete(`/user/${u.id}`).then((res) => {
                                 console.log(res.data)
                                 navigate('/admin/dashboard')
                             });
@@ -95,7 +96,7 @@ const columns = [
     { field: 'name', headerName: 'Name', width: 100 },
     { field: 'email', headerName: 'Email', width: 200 },
     { field: 'phone', headerName: 'Phone', width: 100 },
-    { field: 'action', headerName: 'Actions', width: 200, renderCell: (params) => <RenderButton user={params.row} /> },
+    { field: 'action', headerName: 'Actions', width: 200, renderCell: (params) => <RenderButton u={params.row} /> },
 ];
 
 function Staff_View() {
