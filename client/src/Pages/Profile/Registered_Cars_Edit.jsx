@@ -18,6 +18,7 @@ function Registered_Cars_Edit() {
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
   const textstyle = { color: '#150039', fontWeight: 'bold' }
   const [imageFile, setImageFile] = useState(null);
+  const [carPrice, setCarPrice] = useState(0);
 
   const formik = useFormik({
     initialValues: {
@@ -28,7 +29,6 @@ function Registered_Cars_Edit() {
       type: carList ? carList.type : "",
       gear: carList ? carList.gear : "",
       seats: carList ? carList.seats : "",
-      price: carList ? carList.price : "",
       imageFile: carList ? carList.imageFile : "",
     },
     validationSchema: yup.object().shape({
@@ -44,19 +44,18 @@ function Registered_Cars_Edit() {
       type: yup.string().trim().required('Type is required'),
       gear: yup.string().trim().required('Gear is required'),
       seats: yup.number().required('Seats is required'),
-      price: yup.number().required('Price is required'),
     }),
     onSubmit: (data) => {
       if (imageFile) {
         data.imageFile = imageFile;
       }
-      data.price = Number(data.price);
       data.startDate = data.startDate.trim();
       data.endDate = data.endDate.trim();
       data.model = data.model.trim();
       data.make = data.make.trim();
       data.type = data.type.trim();
       data.gear = data.gear.trim();
+      data.price = carPrice
       console.log(data);
 
       http.put('/car/' + id, data)
@@ -73,6 +72,16 @@ function Registered_Cars_Edit() {
     http.get('/car/' + id).then((res) => {
       setCarList(res.data);
       console.log(res.data);
+
+      if (res.data && res.data.type) {
+        if (res.data.type === 'Sedan') {
+          setCarPrice(40);
+        } else if (res.data.type === 'SUV') {
+          setCarPrice(50);
+        } else if (res.data.type === 'Minivan') {
+          setCarPrice(60);
+        }
+      }
     })
   }, []);
 
@@ -194,7 +203,17 @@ function Registered_Cars_Edit() {
                   varient='filled'
                   style={textfieldstyle}
                   name='type'
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    const selectedType = e.target.value;
+                    if (selectedType === 'Sedan') {
+                      setCarPrice(40);
+                    } else if (selectedType === 'SUV') {
+                      setCarPrice(50);
+                    } else if (selectedType === 'Minivan') {
+                      setCarPrice(60);
+                    }
+                  }}
                   value={formik.values.type}
                   error={formik.touched.type && Boolean(formik.errors.type)}
                   helperText={formik.touched.type && formik.errors.type}
@@ -241,17 +260,14 @@ function Registered_Cars_Edit() {
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
-                  label="Price per day"
+                  label='Price per day'
+                  type='number'
                   varient='filled'
                   style={textfieldstyle}
                   name='price'
-                  type='number'
-                  onChange={formik.handleChange}
-                  value={formik.values.price}
-                  error={formik.touched.price && Boolean(formik.errors.price)}
-                  helperText={formik.touched.price && formik.errors.price}
-                  placeholder='Price per day'
+                  value={carPrice}
                   fullWidth
+                  disabled
                 />
               </Grid>
             </Grid>
@@ -263,7 +279,7 @@ function Registered_Cars_Edit() {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={12}>
-            <Box sx={{mt: 2 }} >
+            <Box sx={{ mt: 2 }} >
               <Button variant="contained" color='btn' style={btnstyle} component="label">
                 Upload Image
                 <input hidden accept="image/*" multiple type="file"
