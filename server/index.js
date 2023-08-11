@@ -66,6 +66,9 @@ app.use("/discussion", discussionRoute)
 const stripeRoute = require("./routes/stripe")
 app.use("/stripe", stripeRoute)
 
+const requestRoute = require("./routes/request")
+app.use("/request", requestRoute)
+
 const db = require('./models');
 db.sequelize.sync({ alter: true }).then(() => {
   let port = process.env.APP_PORT;

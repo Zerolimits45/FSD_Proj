@@ -188,4 +188,22 @@ router.put('/complete/:id', async (req, res) => {
     }
 });
 
+router.put('/cancel/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const booking = await Booking.findByPk(id);
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        booking.status = 'Cancelled';
+        await booking.save();
+
+        res.json(booking);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Error updating booking status' });
+    }
+});
+
 module.exports = router
