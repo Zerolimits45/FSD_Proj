@@ -1,14 +1,15 @@
 import React from 'react'
 import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent } from '@mui/material'
-import { Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import http from '../../http'
 
 function Registered_Cars() {
     const cardStyle = { width: '100%', marginTop: 10 }
-    const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
+    const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white', backgroundColor: '#6CA0DC', marginRight: 10 }
+    const removebtn = { margin: '8px 0', fontWeight: 'bold', backgroundColor: '#C70000' }
     const carTitle = { color: "#150039", fontWeight: "bold" }
-    
+
 
     //fetching car list
     const [carList, setCarList] = useState([]);
@@ -50,11 +51,17 @@ function Registered_Cars() {
                                         <Typography style={{ flexGrow: 1 }}>
                                             {car.price}/day
                                         </Typography>
-                                        <Button variant='contained' color='btn' style={btnstyle}
-                                            LinkComponent={Link} to={'/profile/registered_cars/edit/'+ car.id}>
+                                    </Box>
+                                    <Box display={'flex'}>
+                                        <Button variant='contained' style={btnstyle}
+                                            LinkComponent={Link} to={'/profile/registered_cars/edit/' + car.id}>
                                             Edit Details
                                         </Button>
+                                        <Button variant='contained' style={removebtn}>
+                                            Remove Car
+                                        </Button>
                                     </Box>
+
                                 </CardContent>
                             </Card>
                         </Grid>
