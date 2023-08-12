@@ -18,7 +18,6 @@ import HelpIcon from '@mui/icons-material/Help';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import FeedbackIcon from '@mui/icons-material/Feedback';
-import CancelIcon from '@mui/icons-material/Cancel';
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 
 function ProfileRoutes() {
@@ -85,22 +84,6 @@ function ProfileRoutes() {
                                             <FeedbackIcon color='primary' />
                                         </ListItemIcon>
                                         <ListItemText primary="Feedback" />
-                                    </ListItemButton>
-                                </List>
-                                <List component="div" disablePadding>
-                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to=''>
-                                        <ListItemIcon>
-                                            <CancelIcon color='primary' />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Cancel Booking Request" />
-                                    </ListItemButton>
-                                </List>
-                                <List component="div" disablePadding>
-                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to=''>
-                                        <ListItemIcon>
-                                            <CancelIcon color='primary' />
-                                        </ListItemIcon>
-                                        <ListItemText primary="Car Removal Request" />
                                     </ListItemButton>
                                 </List>
                             </Collapse>

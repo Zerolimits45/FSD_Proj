@@ -19,7 +19,6 @@ router.post('/create-checkout-session', validateToken, async (req, res) => {
                     unit_amount: data.price * 100,
                     product_data: {
                         name: `${car.make} | ${car.model} | ${car.type}`,
-                        images: [`<ngrok address>/uploads/${car.imageFile}`], // This URL should point to your image
                         metadata: {
                             carId: car.id,
                         },

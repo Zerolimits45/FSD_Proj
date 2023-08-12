@@ -12,7 +12,7 @@ app.use(session({
 }))
 
 // Set up CORS with the allowed origin of your client's domain
-const allowedOrigins = ['http://localhost:5173', '<ngrok address>']; // Replace with your client's domain
+const allowedOrigins = ['http://localhost:5173']; // Replace with your client's domain
 const corsOptions = {
   origin: (origin, callback) => {
     if (allowedOrigins.includes(origin) || !origin) {
