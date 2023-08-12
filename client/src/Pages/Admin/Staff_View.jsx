@@ -128,7 +128,7 @@ function Staff_View() {
         <>
             {
                 user.role == 'admin' && (
-                    <Grid item xs={1.5}>
+                    <Grid>
                         <Button type='submit' color='btn' variant="contained" style={btnstyle} fullWidth sx={{ marginBottom: '1em' }} LinkComponent={Link} to='/admin/staff/add'>
                             Add Staff
                         </Button>
