@@ -285,9 +285,9 @@ function Cars_Edit() {
             <Card>
               <CardContent>
                 {
-                  imageFile && (
+                  (imageFile || carList?.imageFile) && (
                     <Box component="img" alt="car image" width="100%" height="600px" style={{ objectFit: 'contain' }}
-                      src={`${import.meta.env.VITE_FILE_BASE_URL}${imageFile}`}>
+                      src={`${import.meta.env.VITE_FILE_BASE_URL}${imageFile ? imageFile : carList?.imageFile}`}>
                     </Box>
                   )
                 }
