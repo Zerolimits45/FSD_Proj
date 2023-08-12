@@ -65,7 +65,7 @@ function RenderButton(props) {
                     <Button
                         variant="contained"
                         size="small"
-                        style={{ marginLeft: 16, backgroundColor: '#228B22' }}
+                        style={{ marginLeft: 16, backgroundColor: '#C70000' }}
                         onClick={handleCancelBooking}
                     >
                         Cancel Booking

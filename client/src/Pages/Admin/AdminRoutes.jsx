@@ -18,6 +18,9 @@ import New_Staff from './New_Staff'
 import Staff_View from './Staff_View'
 import Request_View from './Request_View'
 import UserContext from '../../contexts/UserContext.js';
+import StarIcon from '@mui/icons-material/Star';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 
 function AdminRoutes() {
     const { user } = useContext(UserContext)
@@ -81,7 +84,7 @@ function AdminRoutes() {
                             <Divider />
                             <ListItem>
                                 <ListItemIcon>
-                                    <LibraryBooksIcon color='primary' />
+                                    <StarIcon color='primary' />
                                 </ListItemIcon>
                                 <ListItemButton LinkComponent={Link} to='/admin/rating'>
                                     <ListItemText primary="Rating" />
@@ -90,7 +93,7 @@ function AdminRoutes() {
                             <Divider />
                             <ListItem>
                                 <ListItemIcon>
-                                    <LibraryBooksIcon color='primary' />
+                                    <FeedbackIcon color='primary' />
                                 </ListItemIcon>
                                 <ListItemButton LinkComponent={Link} to='/admin/feedback'>
                                     <ListItemText primary="Feedback" />
@@ -99,7 +102,7 @@ function AdminRoutes() {
                             <Divider />
                             <ListItem>
                                 <ListItemIcon>
-                                    <LibraryBooksIcon color='primary' />
+                                    <LiveHelpIcon color='primary' />
                                 </ListItemIcon>
                                 <ListItemButton LinkComponent={Link} to='/admin/request'>
                                     <ListItemText primary="Request" />
