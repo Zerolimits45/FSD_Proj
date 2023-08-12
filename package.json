@@ -1,1 +1,6 @@
-{}
+{
+  "dependencies": {
+    "otp-gen-agent": "^1.1.2",
+    "stripe": "^12.18.0"
+  }
+}
