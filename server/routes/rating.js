@@ -33,8 +33,6 @@ router.post('/:id', async (req, res) => {
     }
 
     const rating = await Feedback.create(data);
-    booking.feedbackid = rating.id;
-    await booking.save();
 
     res.json(rating);
 });
@@ -75,14 +73,6 @@ router.delete("/:id", async (req, res) => {
         res.sendStatus(404);
         return;
     }
-
-    const booking = await Booking.findByPk(rating.bookingid);
-    if (!booking) {
-        return res.status(404).json({ message: 'Booking not found' });
-    }
-
-    booking.feedbackid = null
-    await booking.save()
 
     let num = await Feedback.destroy({
         where: { id: id }

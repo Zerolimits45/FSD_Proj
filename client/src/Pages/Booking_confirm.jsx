@@ -44,10 +44,10 @@ function Booking_confirm() {
       data.carid = car.id
       data.price = car.price * daysDifference
 
-      http.post('/booking', data)
+      http.post(`/stripe/create-checkout-session?carId=${carId}`, data)
         .then((res) => {
           console.log(res.data)
-          navigate("/")
+          window.location.href = res.data.url
         })
     },
   });

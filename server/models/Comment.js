@@ -8,9 +8,13 @@ module.exports = (sequelize, DataTypes) =>{
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        userid: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
     });
     Comment.associate = models => {
-        Comment.belongsTo(models.Discussion, { foreignKey: 'discussionid', as: 'discussion' })
+        Comment.belongsTo(models.User, { foreignKey: 'userid', as: 'user' })
     }
     return Comment;
  }

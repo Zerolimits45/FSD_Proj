@@ -15,6 +15,11 @@ function RenderButton(props) {
         });
     }
 
+    const handleCancelBooking = () => {
+        http.put(`/booking/cancel/${booking.id}`).then((res) => {
+            console.log(res.data);
+        });
+    }
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
@@ -43,7 +48,7 @@ function RenderButton(props) {
                 Delete
             </Button>
             {
-                booking.status != "Completed" && (
+                booking.status == "Ongoing" && (
                     <Button
                         variant="contained"
                         size="small"
@@ -51,6 +56,19 @@ function RenderButton(props) {
                         onClick={handleCompleteBooking}
                     >
                         Complete Booking
+                    </Button>
+                )
+            }
+
+            {
+                booking.status == "Ongoing" && (
+                    <Button
+                        variant="contained"
+                        size="small"
+                        style={{ marginLeft: 16, backgroundColor: '#228B22' }}
+                        onClick={handleCancelBooking}
+                    >
+                        Cancel Booking
                     </Button>
                 )
             }
@@ -89,13 +107,13 @@ function RenderButton(props) {
 
 function Bookings_view() {
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'id', headerName: 'ID', width: 30 },
         { field: 'license', headerName: 'License', width: 100 },
-        { field: 'startdate', headerName: 'Start Date', width: 120 },
-        { field: 'enddate', headerName: 'End Date', width: 120 },
+        { field: 'startdate', headerName: 'Start Date', width: 100 },
+        { field: 'enddate', headerName: 'End Date', width: 100 },
         { field: 'price', headerName: 'Price', width: 100 },
         { field: 'status', headerName: 'Status', width: 100 },
-        { field: 'action', headerName: 'Actions', width: 400, renderCell: (params) => <RenderButton booking={params.row} /> },
+        { field: 'action', headerName: 'Actions', width: 500, renderCell: (params) => <RenderButton booking={params.row} /> },
     ];
 
     const [bookingList, setBookingList] = useState([]);

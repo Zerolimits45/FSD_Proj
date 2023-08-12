@@ -1,4 +1,4 @@
-import { Grid, Typography, TextField, Button, Box, Container, Card, CardContent } from '@mui/material'
+import { Grid, Typography, TextField, Button, Box, Container, Card, CardContent, Divider } from '@mui/material'
 import React, { useState, useContext } from 'react'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import http from '../../http.js';
 import { useSnackbar } from 'notistack';
 import UserContext from '../../contexts/UserContext.js';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 
 function Help() {
     const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
@@ -39,7 +40,71 @@ function Help() {
     });
     return (
         <Container maxWidth='xl'>
-            <Typography variant='h6' color="white" marginBottom={2}>
+
+            <Typography variant='h6' fontWeight={600} color={'white'} align='center'>
+                FAQ
+            </Typography>
+            <Grid container spacing={4} style={{ marginTop: 10 }}>
+                <Grid item xs={12} sm={6}>
+                    <Card>
+                        <CardContent>
+                            <MiscellaneousServicesIcon sx={{ color: "#150039", marginRight: 3 }} />
+                            <Typography variant='body' fontWeight={600}>
+                                How do i request a ride?
+                            </Typography>
+                            <br />
+                            <Typography variant='body' fontWeight={400}>
+                                Sign up or log in to your account, enter your pickup and drop-off locations, and select the type of ride you need. Our system will match you with the most suitable driver, and you'll receive real-time updates on their estimated arrival time.
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <Card>
+                        <CardContent>
+                            <MiscellaneousServicesIcon sx={{ color: "#150039", marginRight: 3 }} />
+                            <Typography variant='body' fontWeight={600}>
+                                How can I pay for my rides?
+                            </Typography>
+                            <br />
+                            <Typography variant='body' fontWeight={400}>
+                                We offer a variety of convenient payment options, including credit or debit cards, mobile wallets, and in-app payment systems like Apple Pay and Google Pay. Your selected payment method will be securely saved in your account for future use.
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <Card>
+                        <CardContent>
+                            <MiscellaneousServicesIcon sx={{ color: "#150039", marginRight: 3 }} />
+                            <Typography variant='body' fontWeight={600}>
+                                How can I contact customer support?
+                            </Typography>
+                            <br />
+                            <Typography variant='body' fontWeight={400}>
+                                If you have any questions or need assistance, our dedicated customer support team is available 24/7. You can reach us through the websites' help center, where you'll find frequently asked questions and troubleshooting guides.
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <Card>
+                        <CardContent>
+                            <MiscellaneousServicesIcon sx={{ color: "#150039", marginRight: 3 }} />
+                            <Typography variant='body' fontWeight={600}>
+                                What safety measures are in place?
+                            </Typography>
+                            <br />
+                            <Typography variant='body' fontWeight={400}>
+                                Your safety is our top priority. We carefully screen all drivers, ensuring they meet our rigorous standards and have a clean driving record. Additionally, we implement various safety features, such as GPS tracking, driver ratings and reviews.
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+
+
+            <Typography variant='h6' color="white" fontWeight={600} marginBottom={2} marginTop={10} align='center'>
                 Please send us a message if you need any help
             </Typography>
             <Box component="form" onSubmit={formik.handleSubmit}>

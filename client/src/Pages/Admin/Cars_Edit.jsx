@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent } from '@mui/material'
+import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent, MenuItem } from '@mui/material'
 import { Link, useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
@@ -13,6 +13,7 @@ function Cars_Edit() {
   const [carList, setCarList] = useState(null);
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
+  const [carPrice, setCarPrice] = useState(0);
 
   const btnstyle = { margin: '8px 0', fontWeight: 'bold', color: 'white' }
   const textfieldstyle = { backgroundColor: 'white', borderRadius: '5px', margin: '10px 0' }
@@ -28,7 +29,6 @@ function Cars_Edit() {
       type: carList ? carList.type : "",
       gear: carList ? carList.gear : "",
       seats: carList ? carList.seats : "",
-      price: carList ? carList.price : "",
     },
     validationSchema: yup.object().shape({
       startDate: yup.string().trim().required('Start date is required'),
@@ -42,7 +42,6 @@ function Cars_Edit() {
       type: yup.string().trim().required('Type is required'),
       gear: yup.string().trim().required('Gear is required'),
       seats: yup.number().required('Seats is required'),
-      price: yup.number().required('Price is required'),
     }),
     onSubmit: (data) => {
       if (imageFile) {
@@ -54,6 +53,7 @@ function Cars_Edit() {
       data.make = data.make.trim();
       data.type = data.type.trim();
       data.gear = data.gear.trim();
+      data.price = carPrice
       console.log(data);
 
       http.put('/car/' + id, data)
@@ -70,6 +70,16 @@ function Cars_Edit() {
     http.get('/car/' + id).then((res) => {
       setCarList(res.data);
       console.log(res.data);
+
+      if (res.data && res.data.type) {
+        if (res.data.type === 'Sedan') {
+          setCarPrice(40);
+        } else if (res.data.type === 'SUV') {
+          setCarPrice(50);
+        } else if (res.data.type === 'Minivan') {
+          setCarPrice(60);
+        }
+      }
     })
   }, []);
 
@@ -185,17 +195,31 @@ function Cars_Edit() {
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <TextField
-                  label="Car Type"
+                  label='Car type'
                   varient='filled'
                   style={textfieldstyle}
                   name='type'
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    const selectedType = e.target.value;
+                    if (selectedType === 'Sedan') {
+                      setCarPrice(40);
+                    } else if (selectedType === 'SUV') {
+                      setCarPrice(50);
+                    } else if (selectedType === 'Minivan') {
+                      setCarPrice(60);
+                    }
+                  }}
                   value={formik.values.type}
                   error={formik.touched.type && Boolean(formik.errors.type)}
                   helperText={formik.touched.type && formik.errors.type}
-                  placeholder='Car Type'
                   fullWidth
-                />
+                  select
+                >
+                  <MenuItem value='Sedan'>Sedan</MenuItem>
+                  <MenuItem value='SUV'>SUV</MenuItem>
+                  <MenuItem value='Minivan'>Minivan</MenuItem>
+                </TextField>
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
@@ -229,17 +253,14 @@ function Cars_Edit() {
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
-                  label="Price per day"
+                  label='Price per day'
+                  type='number'
                   varient='filled'
                   style={textfieldstyle}
                   name='price'
-                  type='number'
-                  onChange={formik.handleChange}
-                  value={formik.values.price}
-                  error={formik.touched.price && Boolean(formik.errors.price)}
-                  helperText={formik.touched.price && formik.errors.price}
-                  placeholder='Price per day'
+                  value={carPrice}
                   fullWidth
+                  disabled
                 />
               </Grid>
             </Grid>
@@ -252,7 +273,7 @@ function Cars_Edit() {
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
-          <Box sx={{mt: 2 }} >
+            <Box sx={{ mt: 2 }} >
               <Button variant="contained" color='btn' style={btnstyle} component="label">
                 Upload Image
                 <input hidden accept="image/*" multiple type="file"

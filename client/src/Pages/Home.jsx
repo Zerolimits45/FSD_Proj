@@ -3,6 +3,7 @@ import { Container, Box, Paper, Grid, Typography, Button, Divider, Card, CardCon
 import { styled } from '@mui/material/styles';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import zIndex from '@mui/material/styles/zIndex';
 
 export default function Home() {
   return (
@@ -23,71 +24,34 @@ export default function Home() {
           style={{ backgroundColor: '#FF4E00', color: 'white', borderRadius: 17, alignItems: 'center', margin: 'auto', width: 200, height: 50, fontSize: 20, fontWeight: 600 }}>
           Rent a Car </Button>
 
-        <Typography variant='h6' fontWeight={600} color={'white'} style={{ alignItems: 'center', margin: 'auto', marginTop: 80 }}>
-          FAQ
-        </Typography>
-        <Divider style={{ backgroundColor: 'white', marginTop: 20, width: 150, height: 3, alignItems: 'center', margin: 'auto' }} />
-        <Grid container spacing={4} style={{ marginTop: 50 }}>
-          <Grid item xs={12} sm={6}>
-            <Card>
-              <CardContent>
-                <MiscellaneousServicesIcon sx={{ color: "#150039", marginRight: 3 }} />
-                <Typography variant='body' fontWeight={600}>
-                  How do i request a ride?
-                </Typography>
-                <br />
-                <Typography variant='body' fontWeight={400}>
-                  Sign up or log in to your account, enter your pickup and drop-off locations, and select the type of ride you need. Our system will match you with the most suitable driver, and you'll receive real-time updates on their estimated arrival time.
-                </Typography>
-              </CardContent>
-            </Card>
-
+        <Grid container spacing={2} marginTop={10}>
+          <Grid item xs={12} md={6}>
+            <Typography variant='h4' fontWeight={700} color={'white'} >
+              Welcome to WeGo,
+            </Typography>
+            <Typography variant='h6' fontWeight={400} color={'white'} >
+              Your ultimate destination for seamless, comfortable, and unforgettable journeys. As a premier car rental company, we are dedicated to providing you with exceptional service, a diverse fleet of vehicles, and a commitment to making every mile of your adventure extraordinary.
+            </Typography>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card>
-              <CardContent>
-                <MiscellaneousServicesIcon sx={{ color: "#150039", marginRight: 3 }} />
-                <Typography variant='body' fontWeight={600}>
-                  How can I pay for my rides?
-                </Typography>
-                <br />
-                <Typography variant='body' fontWeight={400}>
-                  We offer a variety of convenient payment options, including credit or debit cards, mobile wallets, and in-app payment systems like Apple Pay and Google Pay. Your selected payment method will be securely saved in your account for future use.                </Typography>
-              </CardContent>
-            </Card>
+          <Grid item xs={12} md={6}>
+            <img src="../images/Home_img_1.jpg" alt="" style={{ width: '100%', borderRadius: '10px 100px' }} />          </Grid>
+        </Grid>
+        <Grid container spacing={2} marginTop={10}>
+          <Grid item xs={12} md={6}>
+            <img src="../images/Home_img_2.jpeg" alt="" style={{ width: '100%', borderRadius: '10px 100px' }} />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card>
-              <CardContent>
-                <MiscellaneousServicesIcon sx={{ color: "#150039", marginRight: 3 }} />
-                <Typography variant='body' fontWeight={600}>
-                  How can I contact customer support?
-                </Typography>
-                <br />
-                <Typography variant='body' fontWeight={400}>
-                  If you have any questions or need assistance, our dedicated customer support team is available 24/7. You can reach us through the websites' help center, where you'll find frequently asked questions and troubleshooting guides.
-                </Typography>
-              </CardContent>
-            </Card>
-
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card>
-              <CardContent>
-                <MiscellaneousServicesIcon sx={{ color: "#150039", marginRight: 3 }} />
-                <Typography variant='body' fontWeight={600}>
-                  What safety measures are in place?
-                </Typography>
-                <br />
-                <Typography variant='body' fontWeight={400}>
-                  Your safety is our top priority. We carefully screen all drivers, ensuring they meet our rigorous standards and have a clean driving record. Additionally, we implement various safety features, such as GPS tracking, driver ratings and reviews, and in-app emergency assistance.
-                </Typography>
-              </CardContent>
-            </Card>
+          <Grid item xs={12} md={6}>
+            <Typography variant='h4' fontWeight={700} color={'white'} >
+              Quality and Safety
+            </Typography>
+            <Typography variant='h6' fontWeight={400} color={'white'} >
+              Your safety is paramount to us. Our vehicles undergo rigorous inspections and maintenance to ensure they're in top condition before you drive away. We strive to provide you with the highest quality vehicles that meet the highest safety standards.
+            </Typography>
           </Grid>
         </Grid>
-
       </Box>
+
+
     </Container>
   );
 }

@@ -10,6 +10,7 @@ import Account from './Account'
 import Account_Edit from './Account_Edit'
 import Password_Edit from './Password_Edit'
 import Help from './Help'
+import Discussion from './Discussion'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
@@ -17,6 +18,8 @@ import HelpIcon from '@mui/icons-material/Help';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import FeedbackIcon from '@mui/icons-material/Feedback';
+import CancelIcon from '@mui/icons-material/Cancel';
+import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 
 function ProfileRoutes() {
     const [open, setOpen] = React.useState(true);
@@ -59,6 +62,15 @@ function ProfileRoutes() {
                             <Divider />
                             <ListItem>
                                 <ListItemIcon>
+                                    <LocalPostOfficeIcon color='primary' />
+                                </ListItemIcon>
+                                <ListItemButton LinkComponent={Link} to='/profile/discussion' >
+                                    <ListItemText primary="My Posts" />
+                                </ListItemButton>
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemIcon>
                                     <HelpIcon color='primary' />
                                 </ListItemIcon>
                                 <ListItemButton onClick={handleClick}>
@@ -76,17 +88,17 @@ function ProfileRoutes() {
                                     </ListItemButton>
                                 </List>
                                 <List component="div" disablePadding>
-                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to='/profile/help'>
+                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to=''>
                                         <ListItemIcon>
-                                            <FeedbackIcon color='primary' />
+                                            <CancelIcon color='primary' />
                                         </ListItemIcon>
                                         <ListItemText primary="Cancel Booking Request" />
                                     </ListItemButton>
                                 </List>
                                 <List component="div" disablePadding>
-                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to='/profile/help'>
+                                    <ListItemButton sx={{ pl: 4 }} LinkComponent={Link} to=''>
                                         <ListItemIcon>
-                                            <FeedbackIcon color='primary' />
+                                            <CancelIcon color='primary' />
                                         </ListItemIcon>
                                         <ListItemText primary="Car Removal Request" />
                                     </ListItemButton>
@@ -105,6 +117,7 @@ function ProfileRoutes() {
                         <Route path="/registered_cars" element={<Registered_Cars />} />
                         <Route path="/registered_cars/edit/:id" element={<Registered_Cars_Edit />} />
                         <Route path="/help" element={<Help />} />
+                        <Route path="/discussion" element={<Discussion />} />
                     </Routes>
                 </Grid>
             </Grid>

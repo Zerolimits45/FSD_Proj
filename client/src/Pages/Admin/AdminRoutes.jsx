@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Collapse, Container, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Grid, Card } from '@mui/material'
 import { Routes, Route, Link } from 'react-router-dom'
 import User_view from './User_view'
@@ -14,8 +14,14 @@ import Cars_Edit from './Cars_Edit'
 import Feedback_view from './Feedback_view'
 import Rating_view from './Rating_view'
 import User_Edit from './User_Edit'
-import Discussions_View from './Discussions_View'
+import New_Staff from './New_Staff'
+import Staff_View from './Staff_View'
+import Request_View from './Request_View'
+import UserContext from '../../contexts/UserContext.js';
+
 function AdminRoutes() {
+    const { user } = useContext(UserContext)
+
     return (
         <Container maxWidth='xl'>
             <Grid container spacing={2} marginTop={10}>
@@ -36,10 +42,25 @@ function AdminRoutes() {
                                     <SupervisedUserCircleIcon color='primary' />
                                 </ListItemIcon>
                                 <ListItemButton LinkComponent={Link} to='/admin/users'>
-                                    <ListItemText primary="Users" />
+                                    <ListItemText primary="Customers" />
                                 </ListItemButton>
                             </ListItem>
                             <Divider />
+                            {
+                                (user.role == 'admin' || user.role == 'staff') && (
+                                    <>
+                                        <ListItem>
+                                            <ListItemIcon>
+                                                <SupervisedUserCircleIcon color='primary' />
+                                            </ListItemIcon>
+                                            <ListItemButton LinkComponent={Link} to='/admin/staff'>
+                                                <ListItemText primary="Staff" />
+                                            </ListItemButton>
+                                        </ListItem>
+                                        <Divider />
+                                    </>
+                                )
+                            }
                             <ListItem>
                                 <ListItemIcon>
                                     <DirectionsCarIcon color='primary' />
@@ -80,8 +101,8 @@ function AdminRoutes() {
                                 <ListItemIcon>
                                     <LibraryBooksIcon color='primary' />
                                 </ListItemIcon>
-                                <ListItemButton LinkComponent={Link} to='/admin/discussions'>
-                                    <ListItemText primary="Discussions" />
+                                <ListItemButton LinkComponent={Link} to='/admin/request'>
+                                    <ListItemText primary="Request" />
                                 </ListItemButton>
                             </ListItem>
                         </List>
@@ -93,12 +114,14 @@ function AdminRoutes() {
                         <Route path="/users" element={<User_view />} />
                         <Route path="/users/edit/:id" element={<User_Edit />} />
                         <Route path="/cars" element={<Cars_view />} />
-                        <Route path="/cars/edit/:id" element={<Cars_Edit />} /> 
+                        <Route path="/cars/edit/:id" element={<Cars_Edit />} />
                         <Route path="/bookings" element={<Bookings_view />} />
                         <Route path="/bookings/edit/:id" element={<Bookings_Edit />} />
                         <Route path="/feedback" element={<Feedback_view />} />
-                        <Route path="/rating" element={<Rating_view/>} />
-                        <Route path="/discussions" element={<Discussions_View/>} />
+                        <Route path="/rating" element={<Rating_view />} />
+                        <Route path="/staff" element={<Staff_View />} />
+                        <Route path="/staff/add" element={<New_Staff />} />
+                        <Route path="/request" element={<Request_View />} />
                     </Routes>
                 </Grid>
             </Grid>
