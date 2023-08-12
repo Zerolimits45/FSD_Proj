@@ -104,39 +104,7 @@ function Booking() {
                     </CardContent>
                 </Card>
             </form>
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                    <Typography variant='h6' color="white" marginTop={10} marginBottom={2} >
-                        Filter by vechicle type
-                    </Typography>
-                    <Box>
-                        <Button variant='text'>
-                            <Box textAlign={"center"}>
-                                <img src="../images/Sedan.png" alt="" />
-                                <Typography variant='h6' fontSize={14} color="white" marginBottom={2} >
-                                    Sedan
-                                </Typography>
-                            </Box>
-                        </Button>
-                        <Button variant='text'>
-                            <Box textAlign={"center"}>
-                                <img src="../images/SUV.png" alt="" />
-                                <Typography variant='h6' fontSize={14} color="white" marginBottom={2} >
-                                    SUVs
-                                </Typography>
-                            </Box>
-                        </Button>
-                        <Button variant='text'>
-                            <Box textAlign={"center"}>
-                                <img src="../images/Minivan.png" alt="" />
-                                <Typography variant='h6' fontSize={14} color="white" marginBottom={2} >
-                                    Minivans
-                                </Typography>
-                            </Box>
-                        </Button>
-                    </Box>
-                </Grid>
-            </Grid>
+            <br />
             <Typography variant='h6' color="white" marginTop={10} marginBottom={2}>
                 Cars that are near you
             </Typography>
