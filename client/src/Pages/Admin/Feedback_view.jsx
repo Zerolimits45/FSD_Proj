@@ -67,9 +67,9 @@ function Feedback_view() {
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'name', headerName: 'Name', width: 80 },
-        { field: 'email', headerName: 'Email', width: 170 },
-        { field: 'reason', headerName: 'Reason', width: 250 },
-        { field: 'action', headerName: 'Actions', width: 400, renderCell: (params) => <RenderButton feedback={params.row} /> },
+        { field: 'email', headerName: 'Email', width: 200 },
+        { field: 'reason', headerName: 'Reason', width: 450 },
+        { field: 'action', headerName: 'Actions', width: 200, renderCell: (params) => <RenderButton feedback={params.row} /> },
     ];
     const rows = feedbackList.map((feedback) => ({
         id: feedback.id,
