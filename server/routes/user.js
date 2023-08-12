@@ -183,7 +183,7 @@ router.get("/profiles", async (req, res) => {
     let list = await User.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        attributes: ['id', 'email', 'name', 'phone', 'role']
+        attributes: ['id', 'email', 'name', 'phone', 'role', 'createdAt']
     });
     res.json(list);
 });

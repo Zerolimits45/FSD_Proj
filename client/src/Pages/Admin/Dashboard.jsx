@@ -1,15 +1,50 @@
 import React, { useEffect, useState } from 'react'
 import { Typography, Grid, Container, TextField, Box, Button, Card, CardContent } from '@mui/material'
 import http from '../../http'
+import Chart from 'chart.js/auto';
+import { Line } from "react-chartjs-2";
 
 function Dashboard() {
+    const [registrationTrendsData, setRegistrationTrendsData] = useState({
+        labels: [], 
+        datasets: [
+            {
+                label: 'Number of Users',
+                data: [],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1,
+            },
+        ],
+    });
+
     const [userList, setUserList] = useState([]);
     useEffect(() => {
         http.get(`/user/profiles`).then((res) => {
-            setUserList(res.data);
+            const rows = res.data.filter((user) => (user.role == 'customer' || user.role == 'staff'));
+            setUserList(rows)
+
+            // Update registration trends data
+            const registrationDates = rows.map((user) => user.createdAt);
+            const registrationsPerDate = registrationDates.reduce((acc, date) => {
+                const formattedDate = formatDate(date);
+                acc[formattedDate] = (acc[formattedDate] || 0) + 1;
+                return acc;
+            }, {});
+
+            setRegistrationTrendsData((prevData) => ({
+                ...prevData,
+                labels: Object.keys(registrationsPerDate),
+                datasets: [
+                    {
+                        ...prevData.datasets[0],
+                        data: Object.values(registrationsPerDate),
+                    },
+                ],
+            }));
         });
-    })
-    const rows = userList.filter((user) => (user.role == 'customer' || user.role == 'staff'));
+    }, []);
+
     const [carList, setCarList] = useState([]);
     useEffect(() => {
         http.get('/car/all').then((res) => {
@@ -22,6 +57,18 @@ function Dashboard() {
             setBookingList(res.data);
         })
     }, [])
+    const [requestList, setRequestList] = useState([]);
+    useEffect(() => {
+        http.get('/request').then((res) => {
+            setRequestList(res.data);
+        })
+    }, [])
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = { month: 'short' };
+        return date.toLocaleDateString(undefined, options);
+    }
 
     return (
         <Container maxWidth='xl'>
@@ -33,7 +80,7 @@ function Dashboard() {
                                 Total Users
                             </Typography>
                             <Typography variant='h3' color="primary" marginBottom={2} align='center'>
-                                {rows.length}
+                                {userList.length}
                             </Typography>
                         </CardContent>
                     </Card>
@@ -69,12 +116,32 @@ function Dashboard() {
                                 No. of Requests
                             </Typography>
                             <Typography variant='h3' color="primary" marginBottom={2} align='center'>
-                                100
+                                {requestList.length}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Grid>
             </Grid>
+            <Grid item xs={12} md={12} mt={2}>
+                <Card>
+                    <CardContent>
+                        <Typography variant='h6' color="primary" marginBottom={2} align='center'>
+                            Registration Trends
+                        </Typography>
+                        <Line
+                            data={registrationTrendsData}
+                            options={{
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                    },
+                                },
+                            }}
+                        />
+                    </CardContent>
+                </Card>
+            </Grid>
+
         </Container>
     )
 }
