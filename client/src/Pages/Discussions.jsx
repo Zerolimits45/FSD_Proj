@@ -33,7 +33,7 @@ function Discussions() {
             http.post('/discussion', data)
                 .then((res) => {
                     console.log(res.data)
-                    navigate("/")
+                    navigate("/discussion")
                 })
         },
     });
@@ -50,7 +50,7 @@ function Discussions() {
             http.post(`/discussion/comment/${selectedDiscussionId}`, data)
                 .then((res) => {
                     console.log(res.data)
-                    navigate("/")
+                    navigate("/discussion")
                 })
         },
     });
@@ -60,7 +60,7 @@ function Discussions() {
         http.get('/discussion').then((res) => {
             setDiscussionList(res.data);
         })
-    }, [])
+    }, [discussionList])
 
     function formatDateInWords(dateString) {
         const date = new Date(dateString);
@@ -309,7 +309,7 @@ function Discussions() {
                                                     onClick={() => {
                                                         http.delete(`/discussion/${selectedDiscussionId}`).then((res) => {
                                                             console.log(res.data)
-                                                            navigate('/')
+                                                            navigate('/discussion')
                                                         });
                                                     }}>
                                                     Delete
@@ -335,7 +335,7 @@ function Discussions() {
                                                     onClick={() => {
                                                         http.delete(`/discussion/comment/${selectedCommentId}`).then((res) => {
                                                             console.log(res.data)
-                                                            navigate('/')
+                                                            navigate('/discussion')
                                                         });
                                                     }}>
                                                     Delete

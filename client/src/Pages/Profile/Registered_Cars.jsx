@@ -30,16 +30,29 @@ function Registered_Cars() {
         })
     }, [])
 
-    const removeCar = (car) => {
-        const requestData = {
-            request: `Remove Car with Id ${car.id}`,
-            carid: car.id,
-        };
-        http.post('/request/removecar', requestData).then((res) => {
-            console.log(res.data)
-            handleClose()
+    const [requestList, setRequestList] = useState([]);
+    useEffect(() => {
+        http.get('/request').then((res) => {
+            setRequestList(res.data)
         })
-    }
+    })
+
+    const existingRequest = requestList.find(request => request.carid === car.id);
+
+    const removeCar = (car) => {
+        if (existingRequest) {
+            console.log("There's an existing request for this booking.");
+        } else {
+            const requestData = {
+                request: `Remove Car with Id ${car.id}`,
+                carid: car.id,
+            };
+            http.post('/request/removecar', requestData).then((res) => {
+                console.log(res.data)
+                handleClose()
+            })
+        }
+    };
 
     return (
 
@@ -77,9 +90,15 @@ function Registered_Cars() {
                                             LinkComponent={Link} to={'/profile/registered_cars/edit/' + car.id}>
                                             Edit Details
                                         </Button>
-                                        <Button variant='contained' style={removebtn} onClick={() => handleOpen(car)}>
-                                            Remove Car
-                                        </Button>
+                                        {requestList.find(request => request.carid === car.id) ? null : (
+                                            <Button
+                                                variant='contained'
+                                                style={removebtn}
+                                                onClick={() => handleOpen(car)}
+                                            >
+                                                Remove Car
+                                            </Button>
+                                        )}
                                     </Box>
 
                                 </CardContent>

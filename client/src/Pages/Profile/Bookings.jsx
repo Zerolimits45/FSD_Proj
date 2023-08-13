@@ -23,16 +23,29 @@ function BookingCard({ booking }) {
     setOpen(false);
   };
 
-  const cancelBooking = () => {
-    const requestData = {
-      request: `Cancel Booking with Id ${booking.id}`,
-      bookingid: booking.id,
-    };
-    http.post('/request/cancelbooking', requestData).then((res) => {
-      console.log(res.data)
-      handleClose()
+  const [requestList, setRequestList] = useState([]);
+  useEffect(() => {
+    http.get('/request').then((res) => {
+      setRequestList(res.data)
     })
-  }
+  })
+
+  const existingRequest = requestList.find(request => request.bookingid === booking.id);
+
+  const cancelBooking = () => {
+    if (existingRequest) {
+      console.log("There's an existing request for this booking.");
+    } else {
+      const requestData = {
+        request: `Cancel Booking with Id ${booking.id}`,
+        bookingid: booking.id,
+      };
+      http.post('/request/cancelbooking', requestData).then((res) => {
+        console.log(res.data);
+        handleClose();
+      });
+    }
+  };
 
   return (
     <Grid container>
@@ -86,8 +99,8 @@ function BookingCard({ booking }) {
                     />
                   )
                 )}
-                {booking.status == 'Ongoing' && (
-                  <Button color='btn' variant='contained' style={btnstyle} onClick={handleOpen}>
+                {booking.status == 'Ongoing' && !existingRequest && (
+                  <Button color='btn' variant='contained' style={btnstyle} onClick={handleOpen} >
                     Cancel Booking
                   </Button>
                 )}
