@@ -21,6 +21,7 @@ function Bookings_Edit() {
   });
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
+  const [carPrice, setCarPrice] = useState(0);
 
   const formik = useFormik({
     initialValues: booking,
@@ -36,8 +37,9 @@ function Bookings_Edit() {
       price: yup.number().required('Price is required'),
     }),
     onSubmit: (data) => {
+      const daysDifference = differenceInDays(new Date(data.enddate), new Date(data.startdate));
       data.licencenumber = data.licencenumber.trim();
-
+      data.price = carPrice * daysDifference
       http.put('/booking/' + id, data)
         .then((res) => {
           enqueueSnackbar('Booking details saved', { variant: 'success' });
@@ -59,9 +61,16 @@ function Bookings_Edit() {
         enddate: endDate,
       });
 
+      setCarPrice(res.data.car.price)
+
       console.log(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    const daysDifference = differenceInDays(new Date(formik.values.enddate), new Date(formik.values.startdate));
+    formik.setFieldValue('price', carPrice * daysDifference);
+  }, [formik.values.startdate, formik.values.enddate, carPrice]);
 
 
   return (
@@ -141,11 +150,9 @@ function Bookings_Edit() {
                   varient='filled'
                   style={textfieldstyle}
                   name='price'
-                  onChange={formik.handleChange}
                   value={formik.values.price}
-                  error={formik.touched.price && Boolean(formik.errors.price)}
-                  helperText={formik.touched.price && formik.errors.price}
                   fullWidth
+                  disabled
                 />
               </Grid>
             </Grid>

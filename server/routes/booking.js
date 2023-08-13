@@ -53,7 +53,15 @@ router.get("/", validateToken, async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         let id = req.params.id;
-        const booking = await Booking.findByPk(id, { attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status', 'userid', 'carid'] });
+        const booking = await Booking.findByPk(id, {
+            attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status', 'userid', 'carid'], include: [
+                {
+                    model: Car,
+                    as: 'car',
+                    attributes: ['price'],
+                },
+            ]
+        });
         res.send(booking);
     } catch (err) {
         console.log(err);
@@ -126,7 +134,7 @@ router.get('/user/:id', validateToken, async (req, res) => {
         const bookingIds = list.map(booking => booking.id);
 
         const feedbacks = await Feedback.findAll({
-            attributes: ['bookingid', 'id', 'rate'], 
+            attributes: ['bookingid', 'id', 'rate'],
             where: { bookingid: bookingIds },
         });
 
