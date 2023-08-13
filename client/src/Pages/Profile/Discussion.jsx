@@ -15,13 +15,13 @@ function Discussion() {
     const btnstyle = { margin: '20px 0', fontWeight: 'bold', color: 'white', backgroundColor: '#FF4E00' }
     const navigate = useNavigate();
     const { user } = useContext(UserContext)
-
+    const [commentList, setCommentList] = useState([]);
     const [discussionList, setDiscussionList] = useState([]);
     useEffect(() => {
         http.get('/discussion/user').then((res) => {
             setDiscussionList(res.data);
         })
-    }, [])
+    }, [discussionList, commentList])
 
     function formatDateInWords(dateString) {
         const date = new Date(dateString);
@@ -30,7 +30,6 @@ function Discussion() {
 
     const [open, setOpen] = useState(false);
     const [selectedDiscussionId, setSelectedDiscussionId] = useState(null);
-    const [commentList, setCommentList] = useState([]);
 
     const handleOpen = (discussionId) => {
         setSelectedDiscussionId(discussionId);
@@ -136,7 +135,7 @@ function Discussion() {
                                         onClick={() => {
                                             http.delete(`/discussion/${selectedDiscussionId}`).then((res) => {
                                                 console.log(res.data)
-                                                navigate('/profile/discussion')
+                                                handleClose()
                                             });
                                         }}>
                                         Delete
@@ -230,7 +229,7 @@ function Discussion() {
                                                     onClick={() => {
                                                         http.delete(`/discussion/comment/${selectedCommentId}`).then((res) => {
                                                             console.log(res.data)
-                                                            navigate('/profile/discussion')
+                                                            handleClose()
                                                         });
                                                     }}>
                                                     Delete

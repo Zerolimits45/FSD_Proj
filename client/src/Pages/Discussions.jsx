@@ -34,6 +34,7 @@ function Discussions() {
                 .then((res) => {
                     console.log(res.data)
                     navigate("/discussions")
+                    formik.resetForm();
                 })
         },
     });
@@ -50,17 +51,18 @@ function Discussions() {
             http.post(`/discussion/comment/${selectedDiscussionId}`, data)
                 .then((res) => {
                     console.log(res.data)
-                    navigate("/discussions")
+                    handleClose()
+                    formik2.resetForm();
                 })
         },
     });
-
+    const [commentList, setCommentList] = useState([]);
     const [discussionList, setDiscussionList] = useState([]);
     useEffect(() => {
         http.get('/discussion').then((res) => {
             setDiscussionList(res.data);
         })
-    }, [discussionList])
+    }, [discussionList, commentList])
 
     function formatDateInWords(dateString) {
         const date = new Date(dateString);
@@ -69,7 +71,6 @@ function Discussions() {
 
     const [open, setOpen] = useState(false);
     const [selectedDiscussionId, setSelectedDiscussionId] = useState(null);
-    const [commentList, setCommentList] = useState([]);
 
     const handleOpen = (discussionId) => {
         setSelectedDiscussionId(discussionId);
@@ -268,7 +269,7 @@ function Discussions() {
                                                                             </Typography>
                                                                         </Grid>
                                                                         {
-                                                                            user.role == 'admin' || comment.user.id == user.id && (
+                                                                            (user.role == 'admin' || comment.user.id == user.id) && (
                                                                                 <Grid item xs={6} md={6}>
                                                                                     <Grid style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                                                                                         <DeleteIcon sx={{ cursor: 'pointer' }} onClick={() => handleOpen3(comment.id)} />
@@ -309,7 +310,8 @@ function Discussions() {
                                                     onClick={() => {
                                                         http.delete(`/discussion/${selectedDiscussionId}`).then((res) => {
                                                             console.log(res.data)
-                                                            navigate('/discussions')
+                                                            handleClose2()
+                                                            handleClose()
                                                         });
                                                     }}>
                                                     Delete
@@ -335,7 +337,8 @@ function Discussions() {
                                                     onClick={() => {
                                                         http.delete(`/discussion/comment/${selectedCommentId}`).then((res) => {
                                                             console.log(res.data)
-                                                            navigate('/discussions')
+                                                            handleClose3()
+                                                            handleClose()
                                                         });
                                                     }}>
                                                     Delete
