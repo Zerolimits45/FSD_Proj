@@ -62,7 +62,7 @@ function Feedback_view() {
         http.get('/profile/help/view').then((res) => {
             setFeedbackList(res.data);
         })
-    }, [])
+    }, [feedbackList])
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
