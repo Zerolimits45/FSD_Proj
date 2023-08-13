@@ -75,7 +75,7 @@ function Rating_view() {
         http.get('/profile/rate').then((res) => {
             setRatingList(res.data);
         })
-    }, [])
+    }, [ratingList])
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },

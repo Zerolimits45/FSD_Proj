@@ -66,12 +66,12 @@ function BookingCard({ booking }) {
                 </Box>
               </Grid>
               <Grid item xs={12} md={12} display={'flex'} justifyContent={'center'}>
-                {booking.status === 'Completed' && booking.feedback.id === null ? (
+                {booking.status == 'Completed' && booking.feedback.length == 0 ? (
                   <Button variant='contained' style={completestyle} LinkComponent={Link} to={`/profile/bookings/rating/${booking.id}`}>
                     Rate Experience
                   </Button>
                 ) : (
-                  booking.status === 'Completed' && booking.feedback.id !== null && (
+                  booking.status == 'Completed' && booking.feedback.length > 0 && (
                     <Rating
                       name={`rating-${booking.id}`}
                       size="large"

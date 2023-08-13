@@ -62,7 +62,7 @@ function Request_View() {
         http.get('/request').then((res) => {
             setRequestList(res.data);
         })
-    }, [])
+    }, [requestList])
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },

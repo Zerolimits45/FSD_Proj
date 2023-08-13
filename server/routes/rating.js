@@ -5,7 +5,7 @@ const yup = require("yup");
 const { validateToken } = require('../middlewares/auth');
 require('dotenv').config();
 
-router.post('/:id', async (req, res) => {
+router.post('/:id', validateToken, async (req, res) => {
     const id = req.params.id;
     let data = req.body;
     // Validate request body
@@ -26,6 +26,7 @@ router.post('/:id', async (req, res) => {
     // Trim string values
     data.feedback = data.feedback.trim();
     data.bookingid = id
+    data.userid = req.user.id
 
     const booking = await Booking.findByPk(id);
     if (!booking) {
