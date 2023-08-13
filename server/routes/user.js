@@ -5,7 +5,7 @@ const { User, Sequelize, Booking, Car, Discussion, Comment, Feedback } = require
 const yup = require("yup");
 const { sign, verify } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/auth');
-var nodemailer = require('nodemailer-mock');
+var nodemailer = require('nodemailer');
 const { otpGen } = require('otp-gen-agent');
 
 const transporter = nodemailer.createTransport({
@@ -460,11 +460,11 @@ router.post('/addstaff', async (req, res) => {
         from: 'forschoolkenneth@gmail.com',
         to: data.email,
         subject: 'Staff Verification',
-        text: `Your Staff Account:\n
-        Email: ${data.email}\n
-        Password: 'staffPassword'\n
-        Click the following link to verify your staff account: <a href="${verifyEmailLink}">${verifyEmailLink}</a>\n
-        PLEASE CHANGE YOUR PASSWORD UPON LOGGING IN`,
+        html: `<p>Your Staff Account:</p>
+            <p>Email: ${data.email}</p>
+            <p>Password: 'staffPassword'</p>
+            <p>Click the following link to verify your staff account: <a href="${verifyEmailLink}">${verifyEmailLink}</a></p>
+            <p>PLEASE CHANGE YOUR PASSWORD UPON LOGGING IN</p>`,
     };
 
     try {
