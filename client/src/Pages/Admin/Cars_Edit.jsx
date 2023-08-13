@@ -223,7 +223,7 @@ function Cars_Edit() {
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
-                  label="Gear type"
+                  label='Gear type'
                   varient='filled'
                   style={textfieldstyle}
                   name='gear'
@@ -231,9 +231,12 @@ function Cars_Edit() {
                   value={formik.values.gear}
                   error={formik.touched.gear && Boolean(formik.errors.gear)}
                   helperText={formik.touched.gear && formik.errors.gear}
-                  placeholder='Gear type'
                   fullWidth
-                />
+                  select
+                >
+                  <MenuItem value='Manual'>Manual</MenuItem>
+                  <MenuItem value='Automatic'>Automatic</MenuItem>
+                </TextField>
               </Grid>
             </Grid>
             <Grid container spacing={2}>
