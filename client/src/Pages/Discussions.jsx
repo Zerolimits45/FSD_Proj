@@ -33,7 +33,7 @@ function Discussions() {
             http.post('/discussion', data)
                 .then((res) => {
                     console.log(res.data)
-                    navigate("/discussion")
+                    navigate("/discussions")
                 })
         },
     });
@@ -50,7 +50,7 @@ function Discussions() {
             http.post(`/discussion/comment/${selectedDiscussionId}`, data)
                 .then((res) => {
                     console.log(res.data)
-                    navigate("/discussion")
+                    navigate("/discussions")
                 })
         },
     });
@@ -309,7 +309,7 @@ function Discussions() {
                                                     onClick={() => {
                                                         http.delete(`/discussion/${selectedDiscussionId}`).then((res) => {
                                                             console.log(res.data)
-                                                            navigate('/discussion')
+                                                            navigate('/discussions')
                                                         });
                                                     }}>
                                                     Delete
@@ -335,7 +335,7 @@ function Discussions() {
                                                     onClick={() => {
                                                         http.delete(`/discussion/comment/${selectedCommentId}`).then((res) => {
                                                             console.log(res.data)
-                                                            navigate('/discussion')
+                                                            navigate('/discussions')
                                                         });
                                                     }}>
                                                     Delete

@@ -136,7 +136,7 @@ function Discussion() {
                                         onClick={() => {
                                             http.delete(`/discussion/${selectedDiscussionId}`).then((res) => {
                                                 console.log(res.data)
-                                                navigate('/')
+                                                navigate('/profile/discussion')
                                             });
                                         }}>
                                         Delete
@@ -230,7 +230,7 @@ function Discussion() {
                                                     onClick={() => {
                                                         http.delete(`/discussion/comment/${selectedCommentId}`).then((res) => {
                                                             console.log(res.data)
-                                                            navigate('/')
+                                                            navigate('/profile/discussion')
                                                         });
                                                     }}>
                                                     Delete
