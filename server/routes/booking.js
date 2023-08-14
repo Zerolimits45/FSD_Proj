@@ -45,7 +45,14 @@ router.get("/", validateToken, async (req, res) => {
     let list = await Booking.findAll({
         where: condition,
         order: [['createdAt', 'DESC']],
-        attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status']
+        attributes: ['id', 'startdate', 'enddate', 'licencenumber', 'price', 'status'],
+        include: [
+            {
+                model: Car,
+                as: 'car',
+                attributes: ['model', 'make'],
+            },
+        ]
     });
     res.json(list);
 });
