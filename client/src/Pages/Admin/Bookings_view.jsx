@@ -113,6 +113,8 @@ function Bookings_view() {
         { field: 'enddate', headerName: 'End Date', width: 100 },
         { field: 'price', headerName: 'Price', width: 100 },
         { field: 'status', headerName: 'Status', width: 100 },
+        { field: 'model', headerName: 'Model', width: 100 },
+        { field: 'make', headerName: 'Make', width: 100 },
         { field: 'action', headerName: 'Actions', width: 500, renderCell: (params) => <RenderButton booking={params.row} /> },
     ];
 
@@ -129,7 +131,9 @@ function Bookings_view() {
         startdate: booking.startdate.substring(0, 10),
         enddate: booking.enddate.substring(0, 10),
         price: booking.price,
-        status: booking.status
+        status: booking.status,
+        model: booking.car.model,
+        make: booking.car.make
     }))
 
     return (
