@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
         user: 'forschoolkenneth@gmail.com',
-        pass: 'tlpjjfptmosioljo'
+        pass: 'gvxmfdpmpkvmqswx'
     }
 });
 require('dotenv').config();
