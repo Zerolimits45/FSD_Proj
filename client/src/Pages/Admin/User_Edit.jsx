@@ -94,7 +94,7 @@ function User_Edit() {
                         </Grid>
                     </CardContent>
                 </Card>
-                <Button type="submit" variant='contained' style={btnstyle}>Save User Details</Button>
+                <Button type="submit" variant='contained' style={btnstyle}>Save Details</Button>
             </Box>
         </Container>
 
